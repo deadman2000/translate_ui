@@ -1,0 +1,9 @@
+@import "~normalize.css";
+@import "~@blueprintjs/core/lib/css/blueprint.css";
+@import "~@blueprintjs/core/lib/scss/variables.scss";
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+
+body {
+  background-color: $pt-app-background-color;
+}
