@@ -1,13 +1,12 @@
 import React, {Component} from 'react'
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Redirect,
 } from "react-router-dom";
 
-import CreateProject from "@/components/project/CreateProject";
-import ProjectsList from "@/components/project/ProjectsList";
+import ProjectsSwitch from "@/components/project/ProjectsSwitch";
 
 export default class App extends Component<{}> {
   render() {
@@ -15,14 +14,10 @@ export default class App extends Component<{}> {
     return <Router>
       <Switch>
         <Route path="/projects">
-          <Switch>
-            <Route path="/create">
-              <CreateProject />
-            </Route>
-            <Route>
-              <ProjectsList />
-            </Route>
-          </Switch>
+          <ProjectsSwitch />
+        </Route>
+        <Route path="*">
+          <Redirect to="/projects" />
         </Route>
       </Switch>
     </Router>

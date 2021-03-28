@@ -1,5 +1,5 @@
 import axios from "axios";
-import {Project} from "./Project";
+import {Projects} from "./Projects";
 import {axiosToastCatch} from "@/components/AppToaster";
 
 export class Api {
@@ -11,7 +11,7 @@ export class Api {
             }
         });
 
-        this.project = new Project(this)
+        this.projects = new Projects(this)
     }
 
     get(url: string) {

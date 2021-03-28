@@ -3,29 +3,42 @@ import {Button, Card, Icon, Spinner} from "@blueprintjs/core";
 import api from "@/api/Api";
 import {Container, Row} from "react-bootstrap";
 import {IconNames} from "@blueprintjs/icons";
-
 import './ProjectsList.scss'
-import {withRouter} from "react-router";
+import {RouteComponentProps, withRouter} from "react-router-dom";
+import type {IProject} from "@/model/IProject";
 
-class ProjectCard extends Component<{}> {
+function Cell(props) {
+    return <div className="project-card col-xs-12 col-sm-6 col-md-6 col-lg-4">
+        {props.children}
+    </div>
+}
+
+@withRouter
+class ProjectCard extends Component<{project: IProject} & RouteComponentProps> {
     render() {
-        return <div className="project-card col-xs-12 col-sm-4 col-md-3 col-lg-2">
-            <Card elevation={2} interactive >
-                <Icon icon={IconNames.PROJECTS}/> Test asd asd asdas d asd asda sdasdadasdasd
+        return <Cell>
+            <Card elevation={2} interactive
+                  onClick={this.onClick}
+            >
+                <Icon icon={IconNames.PROJECTS}/> {this.props.project.name}
             </Card>
-        </div>
+        </Cell>
+    }
+
+    onClick = () => {
+        this.props.history.push(`/projects/${this.props.project.shortName}`)
     }
 }
 
 @withRouter
-export default class ProjectsList extends Component<{history?: History}> {
+export default class ProjectsList extends Component<{} & RouteComponentProps, {projects: IProject[]}> {
     state = {
-        loading: false,
+        loading: true,
         projects: []
     }
 
     componentDidMount() {
-        api.project.list()
+        api.projects.list()
             .then(projects => this.setState({projects}))
             .finally(() => this.setState({loading: false}))
     }
@@ -36,19 +49,14 @@ export default class ProjectsList extends Component<{history?: History}> {
 
         return <Container fluid className="projects-list">
             <Row>
-                <ProjectCard />
-                <ProjectCard />
-                <ProjectCard />
-                <ProjectCard />
-                <ProjectCard />
-                <ProjectCard />
-                <div className="project-card col-xs-12 col-sm-4 col-md-3 col-lg-2">
+                {this.state.projects.map(p => <ProjectCard key={p.id} project={p}/>)}
+                <Cell>
                     <Button icon={IconNames.ADD}
                             text="Create project"
                             minimal fill
-                            onClick={() => this.prop.history.push('/projects/create')}
+                            onClick={() => this.props.history.push('/projects/create')}
                     />
-                </div>
+                </Cell>
             </Row>
         </Container>
     }
