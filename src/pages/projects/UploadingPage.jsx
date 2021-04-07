@@ -9,7 +9,7 @@ import type {RouteProps} from "@/types/RouteProps";
 import {ProjectStatus} from "@/enum";
 
 @withRouter
-export class UploadingProject extends Component<{project: IProject} & RouteProps> {
+export class UploadingPage extends Component<{project: IProject} & RouteProps> {
     state = {
         uploading: false,
         progress: 0,

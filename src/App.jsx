@@ -6,20 +6,20 @@ import {
     Redirect,
 } from "react-router-dom";
 
-import ProjectsSwitch from "@/components/project/ProjectsSwitch";
+import ProjectsRootPage from "@/pages/projects/ProjectsRootPage";
 
 export default class App extends Component<{}> {
-  render() {
-    //return <Login />
-    return <Router>
-      <Switch>
-        <Route path="/projects">
-          <ProjectsSwitch />
-        </Route>
-        <Route path="*">
-          <Redirect to="/projects" />
-        </Route>
-      </Switch>
-    </Router>
-  }
+    render() {
+        //return <Login />
+        return <Router>
+            <Switch>
+                <Route path="/projects">
+                    <ProjectsRootPage/>
+                </Route>
+                <Route path="*">
+                    <Redirect to="/projects"/>
+                </Route>
+            </Switch>
+        </Router>
+    }
 }

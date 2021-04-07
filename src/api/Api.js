@@ -1,6 +1,7 @@
 import axios from "axios";
 import {Projects} from "./Projects";
 import {axiosToastCatch} from "@/components/AppToaster";
+import {Volumes} from "@/api/Volumes";
 
 export class Api {
     constructor() {
@@ -12,6 +13,7 @@ export class Api {
         });
 
         this.projects = new Projects(this)
+
     }
 
     get(url: string) {
@@ -39,6 +41,10 @@ export class Api {
         return this.http.post(url, formData, config)
             .catch(axiosToastCatch)
             .then(result => result.data);
+    }
+
+    volumes(project: string) {
+        return new Volumes(this, project)
     }
 }
 

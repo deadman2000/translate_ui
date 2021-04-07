@@ -10,7 +10,7 @@ function calcShortName(str: string) {
 }
 
 @withRouter
-export default class CreateProject extends Component<RouteProps> {
+export default class CreateProjectPage extends Component<RouteProps> {
     state = {
         projectName: '',
         shortName: undefined,

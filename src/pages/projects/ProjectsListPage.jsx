@@ -1,12 +1,13 @@
 import React, {Component} from "react";
-import {Button, Card, Icon, Spinner} from "@blueprintjs/core";
+import {Button, Card, Icon} from "@blueprintjs/core";
 import api from "@/api/Api";
 import {Container, Row} from "react-bootstrap";
 import {IconNames} from "@blueprintjs/icons";
-import './ProjectsList.scss'
+import './ProjectsListPage.scss'
 import {withRouter} from "react-router-dom";
 import type {IProject} from "@/model/IProject";
 import type {RouteProps} from "@/types/RouteProps";
+import LoaderComponent from "@/components/LoaderComponent";
 
 function Cell(props) {
     return <div className="project-card col-xs-12 col-sm-6 col-md-6 col-lg-4">
@@ -32,41 +33,13 @@ class ProjectCard extends Component<{project: IProject} & RouteProps> {
 }
 
 @withRouter
-export default class ProjectsList extends Component<RouteProps, {projects: IProject[]}> {
-    state = {
-        loading: true,
-        error: false,
-        projects: []
-    }
-
-    componentDidMount() {
-        this.loadList()
-    }
-
-    loadList() {
-        this.setState({
-            loading: true,
-            error: false
-        })
-        api.projects.list()
+export default class ProjectsListPage extends LoaderComponent<RouteProps, {projects: IProject[]}> {
+    prepare() {
+        return api.projects.list()
             .then(projects => this.setState({projects}))
-            .catch(() => this.setState({error: true}))
-            .finally(() => this.setState({loading: false}))
     }
 
-    render() {
-        if (this.state.loading)
-            return <Spinner />
-
-        if (this.state.error)
-            return <>
-                Error
-                <Button text="Retry"
-                        onClick={() => this.loadList()}
-                        minimal
-                />
-            </>
-
+    successRender() {
         return <Container fluid className="projects-list">
             <Row>
                 {this.state.projects.map(p => <ProjectCard key={p.id} project={p}/>)}

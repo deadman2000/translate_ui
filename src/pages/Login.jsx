@@ -63,7 +63,7 @@ export default class Login extends Component<{}> {
     handleLockClick = () => this.setState({ showPassword: !this.state.showPassword })
 
     handleSubmit = (event) => {
-        const {login, password} = this.state
+        //const {login, password} = this.state
 
         this.setState({disabled: true})
 
