@@ -1,10 +1,15 @@
 import React, {Component} from "react";
-import type {IProject} from "@/model/IProject";
+import {withRouter} from "react-router-dom";
 import {Button, Container, Jumbotron} from "react-bootstrap";
 import {FileInput, FormGroup, H2, H4, Intent, ProgressBar} from "@blueprintjs/core";
-import api from "@/api/Api";
 
-export class UploadingProject extends Component<{project: IProject}> {
+import api from "@/api/Api";
+import type {IProject} from "@/model/IProject";
+import type {RouteProps} from "@/types/RouteProps";
+import {ProjectStatus} from "@/enum";
+
+@withRouter
+export class UploadingProject extends Component<{project: IProject} & RouteProps> {
     state = {
         uploading: false,
         progress: 0,
@@ -63,5 +68,7 @@ export class UploadingProject extends Component<{project: IProject}> {
     }
 
     onUploaded = () => {
+        this.props.project.status = ProjectStatus.PROCESSING;
+        this.props.history.replace(`/projects/${this.props.project.shortName}`)
     }
 }

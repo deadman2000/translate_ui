@@ -1,12 +1,13 @@
 import React, {Component} from "react";
 import {Spinner} from "@blueprintjs/core";
 import api from "@/api/Api";
-import {Redirect, Route, RouteComponentProps, Switch, withRouter} from "react-router-dom";
+import {Redirect, Route, Switch, withRouter} from "react-router-dom";
 import EditProject from "@/components/project/EditProject";
 import {UploadingProject} from "@/components/project/UploadingProject";
+import type {RouteProps} from "@/types/RouteProps";
 
 @withRouter
-export default class ProjectLoader extends Component<RouteComponentProps> {
+export default class ProjectLoader extends Component<RouteProps> {
     state = {
         loading: true,
         project: null,

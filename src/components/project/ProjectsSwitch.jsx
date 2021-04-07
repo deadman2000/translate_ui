@@ -1,11 +1,12 @@
 import React, {Component} from "react";
-import {Route, Switch, withRouter, RouteComponentProps} from "react-router-dom";
+import {Route, Switch, withRouter} from "react-router-dom";
 import ProjectsList from "@/components/project/ProjectsList";
 import CreateProject from "@/components/project/CreateProject";
 import ProjectLoader from "@/components/project/ProjectLoader";
+import type {RouteProps} from "@/types/RouteProps";
 
 @withRouter
-export default class ProjectsSwitch extends Component<{} & RouteComponentProps> {
+export default class ProjectsSwitch extends Component<{} & RouteProps> {
     render() {
         const {path} = this.props.match
         return <Switch>

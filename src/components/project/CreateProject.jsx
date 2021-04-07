@@ -2,14 +2,15 @@ import React, {Component} from "react/cjs/react.production.min";
 import {FormGroup, H2, InputGroup} from "@blueprintjs/core";
 import {Button, Container, Jumbotron} from "react-bootstrap";
 import api from "@/api/Api";
-import {RouteComponentProps, withRouter} from "react-router-dom";
+import {withRouter} from "react-router-dom";
+import type {RouteProps} from "@/types/RouteProps";
 
 function calcShortName(str: string) {
     return str.toLowerCase().trim().replaceAll(/[^\w\d]/ig, '_').replaceAll(/__+/ig, '_')
 }
 
 @withRouter
-export default class CreateProject extends Component<{} & RouteComponentProps> {
+export default class CreateProject extends Component<RouteProps> {
     state = {
         projectName: '',
         shortName: undefined,

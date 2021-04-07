@@ -4,8 +4,9 @@ import api from "@/api/Api";
 import {Container, Row} from "react-bootstrap";
 import {IconNames} from "@blueprintjs/icons";
 import './ProjectsList.scss'
-import {RouteComponentProps, withRouter} from "react-router-dom";
+import {withRouter} from "react-router-dom";
 import type {IProject} from "@/model/IProject";
+import type {RouteProps} from "@/types/RouteProps";
 
 function Cell(props) {
     return <div className="project-card col-xs-12 col-sm-6 col-md-6 col-lg-4">
@@ -14,13 +15,13 @@ function Cell(props) {
 }
 
 @withRouter
-class ProjectCard extends Component<{project: IProject} & RouteComponentProps> {
+class ProjectCard extends Component<{project: IProject} & RouteProps> {
     render() {
         return <Cell>
             <Card elevation={2} interactive
                   onClick={this.onClick}
             >
-                <Icon icon={IconNames.PROJECTS}/> {this.props.project.name}
+                <Icon icon={IconNames.PROJECTS}/> {this.props.project.name} <span>{this.props.project.status}</span>
             </Card>
         </Cell>
     }
@@ -31,21 +32,40 @@ class ProjectCard extends Component<{project: IProject} & RouteComponentProps> {
 }
 
 @withRouter
-export default class ProjectsList extends Component<{} & RouteComponentProps, {projects: IProject[]}> {
+export default class ProjectsList extends Component<RouteProps, {projects: IProject[]}> {
     state = {
         loading: true,
+        error: false,
         projects: []
     }
 
     componentDidMount() {
+        this.loadList()
+    }
+
+    loadList() {
+        this.setState({
+            loading: true,
+            error: false
+        })
         api.projects.list()
             .then(projects => this.setState({projects}))
+            .catch(() => this.setState({error: true}))
             .finally(() => this.setState({loading: false}))
     }
 
     render() {
         if (this.state.loading)
             return <Spinner />
+
+        if (this.state.error)
+            return <>
+                Error
+                <Button text="Retry"
+                        onClick={() => this.loadList()}
+                        minimal
+                />
+            </>
 
         return <Container fluid className="projects-list">
             <Row>
