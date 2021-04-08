@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {Button, Spinner} from "@blueprintjs/core";
+import './LoaderComponent.scss'
 
 type States = {
     loading: boolean,
@@ -11,7 +12,7 @@ export default class LoaderComponent<P={},S={}> extends Component<P,S & States> 
         this.load()
     }
 
-    load(){
+    load() {
         this.setState({
             loading: true,
             error: false
@@ -27,10 +28,10 @@ export default class LoaderComponent<P={},S={}> extends Component<P,S & States> 
 
     render() {
         if (!this.state || this.state.loading)
-            return <Spinner />
+            return <div className="centered"><Spinner /></div>
 
         if (this.state.error)
-            return <>Error <Button text="Try again" onClick={() => this.load()} minimal /></>
+            return <div className="centered">Error <Button text="Try again" onClick={() => this.load()} minimal /></div>
 
         return this.successRender()
     }

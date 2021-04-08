@@ -1,5 +1,6 @@
 import React from "react";
 import {Link, withRouter} from "react-router-dom";
+import {Table} from "react-bootstrap";
 import {H2} from "@blueprintjs/core";
 
 import api from "@/api/Api";
@@ -22,8 +23,14 @@ export default class VolumesList extends LoaderComponent<{ project: IProject } &
     successRender() {
         return <>
             <H2>Volumes</H2>
-            {this.state.volumes.map(v => <p key={v.name}><Link to={`${this.props.match.url}/${v.code}`}>{v.name}</Link>
-            </p>)}
+            <Table striped bordered>
+                <tbody>
+                    {this.state.volumes.map(v => <tr key={v.name}>
+                        <td><Link to={`${this.props.match.url}/${v.code}`}>{v.name}</Link></td>
+                        <td>{v.numberOfLetters}</td>
+                    </tr>)}
+                </tbody>
+            </Table>
         </>
     }
 }

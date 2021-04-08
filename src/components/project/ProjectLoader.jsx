@@ -4,8 +4,8 @@ import {Redirect, Route, Switch, withRouter} from "react-router-dom";
 import api from "@/api/Api";
 import type {IProject} from "@/model/IProject";
 import type {RouteProps} from "@/types/RouteProps";
-import EditProjectPage from "@/pages/projects/EditProjectPage";
-import {UploadingPage} from "@/pages/projects/UploadingPage";
+import ProjectViewPage from "@/pages/projects/ProjectViewPage";
+import UploadingPage from "@/pages/projects/UploadingPage";
 import VolumePage from "@/pages/projects/VolumePage";
 import LoaderComponent from "@/components/LoaderComponent";
 
@@ -33,7 +33,7 @@ export default class ProjectLoader extends LoaderComponent<RouteProps<R>, States
 
         return <Switch>
             <Route exact path={path}>
-                <EditProjectPage project={project}/>
+                <ProjectViewPage project={project}/>
             </Route>
             <Route exact path={`${path}/upload`}>
                 <UploadingPage project={project}/>
