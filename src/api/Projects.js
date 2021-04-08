@@ -12,12 +12,12 @@ export class Projects {
         return this.api.get(baseUrl)
     }
 
-    get(shortName: string): Promise<IProject> {
-        return this.api.get(`${baseUrl}/${shortName}`)
+    get(code: string): Promise<IProject> {
+        return this.api.get(`${baseUrl}/${code}`)
     }
 
-    create(name: string, shortName: string): Promise<IProject> {
-        return this.api.post(`${baseUrl}/create`, {name, shortName})
+    create(name: string, code: string): Promise<IProject> {
+        return this.api.post(`${baseUrl}/create`, {name, code})
     }
 
     upload(projectId: string, file: File, onUploadProgress) {

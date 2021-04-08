@@ -56,7 +56,7 @@ export class UploadingPage extends Component<{project: IProject} & RouteProps> {
             uploading: true,
         });
 
-        api.projects.upload(project.shortName, file, this.onProgress)
+        api.projects.upload(project.code, file, this.onProgress)
             .then(this.onUploaded)
             .finally(() => this.setState({uploading: false}))
     }
@@ -69,6 +69,6 @@ export class UploadingPage extends Component<{project: IProject} & RouteProps> {
 
     onUploaded = () => {
         this.props.project.status = ProjectStatus.PROCESSING;
-        this.props.history.replace(`/projects/${this.props.project.shortName}`)
+        this.props.history.replace(`/projects/${this.props.project.code}`)
     }
 }

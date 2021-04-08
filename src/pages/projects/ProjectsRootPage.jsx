@@ -16,7 +16,7 @@ export default class ProjectsRootPage extends Component<{} & RouteProps> {
             <Route exact path={`${path}/create`}>
                 <CreateProjectPage/>
             </Route>
-            <Route path={`${path}/:projectName`}>
+            <Route path={`${path}/:project`}>
                 <ProjectLoader/>
             </Route>
         </Switch>

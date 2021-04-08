@@ -8,11 +8,11 @@ export default class EditProjectPage extends Component<{project: IProject}> {
     render() {
         const {project} = this.props
         if (project.status === ProjectStatus.NEW)
-            return <Redirect to={`/projects/${project.shortName}/upload`} />
+            return <Redirect to={`/projects/${project.code}/upload`} />
 
         return <div>
             <p>{project.name}</p>
-            <p>{project.shortName}</p>
+            <p>{project.code}</p>
             <p>{project.status}</p>
             <VolumesList project={project}/>
         </div>

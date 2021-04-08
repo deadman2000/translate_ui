@@ -1,6 +1,7 @@
 export type IProject = {
     id: string,
     name: string,
-    shortName: string,
+    code: string,
     status: number,
+    numberOfLetters: number,
 }

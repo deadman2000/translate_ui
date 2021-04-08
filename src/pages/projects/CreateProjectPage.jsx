@@ -1,11 +1,12 @@
-import React, {Component} from "react/cjs/react.production.min";
-import {FormGroup, H2, InputGroup} from "@blueprintjs/core";
-import {Button, Container, Jumbotron} from "react-bootstrap";
-import api from "@/api/Api";
+import React, {Component} from "react";
 import {withRouter} from "react-router-dom";
+import {Button, Container, Jumbotron} from "react-bootstrap";
+import {FormGroup, H2, InputGroup} from "@blueprintjs/core";
+
+import api from "@/api/Api";
 import type {RouteProps} from "@/types/RouteProps";
 
-function calcShortName(str: string) {
+function calcCode(str: string) {
     return str.toLowerCase().trim().replaceAll(/[^\w\d]/ig, '_').replaceAll(/__+/ig, '_')
 }
 
@@ -13,13 +14,13 @@ function calcShortName(str: string) {
 export default class CreateProjectPage extends Component<RouteProps> {
     state = {
         projectName: '',
-        shortName: undefined,
+        code: undefined,
     }
 
-    get shortName() {
-        if (this.state.shortName)
-            return this.state.shortName
-        return calcShortName(this.state.projectName)
+    get code() {
+        if (this.state.code)
+            return this.state.code
+        return calcCode(this.state.projectName)
     }
 
     render() {
@@ -41,8 +42,8 @@ export default class CreateProjectPage extends Component<RouteProps> {
                     labelFor="short-name"
                 >
                     <InputGroup id="short-name"
-                                onChange={e => this.setState({shortName: calcShortName(e.target.value)})}
-                                value={this.shortName}/>
+                                onChange={e => this.setState({code: calcCode(e.target.value)})}
+                                value={this.code}/>
                 </FormGroup>
 
                 <Button onClick={this.createProject}>SUBMIT</Button>
@@ -52,11 +53,11 @@ export default class CreateProjectPage extends Component<RouteProps> {
 
     createProject = () => {
         const {projectName} = this.state
-        api.projects.create(projectName, this.shortName)
+        api.projects.create(projectName, this.code)
             .then(this.onCreated)
     }
 
     onCreated = project => {
-        this.props.history.push(`/projects/${project.shortName}`)
+        this.props.history.push(`/projects/${project.code}`)
     }
 }

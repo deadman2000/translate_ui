@@ -1,7 +1,7 @@
 import React from "react";
-import api from "@/api/Api";
 import {Redirect, Route, Switch, withRouter} from "react-router-dom";
 
+import api from "@/api/Api";
 import type {IProject} from "@/model/IProject";
 import type {RouteProps} from "@/types/RouteProps";
 import EditProjectPage from "@/pages/projects/EditProjectPage";
@@ -10,7 +10,7 @@ import VolumePage from "@/pages/projects/VolumePage";
 import LoaderComponent from "@/components/LoaderComponent";
 
 type R = {
-    projectName: string
+    project: string
 }
 
 type States = {
@@ -20,7 +20,7 @@ type States = {
 @withRouter
 export default class ProjectLoader extends LoaderComponent<RouteProps<R>, States> {
     prepare() {
-        return api.projects.get(this.props.match.params.projectName)
+        return api.projects.get(this.props.match.params.project)
             .then(project => this.setState({project}))
     }
 
@@ -39,7 +39,7 @@ export default class ProjectLoader extends LoaderComponent<RouteProps<R>, States
                 <UploadingPage project={project}/>
             </Route>
             <Route exact path={`${path}/:volume`}>
-                <VolumePage project={project}/>
+                <VolumePage />
             </Route>
         </Switch>
     }
