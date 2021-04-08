@@ -8,6 +8,10 @@ export function toastError(message: string) {
     toaster.show({message, intent: Intent.WARNING})
 }
 
+export function toast(message: string) {
+    toaster.show({message, intent: Intent.PRIMARY})
+}
+
 export function axiosToastCatch(e) {
     if (!e.response)
         toastError(e.message)

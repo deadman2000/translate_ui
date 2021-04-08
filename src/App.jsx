@@ -1,25 +1,22 @@
 import React, {Component} from 'react'
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Redirect,
-} from "react-router-dom";
-
-import ProjectsRootPage from "@/pages/projects/ProjectsRootPage";
+import Login from "@/pages/Login";
+import Logined from "@/pages/Logined";
+import api from "@/api/Api";
 
 export default class App extends Component<{}> {
+    state = {
+        logined: false
+    }
+
+    componentDidMount() {
+        api.users.me()
+            .then(() => this.setState({logined: true}))
+    }
+
     render() {
-        //return <Login />
-        return <Router>
-            <Switch>
-                <Route path="/projects">
-                    <ProjectsRootPage/>
-                </Route>
-                <Route path="*">
-                    <Redirect to="/projects"/>
-                </Route>
-            </Switch>
-        </Router>
+        if (this.state.logined)
+            return <Logined />
+        else
+            return <Login />
     }
 }

@@ -1,7 +1,10 @@
 import React, {Component} from "react";
 import {Button, Card, FormGroup, H1, InputGroup, Intent, Tooltip} from "@blueprintjs/core";
 import {IconNames} from "@blueprintjs/icons";
+
+import api from "@/api/Api";
 import './Login.scss'
+import {toast} from "@/components/AppToaster";
 
 export default class Login extends Component<{}> {
     state = {
@@ -63,21 +66,13 @@ export default class Login extends Component<{}> {
     handleLockClick = () => this.setState({ showPassword: !this.state.showPassword })
 
     handleSubmit = (event) => {
-        //const {login, password} = this.state
+        const {login, password} = this.state
 
         this.setState({disabled: true})
 
-        /*api.auth.login(login, password)
-            .then(() => this.props.userStore.setLoggedIn(true))
-            .catch(error => {
-                if (error.response.status === 401) {
-                    AppToaster.show({message: "The username or password is incorrect", intent: Intent.DANGER})
-                } else {
-                    AppToaster.show({message: "Server error", intent: Intent.DANGER})
-                }
-
-                this.setState({disabled: false})
-            })*/
+        api.users.auth(login, password)
+            .then(() => toast('success'))
+            .finally(() => this.setState({disabled: false}))
 
         event.preventDefault()
         return false

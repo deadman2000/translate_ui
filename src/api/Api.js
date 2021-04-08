@@ -2,6 +2,7 @@ import axios from "axios";
 import {Projects} from "./Projects";
 import {axiosToastCatch} from "@/components/AppToaster";
 import {Volumes} from "@/api/Volumes";
+import {Users} from "@/api/Users";
 
 export class Api {
     constructor() {
@@ -13,7 +14,7 @@ export class Api {
         });
 
         this.projects = new Projects(this)
-
+        this.users = new Users(this)
     }
 
     get(url: string) {
