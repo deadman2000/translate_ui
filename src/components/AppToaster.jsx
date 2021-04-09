@@ -21,4 +21,5 @@ export function axiosToastCatch(e) {
         else
             toastError(e.message)
     }
+    throw e
 }

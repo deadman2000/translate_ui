@@ -4,6 +4,10 @@ import {axiosToastCatch} from "@/components/AppToaster";
 import {Volumes} from "@/api/Volumes";
 import {Users} from "@/api/Users";
 
+function dataExtract(e) {
+    return e.data
+}
+
 export class Api {
     constructor() {
         this.http = axios.create({
@@ -20,13 +24,13 @@ export class Api {
     get(url: string) {
         return this.http.get(url)
             .catch(axiosToastCatch)
-            .then(result => result.data)
+            .then(dataExtract)
     }
 
     post(url: string, data: any) {
         return this.http.post(url, data)
             .catch(axiosToastCatch)
-            .then(result => result.data)
+            .then(dataExtract)
     }
 
     upload(url: string, file: File, onUploadProgress: (progress: any) => void) {
@@ -41,7 +45,7 @@ export class Api {
 
         return this.http.post(url, formData, config)
             .catch(axiosToastCatch)
-            .then(result => result.data);
+            .then(dataExtract);
     }
 
     volumes(project: string) {

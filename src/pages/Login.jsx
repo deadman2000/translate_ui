@@ -4,7 +4,6 @@ import {IconNames} from "@blueprintjs/icons";
 
 import api from "@/api/Api";
 import './Login.scss'
-import {toast} from "@/components/AppToaster";
 
 export default class Login extends Component<{}> {
     state = {
@@ -71,7 +70,7 @@ export default class Login extends Component<{}> {
         this.setState({disabled: true})
 
         api.users.auth(login, password)
-            .then(() => toast('success'))
+            .then(() => window.location.reload())
             .finally(() => this.setState({disabled: false}))
 
         event.preventDefault()
