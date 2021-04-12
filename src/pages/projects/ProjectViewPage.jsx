@@ -11,9 +11,6 @@ export default class ProjectViewPage extends Component<{project: IProject}> {
             return <Redirect to={`/projects/${project.code}/upload`} />
 
         return <div>
-            <p>{project.name}</p>
-            <p>{project.code}</p>
-            <p>{project.status}</p>
             <VolumesList project={project}/>
         </div>
     }

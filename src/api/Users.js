@@ -16,6 +16,7 @@ export class Users {
     }
 
     me() {
-        return this.api.get(`${baseUrl}/me`)
+        return this.api.http.get(`${baseUrl}/me`)
+            .then(result => result.data)
     }
 }

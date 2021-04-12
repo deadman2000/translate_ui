@@ -18,7 +18,10 @@ export default class LoaderComponent<P={},S={}> extends Component<P,S & States> 
             error: false
         })
         this.prepare()
-            .catch(() => this.setState({error: true}))
+            .catch(e => {
+                console.error(e)
+                this.setState({error: true})
+            })
             .finally(() => this.setState({loading: false}))
     }
 

@@ -46,7 +46,10 @@ export default class CreateProjectPage extends Component<RouteProps> {
                                 value={this.code}/>
                 </FormGroup>
 
-                <Button onClick={this.createProject}>SUBMIT</Button>
+                <div>
+                    <Button onClick={this.createProject} className="mr-2">SUBMIT</Button>
+                    <Button onClick={this.cancel} variant="outline-secondary">CANCEL</Button>
+                </div>
             </Jumbotron>
         </Container>
     }
@@ -59,5 +62,9 @@ export default class CreateProjectPage extends Component<RouteProps> {
 
     onCreated = project => {
         this.props.history.push(`/projects/${project.code}`)
+    }
+
+    cancel = () => {
+        this.props.history.replace('/projects')
     }
 }
