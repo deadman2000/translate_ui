@@ -1,0 +1,21 @@
+.source-text {
+  padding: 8px 4px !important;
+
+  pre {
+    white-space: pre-wrap;
+    word-break: break-all;
+    font-size: 10pt;
+  }
+}
+
+.translate-text {
+  padding: 0 !important;
+  width: 50%;
+
+  textarea {
+    font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    font-size: 10pt;
+    box-shadow: none;
+    background: transparent;
+  }
+}

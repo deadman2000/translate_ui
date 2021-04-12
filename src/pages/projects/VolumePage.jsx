@@ -1,12 +1,15 @@
 import React from "react";
 import {withRouter} from "react-router-dom";
-import {Button, Table} from "react-bootstrap";
+import {Table} from "react-bootstrap";
+import {H3} from "@blueprintjs/core";
 
 import api from "@/api/Api";
 import type {RouteProps} from "@/types/RouteProps";
 import type {ITextResource} from "@/model/ITextResource";
+import type {IVolume} from "@/model/IVolume";
 import LoaderComponent from "@/components/LoaderComponent";
-import {TextArea} from "@blueprintjs/core";
+import TranslateRow from "@/components/project/TranslateRow";
+
 
 type R = {
     project: string,
@@ -14,42 +17,31 @@ type R = {
 }
 
 type States = {
+    volume: IVolume,
     texts: ITextResource[]
 }
 
 @withRouter
 export default class VolumePage extends LoaderComponent<RouteProps<R>, States> {
-    constructor(props) {
-        super(props);
-
-        const {project, volume} = this.props.match.params
-        this.texts = api.volumes(project).texts(volume)
-    }
-
     prepare() {
-        return this.texts.list()
+        const {project, volume} = this.props.match.params
+        const volumeApi = api.project(project).volume(volume)
+
+        const loadVolume = volumeApi.get()
+            .then(volume => this.setState({volume}))
+
+        const loadTexts = volumeApi.texts()
             .then(texts => this.setState({texts}))
+
+        return Promise.all([loadVolume, loadTexts])
     }
 
     successRender() {
-        const {project, volume} = this.props.match.params
         return <>
-            <div>Project: {project} Volume: {volume}</div>
+            <H3>{this.state.volume.name}</H3>
             <Table striped bordered>
                 <tbody>
-                    {this.state.texts.map(t => <tr key={t.number}>
-                        <td style={{width: 40}}>{t.number}</td>
-                        <td style={{width: "50%"}}>{t.text}</td>
-                        <td style={{width: "50%"}}>
-                            <div>
-                                <TextArea fill />
-                            </div>
-                            <div style={{textAlign: "right", marginTop: 4}}>
-                                <Button variant="danger" style={{marginRight: 16}}>Cancel</Button>
-                                <Button variant="primary">SUBMIT</Button>
-                            </div>
-                        </td>
-                    </tr>)}
+                    {this.state.texts.map(t => <TranslateRow key={t.number} text={t} />)}
                 </tbody>
             </Table>
         </>

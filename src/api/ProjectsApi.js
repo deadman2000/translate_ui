@@ -3,7 +3,7 @@ import type {IProject} from "@/model/IProject";
 
 const baseUrl = '/projects'
 
-export class Projects {
+export class ProjectsApi {
     constructor(api: Api) {
         this.api = api
     }

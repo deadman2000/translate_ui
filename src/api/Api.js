@@ -1,8 +1,9 @@
 import axios from "axios";
-import {Projects} from "./Projects";
 import {axiosToastCatch} from "@/components/AppToaster";
-import {Volumes} from "@/api/Volumes";
-import {Users} from "@/api/Users";
+import {ProjectsApi} from "@/api/ProjectsApi";
+import {UsersApi} from "@/api/UsersApi";
+import {ProjectApi} from "@/api/ProjectApi";
+import {TranslateApi} from "@/api/TranslateApi";
 
 function dataExtract(e) {
     return e.data
@@ -17,8 +18,9 @@ export class Api {
             }
         });
 
-        this.projects = new Projects(this)
-        this.users = new Users(this)
+        this.projects = new ProjectsApi(this)
+        this.users = new UsersApi(this)
+        this.translate = new TranslateApi(this)
     }
 
     get(url: string) {
@@ -48,8 +50,8 @@ export class Api {
             .then(dataExtract);
     }
 
-    volumes(project: string) {
-        return new Volumes(this, project)
+    project(code: string) {
+        return new ProjectApi(this, code)
     }
 }
 

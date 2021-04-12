@@ -2,7 +2,7 @@ import {Api} from "@/api/Api";
 
 const baseUrl = '/users'
 
-export class Users {
+export class UsersApi {
     constructor(api: Api) {
         this.api = api
     }

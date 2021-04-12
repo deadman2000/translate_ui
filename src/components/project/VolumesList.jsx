@@ -16,7 +16,7 @@ type States = {
 @withRouter
 export default class VolumesList extends LoaderComponent<{ project: IProject } & RouteProps, States> {
     prepare(): Promise {
-        return api.volumes(this.props.project.code).list()
+        return api.project(this.props.project.code).volumes()
             .then(volumes => this.setState({volumes}))
     }
 
