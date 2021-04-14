@@ -5,7 +5,7 @@ import {H3} from "@blueprintjs/core";
 
 import api from "@/api/Api";
 import type {RouteProps} from "@/types/RouteProps";
-import type {ITextResource} from "@/model/ITextResource";
+import type {ITextsResponse} from "@/model/ITextsResponse";
 import type {IVolume} from "@/model/IVolume";
 import LoaderComponent from "@/components/LoaderComponent";
 import TranslateRow from "@/components/project/TranslateRow";
@@ -18,7 +18,7 @@ type R = {
 
 type States = {
     volume: IVolume,
-    texts: ITextResource[]
+    texts: ITextsResponse[]
 }
 
 @withRouter
@@ -41,7 +41,7 @@ export default class VolumePage extends LoaderComponent<RouteProps<R>, States> {
             <H3>{this.state.volume.name}</H3>
             <Table striped bordered>
                 <tbody>
-                    {this.state.texts.map(t => <TranslateRow key={t.number} text={t} />)}
+                    {this.state.texts.map(t => <TranslateRow key={t.source.number} text={t} />)}
                 </tbody>
             </Table>
         </>

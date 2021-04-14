@@ -3,19 +3,31 @@ import {Button} from "react-bootstrap";
 import {TextArea} from "@blueprintjs/core";
 
 import api from "@/api/Api";
-import type {ITextResource} from "@/model/ITextResource";
+import type {ITextsResponse} from "@/model/ITextsResponse";
 import './TranslateRow.scss'
+import type {ITextTranslate} from "@/model/ITextTranslate";
 
 type States = {
     translate: string,
     loading: boolean
 }
 
-export default class TranslateRow extends Component<{text: ITextResource}, States> {
+class TranslateVariant extends Component<{translate: ITextTranslate}>{
+    render() {
+        const tr = this.props.translate
+        return <>
+            <pre>{tr.text}</pre>
+        </>
+    }
+}
+
+export default class TranslateRow extends Component<{text: ITextsResponse}, States> {
     constructor(props) {
         super(props)
+
+        const t = props.text
         this.state = {
-            translate: props.text.text,
+            translate: t.my ? t.my.text : t.source.text,
             loading: false
         }
     }
@@ -23,8 +35,8 @@ export default class TranslateRow extends Component<{text: ITextResource}, State
     render() {
         const t = this.props.text
         return <tr>
-            <td style={{width: 40}}>{t.number}</td>
-            <td className="source-text"><pre>{t.text}</pre></td>
+            <td style={{width: 40}}>{t.source.number}</td>
+            <td className="source-text"><pre>{t.source.text}</pre></td>
             <td className="translate-text">
                 <div>
                     <TextArea fill growVertically
@@ -42,6 +54,7 @@ export default class TranslateRow extends Component<{text: ITextResource}, State
                             disabled={this.state.loading}
                     >SUBMIT</Button>
                 </div>
+                {t.translates && t.translates.map(tr => <TranslateVariant key={tr.author} translate={tr}/>)}
             </td>
         </tr>
     }
@@ -55,9 +68,9 @@ export default class TranslateRow extends Component<{text: ITextResource}, State
         const t = this.props.text
 
         api.translate.submit({
-            project: t.project,
-            volume: t.volume,
-            number: t.number,
+            project: t.source.project,
+            volume: t.source.volume,
+            number: t.source.number,
             text: this.state.translate
         })
             .finally(() => this.setState({loading: false}))

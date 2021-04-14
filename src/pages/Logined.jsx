@@ -5,8 +5,13 @@ import {Provider} from "mobx-react";
 import globalStore from "@/stores/GlobalStore";
 import ProjectsRootPage from "@/pages/projects/ProjectsRootPage";
 import AppNavbar from "@/components/AppNavbar";
+import type {IMyInfo} from "@/model/IMyInfo";
 
-export default class Logined extends Component<{}> {
+export default class Logined extends Component<{user: IMyInfo}> {
+    componentDidMount() {
+        globalStore.setUserInfo(this.props.user)
+    }
+
     render() {
         return <>
             <Provider global={globalStore}>

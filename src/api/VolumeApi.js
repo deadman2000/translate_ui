@@ -1,6 +1,6 @@
-import type {IVolume} from "@/model/IVolume";
 import {ProjectApi} from "@/api/ProjectApi";
-import type {ITextResource} from "@/model/ITextResource";
+import type {IVolume} from "@/model/IVolume";
+import type {ITextsResponse} from "@/model/ITextsResponse";
 
 export class VolumeApi {
     constructor(project: ProjectApi, volume: string) {
@@ -13,7 +13,7 @@ export class VolumeApi {
         return this.api.get(this.baseUrl)
     }
 
-    texts(): Promise<ITextResource> {
+    texts(): Promise<ITextsResponse[]> {
         return this.api.get(`${this.baseUrl}/texts`)
     }
 }

@@ -2,15 +2,16 @@ import React, {Component} from "react";
 import {Button, Spinner} from "@blueprintjs/core";
 
 import api from "@/api/Api";
+import type {IMyInfo} from "@/model/IMyInfo";
 import Logined from "@/pages/Logined";
 import Login from "@/pages/Login";
 
 type States = {
+    info: IMyInfo,
     loading: boolean,
     logined: boolean,
     error: boolean,
 }
-
 export default class AuthLoading extends Component<{}, States> {
     componentDidMount() {
         this.setState({
@@ -18,7 +19,12 @@ export default class AuthLoading extends Component<{}, States> {
             error: false
         })
         api.users.me()
-            .then(() => this.setState({logined: true}))
+            .then(info => {
+                this.setState({
+                    logined: true,
+                    info
+                })
+            })
             .catch(e => {
                 if (e.response.status === 401) {
                     this.setState({logined: false})
@@ -37,7 +43,7 @@ export default class AuthLoading extends Component<{}, States> {
             return <div className="centered">Error <Button text="Try again" onClick={() => this.load()} minimal /></div>
 
         if (this.state.logined)
-            return <Logined />
+            return <Logined user={this.state.info} />
         else
             return <Login />
     }

@@ -18,4 +18,10 @@
     box-shadow: none;
     background: transparent;
   }
+
+  pre {
+    white-space: pre-wrap;
+    word-break: break-all;
+    font-size: 10pt;
+  }
 }

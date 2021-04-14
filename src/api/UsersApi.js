@@ -1,4 +1,5 @@
 import {Api} from "@/api/Api";
+import type {IMyInfo} from "@/model/IMyInfo";
 
 const baseUrl = '/users'
 
@@ -15,7 +16,7 @@ export class UsersApi {
         return this.api.post(`${baseUrl}/logout`)
     }
 
-    me() {
+    me(): Promise<IMyInfo> {
         return this.api.http.get(`${baseUrl}/me`)
             .then(result => result.data)
     }
