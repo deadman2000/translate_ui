@@ -17,4 +17,8 @@ export class TranslateApi {
     submit(request: ITranslateRequest): Promise {
         return this.api.post(baseUrl, request)
     }
+
+    delete(project: string, volume: string, number: number): Promise {
+        return this.api.delete(`${baseUrl}/${project}/${volume}/${number}`)
+    }
 }

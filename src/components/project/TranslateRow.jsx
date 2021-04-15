@@ -4,8 +4,9 @@ import {TextArea} from "@blueprintjs/core";
 
 import api from "@/api/Api";
 import type {ITextsResponse} from "@/model/ITextsResponse";
-import './TranslateRow.scss'
 import type {ITextTranslate} from "@/model/ITextTranslate";
+import {toast} from "@/components/AppToaster";
+import './TranslateRow.scss'
 
 type States = {
     translate: string,
@@ -47,6 +48,11 @@ export default class TranslateRow extends Component<{text: ITextsResponse}, Stat
                 <div style={{textAlign: "right", marginTop: 4}}>
                     <Button variant="danger"
                             style={{marginRight: 16}}
+                            onClick={this.delete}
+                            disabled={this.state.loading}
+                    >Delete</Button>
+                    <Button variant="warning"
+                            style={{marginRight: 16}}
                             disabled={this.state.loading}
                     >Cancel</Button>
                     <Button variant="primary"
@@ -65,14 +71,23 @@ export default class TranslateRow extends Component<{text: ITextsResponse}, Stat
 
     submit = () => {
         this.setState({loading: true})
-        const t = this.props.text
+        const s = this.props.text.source
 
         api.translate.submit({
-            project: t.source.project,
-            volume: t.source.volume,
-            number: t.source.number,
+            project: s.project,
+            volume: s.volume,
+            number: s.number,
             text: this.state.translate
         })
+            .finally(() => this.setState({loading: false}))
+    }
+
+    delete = () => {
+        this.setState({loading: true})
+        const s = this.props.text.source
+
+        api.translate.delete(s.project, s.volume, s.number)
+            .then(() => toast("Translate removed"))
             .finally(() => this.setState({loading: false}))
     }
 }

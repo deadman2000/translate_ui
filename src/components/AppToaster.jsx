@@ -9,7 +9,7 @@ export function toastError(message: string) {
 }
 
 export function toast(message: string) {
-    toaster.show({message, intent: Intent.PRIMARY})
+    toaster.show({message})
 }
 
 export function axiosToastCatch(e) {

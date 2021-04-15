@@ -3,5 +3,9 @@ export type IVolume = {
     project: string,
     code: string,
     name: string,
-    numberOfLetters: number,
+    letters: number,
+    texts: number,
+    lastSubmit: string,
+    translatedTexts: number,
+    translatedLetters: number,
 }

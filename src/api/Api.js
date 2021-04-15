@@ -35,6 +35,12 @@ export class Api {
             .then(dataExtract)
     }
 
+    delete(url: string) {
+        return this.http.delete(url)
+            .catch(axiosToastCatch)
+            .then(dataExtract)
+    }
+
     upload(url: string, file: File, onUploadProgress: (progress: any) => void) {
         const formData = new FormData();
         formData.append("file", file);

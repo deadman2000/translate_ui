@@ -3,5 +3,9 @@ export type IProject = {
     name: string,
     code: string,
     status: number,
-    numberOfLetters: number,
+    letters: number,
+    texts: number,
+    lastSubmit: string,
+    translatedLetters: number,
+    translatedTexts: number,
 }

@@ -47,7 +47,7 @@ export default class CreateProjectPage extends Component<RouteProps> {
                 </FormGroup>
 
                 <div>
-                    <Button onClick={this.createProject} className="mr-2">SUBMIT</Button>
+                    <Button onClick={this.createProject} className="mr-2">CREATE</Button>
                     <Button onClick={this.cancel} variant="outline-secondary">CANCEL</Button>
                 </div>
             </Jumbotron>
