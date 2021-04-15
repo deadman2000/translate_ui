@@ -1,27 +1,50 @@
-.source-text {
-  padding: 8px 4px !important;
-
-  pre {
-    white-space: pre-wrap;
-    word-break: break-all;
-    font-size: 10pt;
-  }
-}
-
-.translate-text {
-  padding: 0 !important;
-  width: 50%;
-
-  textarea {
-    font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
-    font-size: 10pt;
-    box-shadow: none;
-    background: transparent;
+.text-table {
+  .num {
+    width: 40px;
   }
 
-  pre {
-    white-space: pre-wrap;
-    word-break: break-all;
-    font-size: 10pt;
+  .source-text {
+    padding: 8px 4px !important;
+
+    pre {
+      white-space: pre-wrap;
+      word-break: break-all;
+      font-size: 10pt;
+    }
+  }
+
+  .splitter {
+    padding: 0;
+    width: 0;
+    vertical-align: middle;
+  }
+
+  .translate-text {
+    padding: 8px !important;
+    width: 50%;
+
+    textarea {
+      font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 10pt;
+      box-shadow: none;
+      background: white;
+      padding: 4px;
+    }
+
+    pre {
+      white-space: pre-wrap;
+      word-break: break-all;
+      font-size: 10pt;
+      margin-bottom: 0;
+    }
+
+    .sign {
+      color: gray;
+      font-size: 10pt;
+    }
+
+    .bp3-button {
+      margin-right: 8px;
+    }
   }
 }

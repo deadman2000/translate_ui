@@ -1,12 +1,11 @@
 import {action, makeObservable, observable, set} from "mobx";
 import type {IProject} from "@/model/IProject";
 import type {IMyInfo} from "@/model/IMyInfo";
-
-const DEFAULT_TITLE = "Translate"
+import type {IVolume} from "@/model/IVolume";
 
 export class GlobalStore {
-    @observable title: string = DEFAULT_TITLE
     @observable project: IProject = {}
+    @observable volume: IVolume = {}
     @observable info: IMyInfo = {}
 
     constructor() {
@@ -15,11 +14,12 @@ export class GlobalStore {
 
     @action
     setProject(project: IProject) {
-        set(this.project, project)
-        if (project)
-            this.title = project.name
-        else
-            this.title = DEFAULT_TITLE
+        this.project = project
+    }
+
+    @action
+    setVolume(volume: IVolume) {
+        this.volume = volume
     }
 
     @action

@@ -1,6 +1,7 @@
 import React, {Component} from "react";
-import {Button, Spinner} from "@blueprintjs/core";
+import {Button, Card, H2, Icon, Intent, Spinner} from "@blueprintjs/core";
 import './LoaderComponent.scss'
+import {IconNames} from "@blueprintjs/icons";
 
 type States = {
     loading: boolean,
@@ -34,7 +35,12 @@ export default class LoaderComponent<P={},S={}> extends Component<P,S & States> 
             return <div className="centered"><Spinner /></div>
 
         if (this.state.error)
-            return <div className="centered">Error <Button text="Try again" onClick={() => this.load()} minimal /></div>
+            return <div className="centered">
+                <Card>
+                    <H2><Icon icon={IconNames.WARNING_SIGN} intent={Intent.DANGER} iconSize={40}/> Error!</H2>
+                    <div><Button icon={IconNames.REFRESH} text="Try again" onClick={() => this.load()} minimal /></div>
+                </Card>
+            </div>
 
         return this.successRender()
     }

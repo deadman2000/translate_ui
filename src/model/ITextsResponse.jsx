@@ -1,8 +1,8 @@
 import type {ITextResource} from "@/model/ITextResource";
-import type {ITextTranslate} from "@/model/ITextTranslate";
+import type {ITranslateInfo} from "@/model/ITranslateInfo";
 
 export type ITextsResponse = {
     source: ITextResource,
-    my: ITextTranslate
-    translates: ITextTranslate[]
+    my: ITranslateInfo
+    translates: ITranslateInfo[]
 }

@@ -1,8 +1,9 @@
 import React, {Component} from "react";
 import {withRouter} from "react-router-dom";
 import {inject, observer} from "mobx-react";
-import {Alignment, Button, Menu, MenuItem, Navbar, Popover, Position} from "@blueprintjs/core";
+import {Alignment, Button, InputGroup, Menu, MenuItem, Navbar, Position} from "@blueprintjs/core";
 import {IconNames} from "@blueprintjs/icons";
+import {Popover2} from "@blueprintjs/popover2";
 
 import api from "@/api/Api";
 import type {RouteProps} from "@/types/RouteProps";
@@ -17,23 +18,34 @@ export default class AppNavbar extends Component<{global?: GlobalStore} & RouteP
             <MenuItem text="Logout" onClick={this.logout}/>
         </Menu>
 
-        return <Navbar>
+        return <Navbar fixedToTop>
             <Navbar.Group align={Alignment.LEFT}>
-                <Navbar.Heading>{this.props.global.title}</Navbar.Heading>
-                <Navbar.Divider/>
                 <Button text="Projects"
                         onClick={() => this.props.history.push('/projects')}
                         minimal/>
+                <Navbar.Divider/>
+
+                {this.props.global.project && <Navbar.Heading>
+                    <Button text={this.props.global.project.name}
+                            onClick={() => this.props.history.push(`/projects/${this.props.global.project.code}`)}
+                            minimal/>
+                </Navbar.Heading>}
+
+                {this.props.global.volume && <Navbar.Heading>{this.props.global.volume.name}</Navbar.Heading>}
             </Navbar.Group>
             <Navbar.Group align={Alignment.RIGHT}>
+                <InputGroup
+                    placeholder="Search"
+                    leftIcon={IconNames.SEARCH}
+                />
                 <Button icon={IconNames.ADD}
                         text="Create project"
                         onClick={() => this.props.history.push('/projects/create')}
                         minimal/>
-                <Popover content={menu} position={Position.BOTTOM_RIGHT}>
+                <Popover2 content={menu} position={Position.BOTTOM_RIGHT}>
                     <Button icon={IconNames.USER}
                             minimal/>
-                </Popover>
+                </Popover2>
             </Navbar.Group>
         </Navbar>
     }
