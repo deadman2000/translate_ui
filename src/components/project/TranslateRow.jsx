@@ -22,7 +22,10 @@ export default class TranslateRow extends Component<{text: ITextsResponse}, {act
                                              onClick={() => this.setState({activated: true})}
             /></td>
             <td className="translate-text">
-                <TranslateEditor text={t} activated={this.state.activated} onCancel={() => this.setState({activated: false})}/>
+                <TranslateEditor text={t}
+                                 activated={this.state.activated}
+                                 onCancel={() => this.setState({activated: false})}
+                />
                 {t.translates && t.translates.map(tr => <TranslateVariant key={tr.author} translate={tr}/>)}
             </td>
         </tr>

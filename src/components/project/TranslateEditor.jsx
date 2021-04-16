@@ -5,8 +5,12 @@ import api from "@/api/Api";
 import type {ITextsResponse} from "@/model/ITextsResponse";
 import {toast} from "@/components/AppToaster";
 import {TranslateVariant} from "@/components/project/TranslateVariant";
+import {IconNames} from "@blueprintjs/icons";
+import {inject} from "mobx-react";
+import {GlobalStore} from "@/stores/GlobalStore";
 
 type Props = {
+    global?: GlobalStore,
     text: ITextsResponse,
     activated: boolean,
     onCancel: () => void
@@ -19,6 +23,7 @@ type States = {
     activated: boolean,
 }
 
+@inject("global")
 export class TranslateEditor extends Component<Props, States> {
     timeoutStore = null
 
@@ -61,6 +66,8 @@ export class TranslateEditor extends Component<Props, States> {
                             onClick={this.delete}
                             loading={this.state.loading}
                             text="Delete"/>
+                    <Button icon={IconNames.HISTORY} minimal
+                            onClick={this.openHistory} />
                 </div>
             </>);
 
@@ -141,5 +148,10 @@ export class TranslateEditor extends Component<Props, States> {
         api.translate.delete(s.project, s.volume, s.number)
             .then(() => toast("Translate removed"))
             .finally(() => this.setState({loading: false}))
+    }
+
+    openHistory = () => {
+        api.translate.history(this.props.text.my.id)
+            .then(list => this.props.global.showHistory(list))
     }
 }

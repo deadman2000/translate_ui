@@ -1,9 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {FocusStyleManager} from "@blueprintjs/core";
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 import './index.scss'
+
+FocusStyleManager.onlyShowFocusOnTabs();
 
 ReactDOM.render(
   <React.StrictMode>

@@ -22,4 +22,8 @@ export class TranslateApi {
     delete(project: string, volume: string, number: number): Promise {
         return this.api.delete(`${baseUrl}/${project}/${volume}/${number}`)
     }
+
+    history(id: string): Promise<ITranslateInfo[]> {
+        return this.api.get(`${baseUrl}/${id}/history`)
+    }
 }

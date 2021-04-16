@@ -11,6 +11,7 @@ import type {IVolume} from "@/model/IVolume";
 import {GlobalStore} from "@/stores/GlobalStore";
 import LoaderComponent from "@/components/LoaderComponent";
 import TranslateRow from "@/components/project/TranslateRow";
+import TranslateHistory from "@/components/project/TranslateHistory";
 
 
 type R = {
@@ -48,6 +49,7 @@ export default class VolumePage extends LoaderComponent<{global?: GlobalStore} &
 
     successRender() {
         return <>
+            <TranslateHistory />
             <H3>{this.state.volume.name}</H3>
             <Table striped bordered className="text-table">
                 <tbody>

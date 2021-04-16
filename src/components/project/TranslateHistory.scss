@@ -1,0 +1,20 @@
+.translate-history-dialog {
+  .Difference {
+    del {
+      background-color: rgb(255, 224, 224);
+      text-decoration: none;
+    }
+
+    ins {
+      background-color: rgb(201, 238, 211);
+      text-decoration: none;
+    }
+  }
+
+  .sign {
+    font-style: italic;
+    color: gray;
+    text-align: right;
+    font-size: 10pt;
+  }
+}
