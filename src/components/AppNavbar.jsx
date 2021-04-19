@@ -1,13 +1,14 @@
 import React, {Component} from "react";
 import {withRouter} from "react-router-dom";
 import {inject, observer} from "mobx-react";
-import {Alignment, Button, InputGroup, Menu, MenuItem, Navbar, Position} from "@blueprintjs/core";
+import {Alignment, Button, Menu, MenuItem, Navbar, Position} from "@blueprintjs/core";
 import {IconNames} from "@blueprintjs/icons";
 import {Popover2} from "@blueprintjs/popover2";
 
 import api from "@/api/Api";
 import type {RouteProps} from "@/types/RouteProps";
 import {GlobalStore} from "@/stores/GlobalStore";
+import Search from "@/components/project/Search";
 
 @withRouter
 @inject("global")
@@ -34,10 +35,7 @@ export default class AppNavbar extends Component<{global?: GlobalStore} & RouteP
                 {this.props.global.volume && <Navbar.Heading>{this.props.global.volume.name}</Navbar.Heading>}
             </Navbar.Group>
             <Navbar.Group align={Alignment.RIGHT}>
-                <InputGroup
-                    placeholder="Search"
-                    leftIcon={IconNames.SEARCH}
-                />
+                <Search />
                 <Button icon={IconNames.ADD}
                         text="Create project"
                         onClick={() => this.props.history.push('/projects/create')}

@@ -20,4 +20,8 @@ export class ProjectApi {
     volumes() {
         return this.api.get(`${this.baseUrl}/volumes`)
     }
+
+    reindex() {
+        return this.api.post(`${this.baseUrl}/reindex`)
+    }
 }

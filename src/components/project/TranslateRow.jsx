@@ -14,7 +14,7 @@ export default class TranslateRow extends Component<{text: ITextsResponse}, {act
 
     render() {
         const t = this.props.text
-        return <tr>
+        return <tr id={"t"+t.source.number}>
             <td className="num">{t.source.number}</td>
             <td className="source-text"><pre>{t.source.text}</pre></td>
             <td className="splitter"><Button icon={IconNames.CHEVRON_RIGHT}
