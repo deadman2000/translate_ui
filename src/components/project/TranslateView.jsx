@@ -3,7 +3,7 @@ import React, {Component, MouseEventHandler} from "react";
 import type {ITranslateInfo} from "@/model/ITranslateInfo";
 import {formatDateTime} from "@/Utils";
 
-export class TranslateVariant extends Component<{translate: ITranslateInfo, onClick?: MouseEventHandler}> {
+export class TranslateView extends Component<{translate: ITranslateInfo, onClick?: MouseEventHandler}> {
     render() {
         const tr = this.props.translate
         return <div onClick={this.props.onClick}>

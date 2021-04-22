@@ -5,6 +5,7 @@ export type ITranslateRequest = {
     project: string,
     volume: string,
     number: number,
+    translateId: string,
     text: string
 }
 

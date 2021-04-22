@@ -4,7 +4,6 @@ import {IconNames} from "@blueprintjs/icons";
 
 import type {ITextsResponse} from "@/model/ITextsResponse";
 import {TranslateEditor} from "@/components/project/TranslateEditor";
-import {TranslateVariant} from "@/components/project/TranslateVariant";
 import './TranslateRow.scss'
 
 export default class TranslateRow extends Component<{text: ITextsResponse}, {activated: boolean}> {
@@ -17,16 +16,20 @@ export default class TranslateRow extends Component<{text: ITextsResponse}, {act
         return <tr id={"t"+t.source.number}>
             <td className="num">{t.source.number}</td>
             <td className="source-text"><pre>{t.source.text}</pre></td>
-            <td className="splitter"><Button icon={IconNames.CHEVRON_RIGHT}
-                                             minimal fill
-                                             onClick={() => this.setState({activated: true})}
+            <td className="splitter">
+                <Button icon={IconNames.CHEVRON_RIGHT}
+                        minimal fill
+                        onClick={() => this.setState({activated: true})}
             /></td>
             <td className="translate-text">
-                <TranslateEditor text={t}
-                                 activated={this.state.activated}
-                                 onCancel={() => this.setState({activated: false})}
-                />
-                {t.translates && t.translates.map(tr => <TranslateVariant key={tr.author} translate={tr}/>)}
+                {t.translates && t.translates.map(tr => (
+                    <TranslateEditor key={tr.author}
+                                     text={t}
+                                     translate={tr}
+                                     activated={this.state.activated}
+                                     onCancel={() => this.setState({activated: false})}
+                    />
+                ))}
             </td>
         </tr>
     }

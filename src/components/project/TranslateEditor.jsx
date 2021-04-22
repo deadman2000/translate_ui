@@ -1,26 +1,29 @@
 import React, {Component} from "react";
 import {Button, Intent, TextArea} from "@blueprintjs/core";
+import {IconNames} from "@blueprintjs/icons";
+import {inject} from "mobx-react";
 
 import api from "@/api/Api";
 import type {ITextsResponse} from "@/model/ITextsResponse";
-import {toast} from "@/components/AppToaster";
-import {TranslateVariant} from "@/components/project/TranslateVariant";
-import {IconNames} from "@blueprintjs/icons";
-import {inject} from "mobx-react";
+import type {ITranslateInfo} from "@/model/ITranslateInfo";
 import {GlobalStore} from "@/stores/GlobalStore";
+import {toast} from "@/components/AppToaster";
+import {TranslateView} from "@/components/project/TranslateView";
 
 type Props = {
     global?: GlobalStore,
     text: ITextsResponse,
+    translate: ITranslateInfo,
     activated: boolean,
     onCancel: () => void
 }
 
 type States = {
-    translate: string,
+    text: string,
     loading: boolean,
     stored: boolean,
     activated: boolean,
+    tr: ITranslateInfo,
 }
 
 @inject("global")
@@ -30,17 +33,18 @@ export class TranslateEditor extends Component<Props, States> {
     constructor(props: Props) {
         super(props);
 
-        const t = props.text
-        const s = t.source
+        const tr = props.translate
+        const s = props.text.source
 
-        this.storeKey = `${s.project}/${s.volume}/${s.number}`
+        this.storeKey = tr ? `translate_${tr.id}` : `${s.project}/${s.volume}/${s.number}`
         const stored = localStorage.getItem(this.storeKey)
 
         this.state = {
-            translate: stored ? stored : (t.my ? t.my.text : ''),
+            text: stored ? stored : (tr ? tr.text : ''),
             loading: false,
             stored: !!stored,
             activated: false,
+            tr: tr
         }
     }
 
@@ -49,7 +53,7 @@ export class TranslateEditor extends Component<Props, States> {
             return (<>
                 <div>
                     <TextArea fill growVertically
-                              value={this.state.translate}
+                              value={this.state.text}
                               onChange={this.onTextChange}
                     />
                 </div>
@@ -71,15 +75,15 @@ export class TranslateEditor extends Component<Props, States> {
                 </div>
             </>);
 
-        if (this.props.text.my)
-            return <TranslateVariant translate={this.props.text.my} onClick={this.inactiveClick} />
+        if (this.state.tr)
+            return <TranslateView translate={this.state.tr} onClick={this.inactiveClick} />
 
         return <></>
     }
 
     get isRevert() {
-        if (!this.state.translate) return true
-        return this.props.text.my && this.props.text.my.text === this.state.translate;
+        if (!this.state.tr) return true
+        return this.state.tr && this.state.tr.text === this.state.text;
     }
 
     inactiveClick = () => {
@@ -87,7 +91,7 @@ export class TranslateEditor extends Component<Props, States> {
     }
 
     onTextChange = e => {
-        this.setState({translate: e.target.value})
+        this.setState({text: e.target.value})
 
         clearTimeout(this.timeoutStore)
         this.timeoutStore = setTimeout(this.storeText, 1000)
@@ -100,7 +104,7 @@ export class TranslateEditor extends Component<Props, States> {
             return
         }
 
-        localStorage.setItem(this.storeKey, this.state.translate)
+        localStorage.setItem(this.storeKey, this.state.text)
         this.setState({stored: true})
     }
 
@@ -112,18 +116,22 @@ export class TranslateEditor extends Component<Props, States> {
         }
 
         this.setState({loading: true})
+        const tr = this.state.tr
         const s = this.props.text.source
 
         api.translate.submit({
             project: s.project,
             volume: s.volume,
             number: s.number,
-            text: this.state.translate
+            translateId: tr ? tr.id : null,
+            text: this.state.text
         })
             .then(info => {
                 localStorage.removeItem(this.storeKey)
-                this.setState({stored: false})
-                this.props.text.my = info
+                this.setState({
+                    stored: false,
+                    tr: info
+                })
             })
             .finally(() => this.setState({loading: false}))
     }
@@ -131,10 +139,10 @@ export class TranslateEditor extends Component<Props, States> {
     cancel = () => {
         clearTimeout(this.timeoutStore)
         localStorage.removeItem(this.storeKey)
-        const t = this.props.text
+        const t = this.state.tr
         this.setState({
             stored: false,
-            translate: t.my ? t.my.text : '',
+            text: t ? t.text : '',
             activated: false
         })
 
@@ -151,7 +159,7 @@ export class TranslateEditor extends Component<Props, States> {
     }
 
     openHistory = () => {
-        api.translate.history(this.props.text.my.id)
+        api.translate.history(this.state.tr.id)
             .then(list => this.props.global.showHistory(list))
     }
 }
