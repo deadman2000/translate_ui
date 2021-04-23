@@ -13,9 +13,9 @@ import {TranslateView} from "@/components/project/TranslateView";
 type Props = {
     global?: GlobalStore,
     text: ITextsResponse,
-    translate: ITranslateInfo,
-    activated: boolean,
-    onCancel: () => void
+    translate?: ITranslateInfo,
+    activated?: boolean,
+    onCancel?: () => void
 }
 
 type States = {
@@ -82,7 +82,7 @@ export class TranslateEditor extends Component<Props, States> {
     }
 
     get isRevert() {
-        if (!this.state.tr) return true
+        if (!this.state.text) return true
         return this.state.tr && this.state.tr.text === this.state.text;
     }
 
@@ -146,7 +146,8 @@ export class TranslateEditor extends Component<Props, States> {
             activated: false
         })
 
-        this.props.onCancel()
+        if (this.props.onCancel)
+            this.props.onCancel()
     }
 
     delete = () => {

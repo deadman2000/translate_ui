@@ -1,0 +1,9 @@
+@import "~@blueprintjs/core/lib/scss/variables.scss";
+
+.content {
+  position: fixed;
+  top: $pt-navbar-height;
+  bottom: 0;
+  width: 100%;
+  overflow: auto;
+}
