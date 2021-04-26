@@ -8,6 +8,26 @@ import {IconNames} from "@blueprintjs/icons";
 import {toast} from "@/components/AppToaster";
 import api from "@/api/Api";
 
+class ReindexButton extends Component<{project: IProject}> {
+    state = {
+        loading: false
+    }
+    render() {
+        return <Button icon={IconNames.REFRESH}
+                       text="Reindex"
+                       loading={this.state.loading}
+                       onClick={this.reindex} />;
+    }
+
+    reindex = () => {
+        this.setState({loading: true})
+        api.project(this.props.project.code)
+            .reindex()
+            .then(() => toast("Reindexed"))
+            .finally(() => this.setState({loading: false}))
+    }
+}
+
 export default class ProjectViewPage extends Component<{project: IProject}> {
     render() {
         const {project} = this.props
@@ -15,7 +35,7 @@ export default class ProjectViewPage extends Component<{project: IProject}> {
             return <Redirect to={`/projects/${project.code}/upload`} />
 
         return <div>
-            <Button icon={IconNames.REFRESH} text="Reindex" onClick={() => api.project(project.code).reindex().then(() => toast("Reindexed"))} />
+            <ReindexButton project={project}/>
             <VolumesList project={project}/>
         </div>
     }

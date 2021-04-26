@@ -1,8 +1,8 @@
 import React, {Component} from "react";
+import {Col, Container, Row} from "react-bootstrap";
 import {InputGroup} from "@blueprintjs/core";
 import {IconNames} from "@blueprintjs/icons";
 import {Popover2} from "@blueprintjs/popover2";
-import {Col, Container, Row} from "react-bootstrap";
 
 import api from "@/api/Api";
 import type {ISearchResult} from "@/model/ISearchResult";

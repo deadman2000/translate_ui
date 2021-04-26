@@ -24,15 +24,15 @@ export default class TranslateHistory extends Component<{global?: GlobalStore}> 
             title="Translate history"
             onClose={this.handleClose}
         >
+            <div className="pt-1 pb-1 pl-3">
+                <Button icon={IconNames.CHANGES}
+                        minimal outlined
+                        active={this.state.diff}
+                        onClick={() => this.setState({diff: !this.state.diff})}
+                        text="Show diff"
+                />
+            </div>
             <div className={Classes.DIALOG_BODY}>
-                <div className="mb-4">
-                    <Button icon={IconNames.CHANGES}
-                            minimal outlined
-                            active={this.state.diff}
-                            onClick={() => this.setState({diff: !this.state.diff})}
-                            text="Show diff"
-                            />
-                </div>
                 <div className="translate-history-dialog">
                     {hist.map((t, i) => <div key={t.id}>
                         {i === hist.length-1 || !this.state.diff ? <pre>{t.text}</pre> : (

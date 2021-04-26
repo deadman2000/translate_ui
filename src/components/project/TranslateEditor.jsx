@@ -9,6 +9,7 @@ import type {ITranslateInfo} from "@/model/ITranslateInfo";
 import {GlobalStore} from "@/stores/GlobalStore";
 import {toast} from "@/components/AppToaster";
 import {TranslateView} from "@/components/project/TranslateView";
+import type {ITextResource} from "@/model/ITextResource";
 
 type Props = {
     global?: GlobalStore,
@@ -128,6 +129,7 @@ export class TranslateEditor extends Component<Props, States> {
         })
             .then(info => {
                 localStorage.removeItem(this.storeKey)
+                this.storeKey = `translate_${info.id}`
                 this.setState({
                     stored: false,
                     tr: info
