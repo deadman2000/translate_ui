@@ -9,14 +9,14 @@ import type {ITranslateInfo} from "@/model/ITranslateInfo";
 import {GlobalStore} from "@/stores/GlobalStore";
 import {toast} from "@/components/AppToaster";
 import {TranslateView} from "@/components/project/TranslateView";
-import type {ITextResource} from "@/model/ITextResource";
 
 type Props = {
     global?: GlobalStore,
     text: ITextsResponse,
     translate?: ITranslateInfo,
     activated?: boolean,
-    onCancel?: () => void
+    onCancel?: () => void,
+    onSubmit?: (translate: ITranslateInfo) => void
 }
 
 type States = {
@@ -132,8 +132,11 @@ export class TranslateEditor extends Component<Props, States> {
                 this.storeKey = `translate_${info.id}`
                 this.setState({
                     stored: false,
-                    tr: info
+                    tr: info,
+                    activated: false
                 })
+                if (this.props.onSubmit)
+                    this.props.onSubmit(info)
             })
             .finally(() => this.setState({loading: false}))
     }
