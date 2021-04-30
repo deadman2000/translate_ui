@@ -2,7 +2,6 @@ import React from "react";
 import {withRouter} from "react-router-dom";
 import {inject} from "mobx-react";
 import {Table} from "react-bootstrap";
-import {H3} from "@blueprintjs/core";
 
 import api from "@/api/Api";
 import type {RouteProps} from "@/types/RouteProps";
@@ -50,7 +49,6 @@ export default class VolumePage extends LoaderComponent<{global?: GlobalStore} &
     successRender() {
         return <>
             <TranslateHistory />
-            <H3>{this.state.volume.name}</H3>
             <Table striped bordered className="text-table">
                 <tbody>
                     {this.state.texts.map(t => <TranslateRow key={t.source.number} text={t} />)}

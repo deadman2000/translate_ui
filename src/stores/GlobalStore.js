@@ -16,6 +16,7 @@ export class GlobalStore {
 
     @action
     setProject(project: IProject) {
+        if (!project) project = {}
         this.project = project
     }
 

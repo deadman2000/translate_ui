@@ -1,12 +1,14 @@
 import React, {Component} from "react";
-import type {IProject} from "@/model/IProject";
 import {Redirect} from "react-router-dom";
-import {ProjectStatus} from "@/enum";
-import VolumesList from "@/components/project/VolumesList";
+import {Container} from "react-bootstrap";
 import {Button} from "@blueprintjs/core";
 import {IconNames} from "@blueprintjs/icons";
-import {toast} from "@/components/AppToaster";
+
 import api from "@/api/Api";
+import {ProjectStatus} from "@/enum";
+import type {IProject} from "@/model/IProject";
+import VolumesList from "@/components/project/VolumesList";
+import {toast} from "@/components/AppToaster";
 
 class ReindexButton extends Component<{project: IProject}> {
     state = {
@@ -35,7 +37,9 @@ export default class ProjectViewPage extends Component<{project: IProject}> {
             return <Redirect to={`/projects/${project.code}/upload`} />
 
         return <div>
-            <ReindexButton project={project}/>
+            <Container>
+                <ReindexButton project={project}/>
+            </Container>
             <VolumesList project={project}/>
         </div>
     }

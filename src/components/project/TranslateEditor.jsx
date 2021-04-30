@@ -67,12 +67,14 @@ export class TranslateEditor extends Component<Props, States> {
                             intent={Intent.WARNING}
                             loading={this.state.loading}
                             onClick={this.cancel}/>
+                    {this.props.translate && <>
                     <Button intent={Intent.DANGER}
                             onClick={this.delete}
                             loading={this.state.loading}
                             text="Delete"/>
                     <Button icon={IconNames.HISTORY} minimal
                             onClick={this.openHistory} />
+                    </>}
                 </div>
             </>);
 

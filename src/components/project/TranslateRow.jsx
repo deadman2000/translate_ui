@@ -8,11 +8,20 @@ import MonoText from "@/components/project/MonoText";
 import './TranslateRow.scss'
 import type {ITranslateInfo} from "@/model/ITranslateInfo";
 
-export default class TranslateRow extends Component<{text: ITextsResponse}, {activated: boolean}> {
-    constructor(props) {
+type Props = {
+    text: ITextsResponse
+}
+
+export default class TranslateRow extends Component<Props, {activated: boolean}> {
+    constructor(props: Props) {
         super(props);
+
+        const s = props.text.source
+        this.storeKey = `${s.project}/${s.volume}/${s.number}`
+        const stored = localStorage.getItem(this.storeKey)
+
         this.state = {
-            activated: false,
+            activated: !!stored,
             translates: props.text.translates
         }
     }
