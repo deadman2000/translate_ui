@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Link, withRouter} from "react-router-dom";
 import {inject, observer} from "mobx-react";
-import {Alignment, Breadcrumbs, Button, Icon, Menu, MenuItem, Navbar, Position} from "@blueprintjs/core";
+import {Alignment, Breadcrumb, Breadcrumbs, Button, Icon, Menu, MenuItem, Navbar, Position} from "@blueprintjs/core";
 import {IconNames} from "@blueprintjs/icons";
 import {Popover2} from "@blueprintjs/popover2";
 
@@ -13,7 +13,9 @@ import {IBreadcrumbProps} from "@blueprintjs/core";
 
 
 function breadcrumbRenderer({ text, href, icon }: IBreadcrumbProps) {
-    return <Link className="bp3-breadcrumb" to={href}><Icon icon={icon}/> {text}</Link>
+    if (href)
+        return <Link className="bp3-breadcrumb" to={href}><Icon icon={icon}/> {text}</Link>
+    return <Breadcrumb text={text} icon={icon}/>
 }
 
 @withRouter
@@ -30,9 +32,10 @@ export default class AppNavbar extends Component<{global?: GlobalStore} & RouteP
                 <Breadcrumbs items={this.breadcrumbs()}
                              breadcrumbRenderer={breadcrumbRenderer}
                 />
+                <Navbar.Divider />
+                <Search />
             </Navbar.Group>
             <Navbar.Group align={Alignment.RIGHT}>
-                <Search />
                 <Button icon={IconNames.ADD}
                         text="Create project"
                         onClick={() => this.props.history.push('/projects/create')}

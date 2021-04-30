@@ -18,6 +18,8 @@ type R = {
     volume: string
 }
 
+type Props = {global?: GlobalStore} & RouteProps<R>
+
 type States = {
     volume: IVolume,
     texts: ITextsResponse[]
@@ -25,7 +27,7 @@ type States = {
 
 @withRouter
 @inject("global")
-export default class VolumePage extends LoaderComponent<{global?: GlobalStore} & RouteProps<R>, States> {
+export default class VolumePage extends LoaderComponent<Props, States> {
     prepare() {
         const {project, volume} = this.props.match.params
         const volumeApi = api.project(project).volume(volume)
@@ -40,6 +42,11 @@ export default class VolumePage extends LoaderComponent<{global?: GlobalStore} &
             .then(texts => this.setState({texts}))
 
         return Promise.all([loadVolume, loadTexts])
+    }
+
+    componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<States>, snapshot: SS) {
+        if (prevProps.match.params.volume !== this.props.match.params.volume)
+            this.load()
     }
 
     componentWillUnmount() {

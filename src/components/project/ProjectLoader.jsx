@@ -15,19 +15,26 @@ type R = {
     project: string
 }
 
+type Props = {global?: GlobalStore} & RouteProps<R>
+
 type States = {
     project: IProject
 }
 
 @inject("global")
 @withRouter
-export default class ProjectLoader extends LoaderComponent<{global?: GlobalStore} & RouteProps<R>, States> {
+export default class ProjectLoader extends LoaderComponent<Props, States> {
     prepare() {
         return api.projects.get(this.props.match.params.project)
             .then(project => {
                 this.setState({project})
                 this.props.global.setProject(project)
             })
+    }
+
+    componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<States>, snapshot: SS) {
+        if (prevProps.match.params.project !== this.props.match.params.project)
+            this.load()
     }
 
     componentWillUnmount() {
@@ -48,7 +55,7 @@ export default class ProjectLoader extends LoaderComponent<{global?: GlobalStore
             <Route exact path={`${path}/upload`}>
                 <UploadingPage project={project}/>
             </Route>
-            <Route exact path={`${path}/:volume`}>
+            <Route path={`${path}/:volume`}>
                 <VolumePage />
             </Route>
         </Switch>

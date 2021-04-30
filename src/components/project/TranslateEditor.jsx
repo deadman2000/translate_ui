@@ -16,7 +16,8 @@ type Props = {
     translate?: ITranslateInfo,
     activated?: boolean,
     onCancel?: () => void,
-    onSubmit?: (translate: ITranslateInfo) => void
+    onSubmit?: (translate: ITranslateInfo) => void,
+    onDeleted?: () => void
 }
 
 type States = {
@@ -162,7 +163,11 @@ export class TranslateEditor extends Component<Props, States> {
         const s = this.props.text.source
 
         api.translate.delete(s.project, s.volume, s.number)
-            .then(() => toast("Translate removed"))
+            .then(() => {
+                toast("Translate removed")
+                if (this.props.onDeleted)
+                    this.props.onDeleted()
+            })
             .finally(() => this.setState({loading: false}))
     }
 
