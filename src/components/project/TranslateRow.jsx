@@ -7,6 +7,7 @@ import {TranslateEditor} from "@/components/project/TranslateEditor";
 import MonoText from "@/components/project/MonoText";
 import type {ITranslateInfo} from "@/model/ITranslateInfo";
 import './TranslateRow.scss'
+import {Link} from "react-router-dom";
 
 type Props = {
     text: ITextsResponse
@@ -39,7 +40,8 @@ export default class TranslateRow extends Component<Props, States> {
         const t = this.props.text
         const {activated, translates} = this.state
         return <tr id={"t"+t.source.number}>
-            <td className="num">{t.source.number}</td>
+            <td className="num"><Link to={`${t.source.volume}#t${t.source.number}`}>{t.source.number}</Link></td>
+            <td>{t.source.talker}</td>
             <td className="source-text"><MonoText text={t.source.text}/></td>
             <td className="splitter">
                 <Button icon={this.state.activated ? IconNames.DOUBLE_CHEVRON_RIGHT : IconNames.CHEVRON_RIGHT}

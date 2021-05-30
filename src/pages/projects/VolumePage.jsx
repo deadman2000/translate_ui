@@ -39,12 +39,35 @@ export default class VolumePage extends LoaderComponent<Props, States> {
             })
 
         const loadTexts = volumeApi.texts()
-            .then(texts => this.setState({texts}))
+            .then(texts => {
+                this.setState({texts})
+                this.scrollToLocation()
+            })
 
         return Promise.all([loadVolume, loadTexts])
     }
 
-    componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<States>, snapshot: SS) {
+    scrollToLocation() {
+        const { hash } = window.location;
+        if (hash !== '') {
+            let retries = 0;
+            const id = hash.replace('#', '');
+            const scroll = () => {
+                retries += 0;
+                if (retries > 50) return;
+                const element = document.getElementById(id);
+                if (element) {
+                    element.className += ' hash'
+                    setTimeout(() => element.scrollIntoView(), 0);
+                } else {
+                    setTimeout(scroll, 100);
+                }
+            };
+            scroll();
+        }
+    }
+
+    componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<States>, snapshot) {
         if (prevProps.match.params.volume !== this.props.match.params.volume)
             this.load()
     }
