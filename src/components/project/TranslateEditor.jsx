@@ -119,6 +119,18 @@ export class TranslateEditor extends Component<Props, States> {
             return
         }
 
+        this.submitText(this.state.text)
+    }
+
+    submitOriginal() {
+        if (this.state.text) {
+            toast('Input field is not empty. This is miss-click?')
+            return
+        }
+        this.submitText(this.props.text.source.text)
+    }
+
+    submitText(text: string) {
         this.setState({loading: true})
         const tr = this.state.tr
         const s = this.props.text.source
@@ -128,7 +140,7 @@ export class TranslateEditor extends Component<Props, States> {
             volume: s.volume,
             number: s.number,
             translateId: tr ? tr.id : null,
-            text: this.state.text
+            text: text
         })
             .then(info => {
                 localStorage.removeItem(this.storeKey)
@@ -160,9 +172,8 @@ export class TranslateEditor extends Component<Props, States> {
 
     delete = () => {
         this.setState({loading: true})
-        const s = this.props.text.source
 
-        api.translate.delete(s.project, s.volume, s.number)
+        api.translate.delete(this.state.tr.id)
             .then(() => {
                 toast("Translate removed")
                 if (this.props.onDeleted)

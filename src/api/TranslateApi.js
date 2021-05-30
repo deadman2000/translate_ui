@@ -20,8 +20,8 @@ export class TranslateApi {
         return this.api.post(baseUrl, request)
     }
 
-    delete(project: string, volume: string, number: number): Promise {
-        return this.api.delete(`${baseUrl}/${project}/${volume}/${number}`)
+    delete(id: string): Promise {
+        return this.api.delete(`${baseUrl}/${id}`)
     }
 
     history(id: string): Promise<ITranslateInfo[]> {

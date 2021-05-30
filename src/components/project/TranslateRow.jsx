@@ -42,14 +42,21 @@ export default class TranslateRow extends Component<Props, States> {
             <td className="num">{t.source.number}</td>
             <td className="source-text"><MonoText text={t.source.text}/></td>
             <td className="splitter">
-                <Button icon={IconNames.CHEVRON_RIGHT}
+                <Button icon={this.state.activated ? IconNames.DOUBLE_CHEVRON_RIGHT : IconNames.CHEVRON_RIGHT}
                         minimal fill
-                        onClick={() => this.setState({activated: true})}
+                        onClick={() => {
+                            if (this.state.activated) {
+                                this.editor.submitOriginal()
+                            } else {
+                                this.setState({activated: true})
+                            }
+                        }}
                 />
             </td>
             <td className="translate-text">
                 {activated &&
                     <TranslateEditor text={t}
+                                     ref={el => this.editor = el}
                                      activated={true}
                                      onCancel={() => this.setState({activated: false})}
                                      onSubmit={this.newSubmitted}
@@ -73,7 +80,7 @@ export default class TranslateRow extends Component<Props, States> {
         list.push(info)
         if (translates)
             list.push(...translates)
-        console.log(list)
+
         this.setState({
             translates: list,
             activated: false
