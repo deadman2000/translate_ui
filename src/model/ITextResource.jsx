@@ -5,5 +5,7 @@ export type ITextResource = {
     number: number,
     text: string,
     talker?: number,
+    verb?: number,
+    noun?: string[],
     letters: number,
 }

@@ -14,6 +14,7 @@ class ReindexButton extends Component<{project: IProject}> {
     state = {
         loading: false
     }
+
     render() {
         return <Button icon={IconNames.REFRESH}
                        text="Reindex"
@@ -30,6 +31,20 @@ class ReindexButton extends Component<{project: IProject}> {
     }
 }
 
+class DeleteButton extends Component<{project: IProject}> {
+    render() {
+        return <Button icon={IconNames.TRASH}
+                       text="Delete"
+                       onClick={this.handleClick} />;
+    }
+
+    handleClick = () => {
+        api.project(this.props.project.code)
+            .delete()
+            .then(() => location.reload())
+    }
+}
+
 export default class ProjectViewPage extends Component<{project: IProject}> {
     render() {
         const {project} = this.props
@@ -39,6 +54,7 @@ export default class ProjectViewPage extends Component<{project: IProject}> {
         return <div>
             <Container>
                 <ReindexButton project={project}/>
+                <DeleteButton project={project}/>
             </Container>
             <VolumesList project={project}/>
         </div>

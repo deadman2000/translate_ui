@@ -1,13 +1,15 @@
 import React, {Component} from "react";
+import {Link} from "react-router-dom";
 import {Button} from "@blueprintjs/core";
 import {IconNames} from "@blueprintjs/icons";
 
 import type {ITextsResponse} from "@/model/ITextsResponse";
+import type {ITranslateInfo} from "@/model/ITranslateInfo";
 import {TranslateEditor} from "@/components/project/TranslateEditor";
 import MonoText from "@/components/project/MonoText";
-import type {ITranslateInfo} from "@/model/ITranslateInfo";
+import DialogInfo from "@/components/project/DialogInfo";
+
 import './TranslateRow.scss'
-import {Link} from "react-router-dom";
 
 type Props = {
     text: ITextsResponse
@@ -41,7 +43,7 @@ export default class TranslateRow extends Component<Props, States> {
         const {activated, translates} = this.state
         return <tr id={"t"+t.source.number}>
             <td className="num"><Link to={`${t.source.volume}#t${t.source.number}`}>{t.source.number}</Link></td>
-            <td>{t.source.talker}</td>
+            <td><DialogInfo text={t.source} /></td>
             <td className="source-text"><MonoText text={t.source.text}/></td>
             <td className="splitter">
                 <Button icon={this.state.activated ? IconNames.DOUBLE_CHEVRON_RIGHT : IconNames.CHEVRON_RIGHT}

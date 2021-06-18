@@ -20,7 +20,7 @@ export class ProjectsApi {
         return this.api.post(`${baseUrl}/create`, {name, code})
     }
 
-    upload(projectId: string, file: File, onUploadProgress) {
-        return this.api.upload(`${baseUrl}/${projectId}/upload`, file, onUploadProgress)
+    upload(code: string, file: File, onUploadProgress) {
+        return this.api.upload(`${baseUrl}/${code}/upload`, file, onUploadProgress)
     }
 }

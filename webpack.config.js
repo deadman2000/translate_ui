@@ -25,6 +25,11 @@ module.exports = {
                 target: IS_LOCAL ? 'http://localhost:5000/' : `https://${REMOTE_HOST}/`,
                 secure: false,
                 changeOrigin: true
+            },
+            '/resources': {
+                target: IS_LOCAL ? 'http://localhost:5000/' : `https://${REMOTE_HOST}/`,
+                secure: false,
+                changeOrigin: true
             }
         },
     },

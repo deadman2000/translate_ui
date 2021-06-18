@@ -24,4 +24,8 @@ export class ProjectApi {
     reindex() {
         return this.api.post(`${this.baseUrl}/reindex`)
     }
+
+    delete() {
+        return this.api.delete(this.baseUrl)
+    }
 }
