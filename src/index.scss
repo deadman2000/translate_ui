@@ -8,3 +8,7 @@
 body {
   background-color: $pt-app-background-color;
 }
+
+.buttons-container > * {
+  margin-right: 6px;
+}

@@ -1,11 +1,24 @@
 import React from "react"
+import { Tooltip2 } from "@blueprintjs/popover2"
 
 import type {ITextResource} from "@/model/ITextResource";
 
-export default function DialogInfo({text}: {text: ITextResource}) {
-    if (text.noun) {
-        return <>{text.noun.map(n => <img src={'/' + n} alt="noun" />)}</>
-    }
+function DialogInfoTooltip({text}: {text: ITextResource}) {
+    return <>
+        <div>Talker: {text.talker}</div>
+        <div>Verb: {text.verb}</div>
+        {text.noun && text.noun.map(n => <div key={n}><img src={'/' + n} alt="noun" /></div>)}
+    </>
+}
 
-    return <>{text.talker}</>
+export default function DialogInfo({text}: {text: ITextResource}) {
+    return (
+        <Tooltip2 content={<DialogInfoTooltip text={text} />}
+                  openOnTargetFocus={false}
+                  placement="right"
+                  usePortal={false}
+        >
+            {text.talker}
+        </Tooltip2>
+    )
 }

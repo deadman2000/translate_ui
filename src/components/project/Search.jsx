@@ -23,7 +23,7 @@ class SearchResult extends Component<Props> {
 
         if (!result.length)
             return <Container>
-                <Row><Col>No results.</Col></Row>
+                <Row><Col><p>No results.</p></Col></Row>
             </Container>
 
         return <Table striped className="search-result">

@@ -10,6 +10,8 @@ import type {IVolume} from "@/model/IVolume";
 import type {RouteProps} from "@/types/RouteProps";
 import LoaderComponent from "@/components/LoaderComponent";
 import {formatDateTime, fromNow} from "@/Utils";
+import {inject, observer} from "mobx-react";
+import {GlobalStore} from "@/stores/GlobalStore";
 
 type States = {
     volumes: IVolume[]
@@ -36,19 +38,22 @@ class VolumeRow extends Component<{volume: IVolume, baseUrl: string}> {
 }
 
 @withRouter
-export default class VolumesList extends LoaderComponent<{project: IProject} & RouteProps, States> {
+@inject("global")
+@observer
+export default class VolumesList extends LoaderComponent<{project: IProject, global?: GlobalStore} & RouteProps, States> {
     prepare(): Promise {
         return api.project(this.props.project.code).volumes()
             .then(volumes => this.setState({volumes}))
     }
 
     successRender() {
+        const showCompleted = this.props.global.showCompletedVolumes
         return <>
-            <Container>
+            <Container className="pt-2">
                 <H2>Volumes</H2>
                 <Table striped bordered>
                     <tbody>
-                        {this.state.volumes.map(v => <VolumeRow key={v.name} volume={v} baseUrl={this.props.match.url} />)}
+                        {this.state.volumes.map(v => (showCompleted || v.translatedTexts !== v.texts) && <VolumeRow key={v.name} volume={v} baseUrl={this.props.match.url} />)}
                     </tbody>
                 </Table>
             </Container>
