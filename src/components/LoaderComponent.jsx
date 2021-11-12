@@ -23,7 +23,9 @@ export default class LoaderComponent<P={},S={}> extends Component<P,S & States> 
                 console.error(e)
                 this.setState({error: true})
             })
-            .finally(() => this.setState({loading: false}))
+            .finally(() => {
+                this.setState({loading: false})
+            })
     }
 
     prepare(): Promise {

@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
 import {Container} from "react-bootstrap";
-import {Button, Intent, Switch} from "@blueprintjs/core";
+import {Button, Intent} from "@blueprintjs/core";
 import {IconNames} from "@blueprintjs/icons";
 
 import api from "@/api/Api";
@@ -9,8 +9,6 @@ import {ProjectStatus} from "@/enum";
 import type {IProject} from "@/model/IProject";
 import VolumesList from "@/components/project/VolumesList";
 import {toast, toaster} from "@/components/AppToaster";
-import {GlobalStore} from "@/stores/GlobalStore";
-import {inject, observer} from "mobx-react";
 
 class ReindexButton extends Component<{project: IProject}> {
     state = {
@@ -57,23 +55,18 @@ class DeleteButton extends Component<{project: IProject}> {
     }
 }
 
-@inject("global")
-@observer
-export default class ProjectViewPage extends Component<{project: IProject, global?: GlobalStore}> {
+export default class ProjectViewPage extends Component<{project: IProject}> {
     render() {
-        const {project, global} = this.props
+        const {project} = this.props
         if (project.status === ProjectStatus.NEW)
             return <Redirect to={`/projects/${project.code}/upload`} />
 
         return <div>
-            <Container className="pt-4 buttons-container">
-                <ReindexButton project={project}/>
-                <DeleteButton project={project}/>
-                <Switch inline label="Show completed" checked={global.showCompletedVolumes}
-                        onChange={() => {
-                            global.setVisibleCompletedVolumes(!global.showCompletedVolumes)
-                        }}
-                />
+            <Container className="pt-4">
+                <div className="buttons-container">
+                    <ReindexButton project={project}/>
+                    <DeleteButton project={project}/>
+                </div>
             </Container>
             <VolumesList project={project}/>
         </div>

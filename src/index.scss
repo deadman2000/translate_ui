@@ -12,3 +12,13 @@ body {
 .buttons-container > * {
   margin-right: 6px;
 }
+
+.min-width {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.max-width {
+  width: 99%;
+  white-space: nowrap;
+}

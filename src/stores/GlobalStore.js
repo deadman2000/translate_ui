@@ -9,7 +9,6 @@ export class GlobalStore {
     @observable volume: IVolume = {}
     @observable info: IMyInfo = {}
     @observable currentHistory: ITranslateInfo[] = []
-    @observable showCompletedVolumes = true
 
     constructor() {
         makeObservable(this)
@@ -39,11 +38,6 @@ export class GlobalStore {
     @action
     hideHistory() {
         this.currentHistory = []
-    }
-
-    @action
-    setVisibleCompletedVolumes(value: boolean) {
-        this.showCompletedVolumes = value
     }
 }
 
