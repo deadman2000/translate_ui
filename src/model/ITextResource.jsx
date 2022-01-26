@@ -8,4 +8,5 @@ export type ITextResource = {
     verb?: number,
     noun?: string[],
     letters: number,
+    translateApproved: boolean,
 }

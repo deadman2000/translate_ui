@@ -27,4 +27,8 @@ export class TranslateApi {
     history(id: string): Promise<ITranslateInfo[]> {
         return this.api.get(`${baseUrl}/${id}/history`)
     }
+
+    approve(id: string, approved: boolean): Promise {
+        return this.api.post(`${baseUrl}/${id}/approve`, {approved})
+    }
 }

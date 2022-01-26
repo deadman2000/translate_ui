@@ -1,19 +1,23 @@
 .text-table {
-  .num {
+  .col-num {
     width: 40px;
   }
 
-  .source-text {
+  .col-dialog {
+    width: 40px;
+  }
+
+  .col-source-text {
     padding: 8px 4px !important;
   }
 
-  .splitter {
+  .col-splitter {
     padding: 0;
     width: 0;
     vertical-align: top;
   }
 
-  .translate-text {
+  .col-translate-text {
     padding: 8px !important;
     width: 50%;
 
@@ -37,6 +41,10 @@
     .bp3-button {
       margin-right: 8px;
     }
+  }
+
+  .col-approve {
+    width: 56px;
   }
 
   .hash {

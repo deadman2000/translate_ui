@@ -8,4 +8,6 @@ export type IVolume = {
     lastSubmit: string,
     translatedTexts: number,
     translatedLetters: number,
+    approvedLetters: number,
+    approvedTexts: number,
 }

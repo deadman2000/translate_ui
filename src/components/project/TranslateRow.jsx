@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
-import {Button} from "@blueprintjs/core";
+import {Button, Intent} from "@blueprintjs/core";
 import {IconNames} from "@blueprintjs/icons";
 
 import type {ITextsResponse} from "@/model/ITextsResponse";
@@ -10,6 +10,7 @@ import MonoText from "@/components/project/MonoText";
 import DialogInfo from "@/components/project/DialogInfo";
 
 import './TranslateRow.scss'
+import api from "@/api/Api";
 
 type Props = {
     text: ITextsResponse
@@ -17,7 +18,8 @@ type Props = {
 
 type States = {
     activated: boolean,
-    translates: ITranslateInfo[]
+    translates: ITranslateInfo[],
+    approvedByMe: boolean,
 }
 
 export default class TranslateRow extends Component<Props, States> {
@@ -40,12 +42,14 @@ export default class TranslateRow extends Component<Props, States> {
 
     render() {
         const t = this.props.text
-        const {activated, translates} = this.state
+        const {activated, translates, approvedByMe} = this.state
+        const approved = approvedByMe !== undefined ? approvedByMe : t.source.translateApproved
+
         return <tr id={"t"+t.source.number}>
-            <td className="num"><Link to={`${t.source.volume}#t${t.source.number}`}>{t.source.number}</Link></td>
-            <td><DialogInfo text={t.source} /></td>
-            <td className="source-text"><MonoText text={t.source.text}/></td>
-            <td className="splitter">
+            <td className="col-num"><Link to={`${t.source.volume}#t${t.source.number}`}>{t.source.number}</Link></td>
+            <td className="col-dialog"><DialogInfo text={t.source} /></td>
+            <td className="col-source-text"><MonoText text={t.source.text}/></td>
+            <td className="col-splitter">
                 <Button icon={this.state.activated ? IconNames.DOUBLE_CHEVRON_RIGHT : IconNames.CHEVRON_RIGHT}
                         minimal fill
                         onClick={() => {
@@ -57,7 +61,7 @@ export default class TranslateRow extends Component<Props, States> {
                         }}
                 />
             </td>
-            <td className="translate-text">
+            <td className="col-translate-text">
                 {activated &&
                     <TranslateEditor text={t}
                                      ref={el => this.editor = el}
@@ -73,6 +77,16 @@ export default class TranslateRow extends Component<Props, States> {
                                      onDeleted={() => this.removeTranslate(tr)}
                     />
                 ))}
+            </td>
+            <td className="col-approve">
+                {translates &&
+                    <Button
+                        icon={approved ? IconNames.TICK_CIRCLE : IconNames.TICK}
+                        intent={approved ? Intent.SUCCESS : Intent.NONE}
+                        minimal
+                        onClick={this.approveClick}
+                    />
+                }
             </td>
         </tr>
     }
@@ -98,5 +112,14 @@ export default class TranslateRow extends Component<Props, States> {
             translates.splice(ind, 1)
             this.setState({translates})
         }
+    }
+
+    approveClick = () => {
+        const {approvedByMe, translates} = this.state
+        if (!translates) return
+        const approved = !(approvedByMe !== undefined ? approvedByMe : this.props.text.source.translateApproved)
+
+        api.translate.approve(translates[0].id, approved)
+            .then(() => this.setState({approvedByMe: approved}))
     }
 }

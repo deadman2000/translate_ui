@@ -8,4 +8,6 @@ export type IProject = {
     lastSubmit: string,
     translatedLetters: number,
     translatedTexts: number,
+    approvedLetters: number,
+    approvedTexts: number,
 }
