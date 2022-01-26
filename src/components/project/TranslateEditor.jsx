@@ -26,6 +26,7 @@ type States = {
     stored: boolean,
     activated: boolean,
     tr: ITranslateInfo,
+    deletePressed: boolean,
 }
 
 @inject("global")
@@ -46,7 +47,8 @@ export class TranslateEditor extends Component<Props, States> {
             loading: false,
             stored: !!stored,
             activated: false,
-            tr: tr
+            tr: tr,
+            deletePressed: false,
         }
     }
 
@@ -70,9 +72,9 @@ export class TranslateEditor extends Component<Props, States> {
                             onClick={this.cancel}/>
                     {this.props.translate && <>
                     <Button intent={Intent.DANGER}
-                            onClick={this.delete}
+                            onClick={this.deleteClick}
                             loading={this.state.loading}
-                            text="Delete"/>
+                            text={this.state.deletePressed ? "Sure?" : "Delete"}/>
                     <Button icon={IconNames.HISTORY} minimal
                             onClick={this.openHistory} />
                     </>}
@@ -170,7 +172,15 @@ export class TranslateEditor extends Component<Props, States> {
             this.props.onCancel()
     }
 
-    delete = () => {
+    deleteClick = () => {
+        if (this.state.deletePressed) {
+            this.delete()
+        } else {
+            this.setState({deletePressed: true})
+        }
+    }
+
+    delete() {
         this.setState({loading: true})
 
         api.translate.delete(this.state.tr.id)
