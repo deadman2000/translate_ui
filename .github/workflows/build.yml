@@ -24,9 +24,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags:
-            - ${{ secrets.DOCKERHUB_USERNAME }}/translate_ui:amd64
-            - ${{ secrets.DOCKERHUB_USERNAME }}/translate_ui:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/translate_ui:amd64,${{ secrets.DOCKERHUB_USERNAME }}/translate_ui:latest
 
   build_arm:
     runs-on: [self-hosted, linux, arm64]
@@ -45,6 +43,4 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags:
-            - ${{ secrets.DOCKERHUB_USERNAME }}/translate_ui:arm
-            - ${{ secrets.DOCKERHUB_USERNAME }}/translate_ui:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/translate_ui:arm,${{ secrets.DOCKERHUB_USERNAME }}/translate_ui:latest
