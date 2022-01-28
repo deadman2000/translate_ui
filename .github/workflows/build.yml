@@ -15,7 +15,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
       - name: Login to DockerHub
-        uses: docker/login-action@v1 
+        uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -24,4 +24,27 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/translate_ui:latest
+          tags:
+            - ${{ secrets.DOCKERHUB_USERNAME }}/translate_ui:amd64
+            - ${{ secrets.DOCKERHUB_USERNAME }}/translate_ui:latest
+
+  build_arm:
+    runs-on: [self-hosted, linux, arm64]
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags:
+            - ${{ secrets.DOCKERHUB_USERNAME }}/translate_ui:arm
+            - ${{ secrets.DOCKERHUB_USERNAME }}/translate_ui:latest
