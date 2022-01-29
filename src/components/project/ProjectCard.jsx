@@ -6,12 +6,41 @@ import {Col, Container, Row} from "react-bootstrap";
 
 import type {RouteProps} from "@/types/RouteProps";
 import type {IProject} from "@/model/IProject";
+import {ProjectStatus} from "@/enum";
 
+function getStatusDescription(status: number) {
+    switch (status) {
+        case ProjectStatus.NEW: return "New"
+        case ProjectStatus.PROCESSING: return "Processing..."
+        case ProjectStatus.ERROR: return "Error"
+    }
+}
+
+function ProjectCardStatus({project}: {project: IProject}) {
+    return <div className="project-card col-xs-12 col-sm-6 col-md-6 col-lg-4">
+        <Card elevation={2}>
+            <Container fluid>
+                <Row>
+                    <Col>
+                        <Icon icon={IconNames.PROJECTS} intent={Intent.PRIMARY}/> {project.name}
+                    </Col>
+                    <Col>
+                        {getStatusDescription(project.status)}
+                    </Col>
+                </Row>
+            </Container>
+        </Card>
+    </div>
+}
 
 @withRouter
 export default class ProjectCard extends Component<{project: IProject} & RouteProps> {
     render() {
         const {project} = this.props
+
+        if (project.status !== ProjectStatus.WORKING && project.status !== ProjectStatus.COMPLETED) {
+            return <ProjectCardStatus project={project} />
+        }
 
         const prTranslated = project.translatedLetters / project.letters
         const prTranslatedP = Math.round(prTranslated * 100)
