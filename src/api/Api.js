@@ -5,6 +5,7 @@ import {UsersApi} from "@/api/UsersApi";
 import {ProjectApi} from "@/api/ProjectApi";
 import {TranslateApi} from "@/api/TranslateApi";
 import {SearchApi} from "@/api/SearchApi";
+import {CommentsApi} from "@/api/CommentsApi";
 
 function dataExtract(e) {
     return e.data
@@ -23,6 +24,7 @@ export class Api {
         this.users = new UsersApi(this)
         this.translate = new TranslateApi(this)
         this.search = new SearchApi(this)
+        this.comments = new CommentsApi(this)
     }
 
     get(url: string) {

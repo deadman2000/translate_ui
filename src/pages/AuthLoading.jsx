@@ -10,7 +10,7 @@ import {IconNames} from "@blueprintjs/icons";
 type States = {
     info: IMyInfo,
     loading: boolean,
-    logined: boolean,
+    loggedIn: boolean,
     error: boolean,
 }
 export default class AuthLoading extends Component<{}, States> {
@@ -26,13 +26,13 @@ export default class AuthLoading extends Component<{}, States> {
         api.users.me()
             .then(info => {
                 this.setState({
-                    logined: true,
+                    loggedIn: true,
                     info
                 })
             })
             .catch(e => {
                 if (e.response.status === 401) {
-                    this.setState({logined: false})
+                    this.setState({loggedIn: false})
                     return
                 }
                 this.setState({error: true})
@@ -52,7 +52,7 @@ export default class AuthLoading extends Component<{}, States> {
                 </Card>
             </div>
 
-        if (this.state.logined)
+        if (this.state.loggedIn)
             return <Logined user={this.state.info} />
         else
             return <Login />
