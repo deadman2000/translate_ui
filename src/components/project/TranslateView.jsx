@@ -1,15 +1,15 @@
-import React, {Component, MouseEventHandler} from "react";
+import api from "@/api/Api";
+import {CommentItem} from "@/components/project/CommentItem";
+import MonoText from "@/components/project/MonoText";
+import type {IComment} from "@/model/IComment";
 
 import type {ITranslateInfo} from "@/model/ITranslateInfo";
 import {formatDateTime} from "@/Utils";
-import MonoText from "@/components/project/MonoText";
-import {Button, Intent, TextArea} from "@blueprintjs/core";
+import {Button, TextArea} from "@blueprintjs/core";
 import {IconNames} from "@blueprintjs/icons";
-import api from "@/api/Api";
-import type {IComment} from "@/model/IComment";
+import React, {Component, MouseEventHandler} from "react";
 
 import './TranslateView.scss'
-import globalStore from "@/stores/GlobalStore";
 
 type Props = {
     translate: ITranslateInfo,
@@ -20,37 +20,6 @@ type States = {
     showComments: boolean,
     comment: string,
     comments: IComment[]
-}
-
-class CommentItem extends Component<{comment: IComment, onDeleted: (comment: IComment) => void}> {
-    state = {
-        deleteConfirm: false
-    }
-
-    render() {
-        const {comment} = this.props
-        return <div>
-            <div>{comment.text}</div>
-            <div className="sign">{comment.author} {formatDateTime(comment.dateCreate)} {comment.author === globalStore.info.login && (
-                <Button icon={IconNames.TRASH} minimal small
-                        intent={this.state.deleteConfirm ? Intent.DANGER : Intent.NONE}
-                        text={this.state.deleteConfirm ? 'Sure?' : ''}
-                        onClick={this.deleteComment}
-                />)}</div>
-        </div>
-    }
-
-    deleteComment = () => {
-        if (!this.state.deleteConfirm) {
-            this.setState({deleteConfirm: true})
-            return
-        }
-
-        api.comments.delete(this.props.comment.id)
-            .then(() => {
-                this.props.onDeleted(this.props.comment)
-            })
-    }
 }
 
 export class TranslateView extends Component<Props, States> {
