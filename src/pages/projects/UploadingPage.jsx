@@ -1,3 +1,4 @@
+import DeleteButton from "@/components/project/DeleteButton";
 import React, {Component} from "react";
 import {withRouter} from "react-router-dom";
 import {Button, Container, Jumbotron} from "react-bootstrap";
@@ -34,9 +35,13 @@ export default class UploadingPage extends Component<{project: IProject} & Route
                                text={file ? file.name : "Choose file..."}
                                onInputChange={this.selectFile} />
                     {uploading && <ProgressBar value={this.state.progress} intent={Intent.PRIMARY} />}
+
+                    <Button onClick={this.upload} disabled={!this.state.file}>UPLOAD</Button>
                 </FormGroup>
 
-                <Button onClick={this.upload} disabled={!this.state.file}>UPLOAD</Button>
+                <div>
+                    <DeleteButton project={project} />
+                </div>
             </Jumbotron>
         </Container>
     }

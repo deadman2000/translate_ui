@@ -1,7 +1,20 @@
 import React, {Component} from "react";
-import {Link, withRouter} from "react-router-dom";
+import {Link, Route, Switch, withRouter} from "react-router-dom";
 import {inject, observer} from "mobx-react";
-import {Alignment, Breadcrumb, Breadcrumbs, Button, Icon, Menu, MenuItem, Navbar, Position} from "@blueprintjs/core";
+import {
+    Alignment,
+    Breadcrumb,
+    Breadcrumbs,
+    BreadcrumbProps,
+    Button,
+    Icon,
+    Menu,
+    MenuItem,
+    Navbar,
+    Position, Tab,
+    Tabs,
+    TabId
+} from "@blueprintjs/core";
 import {IconNames} from "@blueprintjs/icons";
 import {Popover2} from "@blueprintjs/popover2";
 
@@ -9,7 +22,6 @@ import api from "@/api/Api";
 import type {RouteProps} from "@/types/RouteProps";
 import {GlobalStore} from "@/stores/GlobalStore";
 import Search from "@/components/project/Search";
-import {IBreadcrumbProps} from "@blueprintjs/core";
 
 
 function breadcrumbRenderer({ text, href, icon }: IBreadcrumbProps) {
@@ -18,10 +30,38 @@ function breadcrumbRenderer({ text, href, icon }: IBreadcrumbProps) {
     return <Breadcrumb text={text} icon={icon}/>
 }
 
+type R = {
+    project: string,
+    tabid: string
+}
+
+@withRouter
+class ProjectTabs extends Component<{} & RouteProps<R>> {
+    render() {
+        return (
+            <Navbar.Group align={Alignment.LEFT} style={{marginLeft: 16}}>
+                <Tabs id="navbar" animate large
+                      onChange={this.projectTabChanged}
+                      selectedTabId={this.props.match.params.tabid}
+                >
+                    <Tab id="volumes" title="Volumes"/>
+                    <Tab id="patches" title="Patches"/>
+                    <Tab id="download" title="Download"/>
+                </Tabs>
+            </Navbar.Group>
+        )
+    }
+
+    projectTabChanged = (newTabId: TabId) => {
+        let {project} = this.props.match.params
+        this.props.history.push(`/projects/${project}/${newTabId}`)
+    }
+}
+
 @withRouter
 @inject("global")
 @observer
-export default class AppNavbar extends Component<{global?: GlobalStore} & RouteProps> {
+export default class AppNavbar extends Component<{global?: GlobalStore} & RouteProps<R>> {
     render() {
         const menu = <Menu>
             <MenuItem text="Logout" onClick={this.logout}/>
@@ -35,6 +75,11 @@ export default class AppNavbar extends Component<{global?: GlobalStore} & RouteP
                 <Navbar.Divider />
                 <Search />
             </Navbar.Group>
+            <Switch>
+                <Route path="/projects/:project/:tabid">
+                    <ProjectTabs project={this.props.global.project} />
+                </Route>
+            </Switch>
             <Navbar.Group align={Alignment.RIGHT}>
                 <Button icon={IconNames.ADD}
                         text="Create project"
@@ -48,8 +93,8 @@ export default class AppNavbar extends Component<{global?: GlobalStore} & RouteP
         </Navbar>
     }
 
-    breadcrumbs(): IBreadcrumbProps[] {
-        const list:IBreadcrumbProps[] = []
+    breadcrumbs(): BreadcrumbProps[] {
+        const list:BreadcrumbProps[] = []
         list.push({href: "/projects", icon: "folder-close", text: "Projects"})
         if (this.props.global.project.code) {
             list.push({href: `/projects/${this.props.global.project.code}`, icon: "folder-close", text: this.props.global.project.name})

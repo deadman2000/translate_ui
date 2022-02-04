@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Link, withRouter} from "react-router-dom";
 import {Container, Table} from "react-bootstrap";
-import {H2, Switch} from "@blueprintjs/core";
+import {Switch} from "@blueprintjs/core";
 import {Tooltip2} from "@blueprintjs/popover2";
 
 import api from "@/api/Api";
@@ -64,7 +64,6 @@ export default class VolumesList extends LoaderComponent<{project: IProject} & R
 
         return <>
             <Container className="pt-2">
-                <H2>Volumes</H2>
                 <div className="pt-2">
                     <Switch inline label="Show completed" checked={showCompleted}
                             onChange={() => {

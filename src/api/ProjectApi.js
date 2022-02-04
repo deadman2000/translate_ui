@@ -28,4 +28,12 @@ export class ProjectApi {
     delete() {
         return this.api.delete(this.baseUrl)
     }
+
+    patches() {
+        return this.api.get(`${this.baseUrl}/patches`)
+    }
+
+    uploadPatch(file: File, onUploadProgress) {
+        return this.api.upload(`${this.baseUrl}/patches`, file, onUploadProgress)
+    }
 }

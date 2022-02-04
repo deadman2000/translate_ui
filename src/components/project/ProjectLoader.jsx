@@ -1,21 +1,22 @@
+import api from "@/api/Api";
+import LoaderComponent from "@/components/LoaderComponent";
+import {ProjectStatus} from "@/enum";
+import type {IProject} from "@/model/IProject";
+import ProjectTabContent from "@/pages/projects/ProjectTabContent";
+import UploadingPage from "@/pages/projects/UploadingPage";
+import {GlobalStore} from "@/stores/GlobalStore";
+import type {RouteProps} from "@/types/RouteProps";
+import {inject} from "mobx-react";
 import React from "react";
 import {Redirect, Route, Switch, withRouter} from "react-router-dom";
-
-import api from "@/api/Api";
-import type {IProject} from "@/model/IProject";
-import type {RouteProps} from "@/types/RouteProps";
-import ProjectViewPage from "@/pages/projects/ProjectViewPage";
-import UploadingPage from "@/pages/projects/UploadingPage";
-import VolumePage from "@/pages/projects/VolumePage";
-import LoaderComponent from "@/components/LoaderComponent";
-import {inject} from "mobx-react";
-import {GlobalStore} from "@/stores/GlobalStore";
 
 type R = {
     project: string
 }
 
-type Props = {global?: GlobalStore} & RouteProps<R>
+type Props = {
+    global?: GlobalStore
+} & RouteProps<R>
 
 type States = {
     project: IProject
@@ -32,7 +33,7 @@ export default class ProjectLoader extends LoaderComponent<Props, States> {
             })
     }
 
-    componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<States>, snapshot: SS) {
+    componentDidUpdate(prevProps: Readonly<Props>) {
         if (prevProps.match.params.project !== this.props.match.params.project)
             this.load()
     }
@@ -48,15 +49,15 @@ export default class ProjectLoader extends LoaderComponent<Props, States> {
         if (!project)
             return <Redirect to="/projects"/>
 
+        if (project.status === ProjectStatus.NEW)
+            return <UploadingPage project={project}/>
+
         return <Switch>
             <Route exact path={path}>
-                <ProjectViewPage project={project}/>
+                <Redirect to={`${project.code}/volumes`}/>
             </Route>
-            <Route exact path={`${path}/upload`}>
-                <UploadingPage project={project}/>
-            </Route>
-            <Route path={`${path}/:volume`}>
-                <VolumePage />
+            <Route path={`${path}/:tabid`}>
+                <ProjectTabContent />
             </Route>
         </Switch>
     }

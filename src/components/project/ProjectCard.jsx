@@ -38,7 +38,7 @@ export default class ProjectCard extends Component<{project: IProject} & RoutePr
     render() {
         const {project} = this.props
 
-        if (project.status !== ProjectStatus.WORKING && project.status !== ProjectStatus.COMPLETED) {
+        if (project.status === ProjectStatus.PROCESSING || project.status === ProjectStatus.ERROR) {
             return <ProjectCardStatus project={project} />
         }
 
@@ -56,20 +56,24 @@ export default class ProjectCard extends Component<{project: IProject} & RoutePr
                         <Col>
                             <Icon icon={IconNames.PROJECTS} intent={Intent.PRIMARY}/> {project.name}
                         </Col>
-                        <Col>
-                            {prTranslatedP}% {project.translatedTexts} / {project.texts}
-                        </Col>
+                        {!!project.letters && (
+                            <Col>
+                                {prTranslatedP}% {project.translatedTexts} / {project.texts}
+                            </Col>
+                        )}
                     </Row>
-                    <Row>
-                        <Col>
-                            <div className="progress">
-                                <div className="progress-bar bg-success" role="progressbar" style={{width: prApprovedP + "%"}}>
+                    {!!project.letters && (
+                        <Row>
+                            <Col>
+                                <div className="progress">
+                                    <div className="progress-bar bg-success" role="progressbar" style={{width: prApprovedP + "%"}}>
+                                    </div>
+                                    <div className="progress-bar bg-warning" role="progressbar" style={{width: (prTranslatedP - prApprovedP)+"%"}}>
+                                    </div>
                                 </div>
-                                <div className="progress-bar bg-warning" role="progressbar" style={{width: (prTranslatedP - prApprovedP)+"%"}}>
-                                </div>
-                            </div>
-                        </Col>
-                    </Row>
+                            </Col>
+                        </Row>
+                    )}
                 </Container>
             </Card>
         </div>
