@@ -10,12 +10,22 @@ import type {ISearchResult} from "@/model/ISearchResult";
 import type {RouteProps} from "@/types/RouteProps";
 import './Search.scss'
 
+@withRouter
+class SearchResultRow extends Component<{ res: ISearchResult } & RouteProps> {
+    render() {
+        let {res, history} = this.props;
+        const link = `/projects/${res.project}/volumes/${res.volume}#t${res.number}`
+        return <tr onClick={() => history.push(link)}>
+            <td><a dangerouslySetInnerHTML={{__html: res.html}} href={link}/></td>
+        </tr>
+    }
+}
+
 type Props = {
     result: ISearchResult[],
     onClick: () => void
-} & RouteProps
+}
 
-@withRouter
 class SearchResult extends Component<Props> {
     render() {
         const {result} = this.props
@@ -27,12 +37,8 @@ class SearchResult extends Component<Props> {
             </Container>
 
         return <Table striped className="search-result">
-            <tbody>
-            {result.map(r => <tr key={r.link}
-                                 onClick={() => this.props.history.push(r.link)}
-            >
-                <td><a dangerouslySetInnerHTML={{__html: r.html}} href={r.link} onClick={this.props.onClick}/></td>
-            </tr>)}
+            <tbody onClick={this.props.onClick}>
+            {result.map(r => <SearchResultRow key={r.id} res={r}/>)}
             </tbody>
         </Table>
     }
@@ -84,9 +90,15 @@ export default class Search extends Component<{}> {
     search = () => {
         if (this.state.value) {
             api.search.query(this.state.value)
-                .then(result => this.setState({result}))
+                .then(result => this.setState({
+                    result,
+                    isOpen: true
+                }))
         } else {
-            this.setState({result: null})
+            this.setState({
+                result: null,
+                isOpen: false
+            })
         }
     }
 }
