@@ -26,7 +26,7 @@ class VolumeRow extends Component<{volume: IVolume, baseUrl: string}> {
         const prApproved = v.approvedLetters / v.letters
         const prApprovedP = Math.round(prApproved * 100)
 
-        return <tr key={v.name}>
+        return <tr>
             <td className="min-width"><Link to={`${url}/${v.code}`}>{v.name}</Link></td>
             <td className="min-width">
                 {v.lastSubmit && <Tooltip2 content={formatDateTime(v.lastSubmit)}>{fromNow(v.lastSubmit)}</Tooltip2>}

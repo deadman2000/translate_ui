@@ -1,6 +1,8 @@
 import {Api} from "./Api";
 import {VolumeApi} from "@/api/VolumeApi";
 import type {IProject} from "@/model/IProject";
+import type {IVolume} from "@/model/IVolume";
+import type {IPatch} from "@/model/IPatch";
 
 export class ProjectApi {
     constructor(api: Api, project: string) {
@@ -17,7 +19,7 @@ export class ProjectApi {
         return new VolumeApi(this, volume)
     }
 
-    volumes() {
+    volumes(): Promise<IVolume> {
         return this.api.get(`${this.baseUrl}/volumes`)
     }
 
@@ -29,11 +31,15 @@ export class ProjectApi {
         return this.api.delete(this.baseUrl)
     }
 
-    patches() {
+    patches(): Promise<IPatch> {
         return this.api.get(`${this.baseUrl}/patches`)
     }
 
     uploadPatch(file: File, onUploadProgress) {
         return this.api.upload(`${this.baseUrl}/patches`, file, onUploadProgress)
+    }
+
+    deletePatch(id: string): Promise {
+        return this.api.delete(`${this.baseUrl}/patches/${id}`)
     }
 }
