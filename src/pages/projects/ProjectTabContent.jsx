@@ -4,6 +4,7 @@ import {withRouter} from "react-router-dom";
 import PatchesPage from "@/pages/projects/patches/PatchesPage";
 import VolumesPage from "@/pages/projects/volumes/VolumesPage";
 import type {RouteProps} from "@/types/RouteProps";
+import DownloadPage from "@/pages/projects/download/DownloadPage";
 
 type R = {
     tabid: string
@@ -19,7 +20,7 @@ export default class ProjectTabContent extends React.Component<{} & RouteProps<R
             case 'patches':
                 return <PatchesPage />
             case 'download':
-                return <div>Download</div>
+                return <DownloadPage />
         }
 
         return <div/>

@@ -1,0 +1,11 @@
+@import "~@blueprintjs/core/lib/scss/variables.scss";
+
+.download-table {
+  a {
+    color: $black;
+
+    .bp3-icon {
+      color: $gray1;
+    }
+  }
+}
