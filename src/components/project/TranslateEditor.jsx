@@ -117,7 +117,10 @@ export class TranslateEditor extends Component<Props, States> {
     submit = () => {
         if (this.isRevert) {
             localStorage.removeItem(this.storeKey)
-            this.setState({stored: false})
+            this.setState({
+                stored: false,
+                activated: false
+            })
             return
         }
 
