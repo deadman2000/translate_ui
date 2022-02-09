@@ -90,10 +90,14 @@ export default class Search extends Component<{}> {
     search = () => {
         if (this.state.value) {
             api.search.query(this.state.value)
-                .then(result => this.setState({
-                    result,
-                    isOpen: true
-                }))
+                .then(response => {
+                    if (response.query === this.state.value) {
+                        this.setState({
+                            result: response.result,
+                            isOpen: true
+                        })
+                    }
+                })
         } else {
             this.setState({
                 result: null,
