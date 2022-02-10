@@ -1,8 +1,9 @@
+import DeleteConfirmButton from "@/components/DeleteConfirmButton";
 import React from "react";
 import {withRouter} from "react-router-dom";
 import {Container, Table} from "react-bootstrap";
 import {inject} from "mobx-react";
-import {Button, Intent} from "@blueprintjs/core";
+import {Button} from "@blueprintjs/core";
 import {IconNames} from "@blueprintjs/icons";
 
 import api from "@/api/Api";
@@ -13,26 +14,6 @@ import type {IPatch} from "@/model/IPatch";
 
 type States = {
     patches: IPatch[]
-}
-
-class PatchDeleteButton extends React.Component<{ project: string, patch: IPatch, onDeleted: (patch: IPatch) => void }> {
-    state = {
-        deleteConfirm: false
-    }
-
-    render() {
-        return <Button icon={this.state.deleteConfirm ? IconNames.TICK_CIRCLE : IconNames.TRASH} intent={Intent.DANGER} minimal onClick={this.onClick}/>
-    }
-
-    onClick = () => {
-        if (!this.state.deleteConfirm) {
-            this.setState({deleteConfirm: true})
-            return
-        }
-
-        api.project(this.props.project).deletePatch(this.props.patch.id)
-            .then(() => this.props.onDeleted(this.props.patch))
-    }
 }
 
 @inject("global")
@@ -58,7 +39,7 @@ export class PatchesList extends LoaderComponent<{ global?: GlobalStore } & Rout
                     <tbody>
                     {patches.map(p => <tr key={p.id}>
                         <td className="max-width"><a href={`/api/projects/${project}/patches/${p.id}`}>{p.fileName}</a></td>
-                        <td><PatchDeleteButton patch={p} project={project} onDeleted={this.deletePatch} /></td>
+                        <td><DeleteConfirmButton onConfirm={() => this.deletePatch(p)} /></td>
                     </tr>)}
                     </tbody>
                 </Table>
@@ -70,9 +51,13 @@ export class PatchesList extends LoaderComponent<{ global?: GlobalStore } & Rout
         this.props.history.push(`${this.props.match.url}/upload`)
     }
 
-    deletePatch = (patch: IPatch) => {
-        const i = this.state.patches.indexOf(patch)
-        this.state.patches.splice(i, 1)
-        this.setState({patches: this.state.patches})
+    deletePatch(patch: IPatch) {
+        const project = this.props.global.project.code
+        api.project(project).deletePatch(patch.id)
+            .then(() => {
+                const i = this.state.patches.indexOf(patch)
+                this.state.patches.splice(i, 1)
+                this.setState({patches: this.state.patches})
+            })
     }
 }

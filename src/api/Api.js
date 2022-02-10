@@ -6,6 +6,7 @@ import {ProjectApi} from "@/api/ProjectApi";
 import {TranslateApi} from "@/api/TranslateApi";
 import {SearchApi} from "@/api/SearchApi";
 import {CommentsApi} from "@/api/CommentsApi";
+import {InvitesApi} from "@/api/InvitesApi";
 
 function dataExtract(e) {
     return e.data
@@ -25,6 +26,7 @@ export class Api {
         this.translate = new TranslateApi(this)
         this.search = new SearchApi(this)
         this.comments = new CommentsApi(this)
+        this.invites = new InvitesApi(this)
     }
 
     get(url: string) {

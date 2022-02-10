@@ -2,6 +2,7 @@ import {Intent, Position, Toaster} from "@blueprintjs/core";
 
 export const toaster = Toaster.create({
     position: Position.TOP,
+    maxToasts: 3,
 });
 
 export function toastError(message: string) {

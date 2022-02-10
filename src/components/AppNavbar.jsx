@@ -64,6 +64,7 @@ class ProjectTabs extends Component<{} & RouteProps<R>> {
 export default class AppNavbar extends Component<{global?: GlobalStore} & RouteProps<R>> {
     render() {
         const menu = <Menu>
+            <MenuItem text="Invites" onClick={this.invites}/>
             <MenuItem text="Logout" onClick={this.logout}/>
         </Menu>
 
@@ -107,5 +108,9 @@ export default class AppNavbar extends Component<{global?: GlobalStore} & RouteP
     logout = () => {
         api.users.logout()
             .then(() => window.location.reload())
+    }
+
+    invites = () => {
+        this.props.history.push('/admin/invites')
     }
 }
