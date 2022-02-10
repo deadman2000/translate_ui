@@ -27,7 +27,7 @@ export class InvitesApi {
     }
 
     isValid(code: string): Promise<boolean> {
-        return this.api.get(`${baseUrl}/valid/${code}`)
+        return this.api.http.get(`${baseUrl}/valid/${code}`)
     }
 
     activate(request: IActivateRequest) {

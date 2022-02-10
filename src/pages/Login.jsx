@@ -28,7 +28,7 @@ export default class Login extends Component<{}> {
             </Tooltip>
         );
 
-        return <Card style={{width: 400}} className="login-form">
+        return <Card className="login-form">
             <form onSubmit={this.handleSubmit}>
                 <H1>Login</H1>
 
@@ -70,7 +70,7 @@ export default class Login extends Component<{}> {
         this.setState({disabled: true})
 
         api.users.auth(login, password)
-            .then(() => window.location.reload())
+            .then(() => location.reload())
             .finally(() => this.setState({disabled: false}))
 
         event.preventDefault()

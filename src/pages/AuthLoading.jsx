@@ -1,18 +1,17 @@
+import user from "@/stores/UserInfo";
 import React, {Component} from "react";
 import {Button, Card, H2, Icon, Intent, Spinner} from "@blueprintjs/core";
-
-import api from "@/api/Api";
-import type {IMyInfo} from "@/model/IMyInfo";
-import Logined from "@/pages/Logined";
-import Login from "@/pages/Login";
 import {IconNames} from "@blueprintjs/icons";
+import api from "@/api/Api";
+import AuthSwitch from "@/pages/AuthSwitch";
+import UnauthSwitch from "@/pages/UnauthSwitch";
 
 type States = {
-    info: IMyInfo,
     loading: boolean,
     loggedIn: boolean,
     error: boolean,
 }
+
 export default class AuthLoading extends Component<{}, States> {
     componentDidMount() {
         this.load()
@@ -25,9 +24,9 @@ export default class AuthLoading extends Component<{}, States> {
         })
         api.users.me()
             .then(info => {
+                user.init(info)
                 this.setState({
                     loggedIn: true,
-                    info
                 })
             })
             .catch(e => {
@@ -53,8 +52,8 @@ export default class AuthLoading extends Component<{}, States> {
             </div>
 
         if (this.state.loggedIn)
-            return <Logined user={this.state.info} />
+            return <AuthSwitch/>
         else
-            return <Login />
+            return <UnauthSwitch/>
     }
 }

@@ -48,7 +48,7 @@ export default class VolumePage extends LoaderComponent<Props, States> {
     }
 
     scrollToLocation() {
-        const { hash } = window.location;
+        const { hash } = location;
         if (hash !== '') {
             let retries = 0;
             const id = hash.replace('#', '');

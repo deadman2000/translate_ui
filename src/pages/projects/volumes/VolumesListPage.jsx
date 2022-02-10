@@ -1,3 +1,4 @@
+import user from "@/stores/UserInfo";
 import React, {Component} from "react";
 import {inject} from "mobx-react";
 import {Container} from "react-bootstrap";
@@ -13,12 +14,14 @@ export default class VolumesListPage extends Component<{ global?: GlobalStore }>
         const project = this.props.global.project;
 
         return <div>
-            <Container className="pt-4">
-                <div className="buttons-container">
-                    <ReindexButton project={project}/>
-                    <DeleteButton project={project}/>
-                </div>
-            </Container>
+            {user.isAdmin && (
+                <Container className="pt-4">
+                    <div className="buttons-container">
+                        <ReindexButton project={project}/>
+                        <DeleteButton project={project}/>
+                    </div>
+                </Container>
+            )}
             <VolumesList project={project}/>
         </div>
     }

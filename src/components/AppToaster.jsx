@@ -17,7 +17,9 @@ export function axiosToastCatch(e) {
     if (!e.response)
         toastError(e.message)
     else {
-        if (e.response.data.message)
+        if (e.response.status === 403)
+            toastError('Access denied')
+        else if (e.response.data.message)
             toastError(e.response.data.message)
         else
             toastError(e.message)

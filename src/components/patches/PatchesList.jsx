@@ -32,7 +32,7 @@ export class PatchesList extends LoaderComponent<{ global?: GlobalStore } & Rout
 
         return <>
             <Container className="pt-2">
-                <div className="buttons-container">
+                <div className="buttons-container mt-2 mb-2">
                     <Button icon={IconNames.CLOUD_UPLOAD} text="Upload" onClick={this.uploadClick}/>
                 </div>
                 <Table striped>

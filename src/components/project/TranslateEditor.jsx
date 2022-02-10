@@ -1,3 +1,4 @@
+import user from "@/stores/UserInfo";
 import React, {Component} from "react";
 import {Button, Intent, TextArea} from "@blueprintjs/core";
 import {IconNames} from "@blueprintjs/icons";
@@ -70,14 +71,16 @@ export class TranslateEditor extends Component<Props, States> {
                             intent={Intent.WARNING}
                             loading={this.state.loading}
                             onClick={this.cancel}/>
-                    {this.props.translate && <>
-                    <Button intent={Intent.DANGER}
-                            onClick={this.deleteClick}
-                            loading={this.state.loading}
-                            text={this.state.deletePressed ? "Sure?" : "Delete"}/>
-                    <Button icon={IconNames.HISTORY} minimal
-                            onClick={this.openHistory} />
-                    </>}
+                    {this.props.translate && (user.isAdmin || user.login === this.props.translate.author) && (
+                        <Button intent={Intent.DANGER}
+                                onClick={this.deleteClick}
+                                loading={this.state.loading}
+                                text={this.state.deletePressed ? "Sure?" : "Delete"}/>
+                    )}
+                    {this.props.translate && (
+                        <Button icon={IconNames.HISTORY} minimal
+                                onClick={this.openHistory} />
+                    )}
                 </div>
             </>);
 

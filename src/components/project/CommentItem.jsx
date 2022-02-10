@@ -1,6 +1,6 @@
 import api from "@/api/Api";
 import type {IComment} from "@/model/IComment";
-import globalStore from "@/stores/GlobalStore";
+import user from "@/stores/UserInfo";
 import {formatDateTime} from "@/Utils";
 import {Button, Intent} from "@blueprintjs/core";
 import {IconNames} from "@blueprintjs/icons";
@@ -15,7 +15,7 @@ export class CommentItem extends Component<{ comment: IComment, onDeleted: (comm
         const {comment} = this.props
         return <div>
             <div className="message">{comment.text}</div>
-            <div className="sign">{comment.author} {formatDateTime(comment.dateCreate)} {comment.author === globalStore.info.login && (
+            <div className="sign">{comment.author} {formatDateTime(comment.dateCreate)} {(user.isAdmin || comment.author === user.login) && (
                 <Button icon={IconNames.TRASH} minimal small
                         intent={this.state.deleteConfirm ? Intent.DANGER : Intent.NONE}
                         text={this.state.deleteConfirm ? 'Sure?' : ''}
