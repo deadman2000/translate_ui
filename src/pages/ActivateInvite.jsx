@@ -100,6 +100,10 @@ export default class ActivateInvite extends Component<RouteProps<{code: string}>
     handleSubmit = (event) => {
         const code = this.props.match.params.code
         const {login, password, passwordConfirm} = this.state
+        if (!login.trim() || !password) {
+            toastError('Fill in registration form')
+            return
+        }
 
         if (password !== passwordConfirm) {
             toastError('Password & confirmation do not match')
@@ -110,7 +114,7 @@ export default class ActivateInvite extends Component<RouteProps<{code: string}>
 
         api.invites.activate({
             code,
-            login,
+            login: login.trim(),
             password
         })
             .then(() => location.reload())

@@ -10,6 +10,7 @@ export class UserMenu extends Component<RouteProps> {
     render() {
         return <Menu>
             {user.isAdmin && (<>
+                <MenuItem text="Users" onClick={this.users}/>
                 <MenuItem text="Invites" onClick={this.invites}/>
             </>)}
             <MenuItem text="Logout" onClick={this.logout}/>
@@ -23,5 +24,9 @@ export class UserMenu extends Component<RouteProps> {
 
     invites = () => {
         this.props.history.push('/admin/invites')
+    }
+
+    users = () => {
+        this.props.history.push('/admin/users')
     }
 }

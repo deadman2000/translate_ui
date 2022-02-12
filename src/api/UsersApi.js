@@ -1,5 +1,6 @@
 import {Api} from "@/api/Api";
 import type {IMyInfo} from "@/model/IMyInfo";
+import type {IUser} from "@/model/IUser";
 
 const baseUrl = '/users'
 
@@ -19,5 +20,20 @@ export class UsersApi {
     me(): Promise<IMyInfo> {
         return this.api.http.get(`${baseUrl}/me`)
             .then(result => result.data)
+    }
+
+    list(): Promise<IUser> {
+        return this.api.get(baseUrl)
+    }
+
+    delete(id: string): Promise {
+        return this.api.delete(`${baseUrl}/${id}`)
+    }
+
+    setPassword(id: string, password: string): Promise {
+        return this.api.post(`${baseUrl}/setpassword`, {
+            userId: id,
+            password
+        })
     }
 }

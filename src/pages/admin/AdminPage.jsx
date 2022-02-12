@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Route, Switch, withRouter} from "react-router-dom";
 import type {RouteProps} from "@/types/RouteProps";
 import InvitesPage from "@/pages/admin/InvitesPage";
+import UsersPage from "@/pages/admin/UsersPage";
 
 @withRouter
 export default class AdminPage extends Component<{} & RouteProps> {
@@ -12,8 +13,11 @@ export default class AdminPage extends Component<{} & RouteProps> {
                 {/*<Route exact path={path}>*/}
                 {/*    <ProjectsListPage/>*/}
                 {/*</Route>*/}
-                <Route exact path={`${path}/invites`}>
+                <Route path={`${path}/invites`}>
                     <InvitesPage/>
+                </Route>
+                <Route path={`${path}/users`}>
+                    <UsersPage/>
                 </Route>
             </Switch>
         </div>
