@@ -18,7 +18,7 @@ type Props = {
     activated?: boolean,
     onCancel?: () => void,
     onSubmit?: (translate: ITranslateInfo) => void,
-    onDeleted?: () => void
+    onDeleted?: (translate: ITranslateInfo) => void
 }
 
 type States = {
@@ -54,6 +54,8 @@ export class TranslateEditor extends Component<Props, States> {
     }
 
     render() {
+        const {tr} = this.state
+
         if (this.props.activated || this.state.activated || this.state.stored)
             return (<>
                 <div>
@@ -71,13 +73,13 @@ export class TranslateEditor extends Component<Props, States> {
                             intent={Intent.WARNING}
                             loading={this.state.loading}
                             onClick={this.cancel}/>
-                    {this.props.translate && (user.isAdmin || user.login === this.props.translate.author) && (
+                    {tr && (user.isAdmin || user.login === tr.author) && (
                         <Button intent={Intent.DANGER}
                                 onClick={this.deleteClick}
                                 loading={this.state.loading}
                                 text={this.state.deletePressed ? "Sure?" : "Delete"}/>
                     )}
-                    {this.props.translate && (
+                    {tr && (
                         <Button icon={IconNames.HISTORY} minimal
                                 onClick={this.openHistory} />
                     )}
@@ -190,12 +192,15 @@ export class TranslateEditor extends Component<Props, States> {
         this.setState({loading: true})
 
         api.translate.delete(this.state.tr.id)
-            .then(() => {
+            .then((translate) => {
                 toast("Translate removed")
                 if (this.props.onDeleted)
-                    this.props.onDeleted()
+                    this.props.onDeleted(translate)
             })
-            .finally(() => this.setState({loading: false}))
+            .finally(() => this.setState({
+                loading: false,
+                activated: false,
+            }))
     }
 
     openHistory = () => {

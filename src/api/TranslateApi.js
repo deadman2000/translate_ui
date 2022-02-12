@@ -20,7 +20,7 @@ export class TranslateApi {
         return this.api.post(baseUrl, request)
     }
 
-    delete(id: string): Promise {
+    delete(id: string): Promise<ITranslateInfo> {
         return this.api.delete(`${baseUrl}/${id}`)
     }
 
