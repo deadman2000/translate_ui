@@ -11,6 +11,7 @@ import {GlobalStore} from "@/stores/GlobalStore";
 import type {RouteProps} from "@/types/RouteProps";
 import LoaderComponent from "@/components/LoaderComponent";
 import type {IPatch} from "@/model/IPatch";
+import {formatDateTime} from "@/Utils";
 
 type States = {
     patches: IPatch[]
@@ -38,8 +39,10 @@ export class PatchesList extends LoaderComponent<{ global?: GlobalStore } & Rout
                 <Table striped>
                     <tbody>
                     {patches.map(p => <tr key={p.id}>
-                        <td className="max-width"><a href={`/api/projects/${project}/patches/${p.id}`}>{p.fileName}</a></td>
-                        <td><DeleteConfirmButton onConfirm={() => this.deletePatch(p)} /></td>
+                        <td><a href={`/api/projects/${project}/patches/${p.id}`}>{p.fileName}</a></td>
+                        <td>{p.user}</td>
+                        <td>{formatDateTime(p.uploadDate)}</td>
+                        <td className="min-width"><DeleteConfirmButton onConfirm={() => this.deletePatch(p)} /></td>
                     </tr>)}
                     </tbody>
                 </Table>
