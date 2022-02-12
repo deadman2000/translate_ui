@@ -18,9 +18,15 @@ export class UsersApi {
     }
 
     me(): Promise<IMyInfo> {
-        return this.api.http.get(`${baseUrl}/me`)
+        return this.api.http.get(`${baseUrl}/me`) // use `http` because on dead session `api` shows toast
             .then(result => result.data)
     }
+
+    changePassword(password: string) {
+        return this.api.post(`${baseUrl}/changepassword`, {password})
+    }
+
+    // Administration
 
     list(): Promise<IUser> {
         return this.api.get(baseUrl)

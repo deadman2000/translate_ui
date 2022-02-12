@@ -7,6 +7,7 @@ export class GlobalStore {
     @observable project: IProject = {}
     @observable volume: IVolume = {}
     @observable currentHistory: ITranslateInfo[] = []
+    @observable changePasswordOpen = false
 
     constructor() {
         makeObservable(this)
@@ -31,6 +32,11 @@ export class GlobalStore {
     @action
     hideHistory() {
         this.currentHistory = []
+    }
+
+    @action
+    setChangePassword(isOpen: boolean) {
+        this.changePasswordOpen = isOpen
     }
 }
 

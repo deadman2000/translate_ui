@@ -1,20 +1,26 @@
 import React, {Component} from "react";
 import {withRouter} from "react-router-dom";
-import {Menu, MenuItem} from "@blueprintjs/core";
+import {inject} from "mobx-react";
+import { Menu, MenuItem} from "@blueprintjs/core";
 import api from "@/api/Api";
 import type {RouteProps} from "@/types/RouteProps";
 import user from "@/stores/UserInfo";
+import {GlobalStore} from "@/stores/GlobalStore";
 
 @withRouter
-export class UserMenu extends Component<RouteProps> {
+@inject("global")
+export class UserMenu extends Component<{global?: GlobalStore} & RouteProps> {
     render() {
-        return <Menu>
-            {user.isAdmin && (<>
-                <MenuItem text="Users" onClick={this.users}/>
-                <MenuItem text="Invites" onClick={this.invites}/>
-            </>)}
-            <MenuItem text="Logout" onClick={this.logout}/>
-        </Menu>
+        return <>
+            <Menu>
+                {user.isAdmin && (<>
+                    <MenuItem text="Users" onClick={this.users}/>
+                    <MenuItem text="Invites" onClick={this.invites}/>
+                </>)}
+                <MenuItem text="Change password" onClick={this.changePassword} />
+                <MenuItem text="Logout" onClick={this.logout}/>
+            </Menu>
+        </>
     }
 
     logout = () => {
@@ -28,5 +34,10 @@ export class UserMenu extends Component<RouteProps> {
 
     users = () => {
         this.props.history.push('/admin/users')
+    }
+
+
+    changePassword = () => {
+        this.props.global.setChangePassword(true)
     }
 }

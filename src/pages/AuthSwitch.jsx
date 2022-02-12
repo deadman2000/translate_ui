@@ -6,6 +6,7 @@ import globalStore from "@/stores/GlobalStore";
 import AppNavbar from "@/components/AppNavbar";
 import ProjectsRootPage from "@/pages/projects/ProjectsRootPage";
 import AdminPage from "@/pages/admin/AdminPage";
+import ChangePasswordDialog from "@/components/ChangePasswordDialog";
 
 export default class AuthSwitch extends Component<{}> {
     render() {
@@ -24,6 +25,7 @@ export default class AuthSwitch extends Component<{}> {
                             <Redirect to="/projects"/>
                         </Route>
                     </Switch>
+                    <ChangePasswordDialog />
                 </Router>
             </Provider>
         </>
