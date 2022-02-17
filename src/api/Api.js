@@ -7,6 +7,7 @@ import {TranslateApi} from "@/api/TranslateApi";
 import {SearchApi} from "@/api/SearchApi";
 import {CommentsApi} from "@/api/CommentsApi";
 import {InvitesApi} from "@/api/InvitesApi";
+import {VideoApi} from "@/api/VideoApi";
 
 function dataExtract(e) {
     return e.data
@@ -27,6 +28,7 @@ export class Api {
         this.search = new SearchApi(this)
         this.comments = new CommentsApi(this)
         this.invites = new InvitesApi(this)
+        this.video = new VideoApi(this)
     }
 
     get(url: string) {
