@@ -23,6 +23,12 @@ export class VideosTable extends React.Component<Props, State> {
         }
     }
 
+    componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot) {
+        if (this.props.videos !== prevProps.videos) {
+            this.setState({videos: this.props.videos})
+        }
+    }
+
     render() {
         return <Table>
             <tbody>
