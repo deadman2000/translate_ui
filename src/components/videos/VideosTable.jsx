@@ -35,7 +35,7 @@ export class VideosTable extends React.Component<Props, State> {
                 <td style={{minWidth: 200}}>{v.completed ?
                     <Icon icon={IconNames.TICK_CIRCLE} intent={Intent.SUCCESS}/>
                     : v.framesCount > 0 ?
-                        <ProgressBar value={v.framesProcessed / v.framesCount}/>
+                        <ProgressBar value={v.framesProcessed / v.framesCount} animate={false} intent={Intent.PRIMARY} stripes={false}/>
                         : <Icon icon={IconNames.TIME} intent={Intent.PRIMARY}/>}
                 </td>
                 <td><DeleteConfirmButton onConfirm={() => this.deleteVideo(v)}/></td>

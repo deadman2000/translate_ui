@@ -1,6 +1,6 @@
 import type {IRunner} from "@/model/IRunner";
 import {Table} from "react-bootstrap";
-import {formatDateTime} from "@/Utils";
+import {formatDateTime, fromNow} from "@/Utils";
 import React from "react";
 
 export function RunnersTable(props: { runners: IRunner[] }) {
@@ -10,6 +10,7 @@ export function RunnersTable(props: { runners: IRunner[] }) {
             <td>{r.id}</td>
             <td>{r.ip}</td>
             <td>{formatDateTime(r.lastActivity)}</td>
+            <td>{fromNow(r.lastActivity)}</td>
         </tr>)}
         </tbody>
     </Table>
