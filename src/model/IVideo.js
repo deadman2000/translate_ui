@@ -5,4 +5,5 @@ export type IVideo = {
     completed: boolean,
     framesProcessed: number,
     framesCount: number,
+    fps: number,
 }

@@ -6,6 +6,7 @@ import {Button, FormGroup, Icon, InputGroup, Intent, ProgressBar} from "@bluepri
 import {IconNames} from "@blueprintjs/icons";
 import DeleteConfirmButton from "@/components/DeleteConfirmButton";
 import type {IVideo} from "@/model/IVideo";
+import moment from "moment";
 
 type States = {
     videos: IVideo[],
@@ -67,6 +68,9 @@ export default class VideosPage extends LoaderComponent<{}, States> {
                 {this.state.videos.map(v => <tr key={v.id}>
                     <td><a href={`https://youtu.be/${v.videoId}`} target="_blank">{v.videoId}</a></td>
                     <td>{v.project}</td>
+                    <td>
+                        {!!v.framesCount && moment.utc((v.framesCount/v.fps)*1000).format('HH:mm:ss')}
+                    </td>
                     <td style={{minWidth: 200}}>{v.completed ?
                         <Icon icon={IconNames.TICK_CIRCLE} intent={Intent.SUCCESS} />
                         : v.framesCount > 0 ?
