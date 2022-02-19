@@ -1,15 +1,17 @@
 import React from "react";
 import LoaderComponent from "@/components/LoaderComponent";
 import api from "@/api/Api";
-import {Col, Container, Row, Table} from "react-bootstrap";
-import {Button, FormGroup, Icon, InputGroup, Intent, ProgressBar} from "@blueprintjs/core";
+import {Col, Container, Row} from "react-bootstrap";
+import {Button, FormGroup, InputGroup, Intent} from "@blueprintjs/core";
 import {IconNames} from "@blueprintjs/icons";
-import DeleteConfirmButton from "@/components/DeleteConfirmButton";
 import type {IVideo} from "@/model/IVideo";
-import moment from "moment";
+import type {IRunner} from "@/model/IRunner";
+import {VideosTable} from "@/components/videos/VideosTable";
+import {RunnersTable} from "@/components/videos/RunnersTable";
 
 type States = {
     videos: IVideo[],
+    runners: IRunner[],
     link: string,
     videoId: string,
     project: string,
@@ -18,12 +20,16 @@ type States = {
 const re = /(youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/
 
 export default class VideosPage extends LoaderComponent<{}, States> {
+    load() {
+        const loadVideos = api.video.list().then((videos) => this.setState({videos}))
+        const loadRunners = api.video.runners().then((runners) => this.setState({runners}))
+        return Promise.all([loadVideos, loadRunners])
+    }
+
     prepare(): Promise {
         const project = localStorage.getItem('video_last_project')
         this.setState({project})
-
-        return api.video.list()
-            .then((videos) => this.setState({videos}))
+        return this.load()
     }
 
     successRender() {
@@ -63,24 +69,8 @@ export default class VideosPage extends LoaderComponent<{}, States> {
                     </Row>
                 </Container>
             </div>
-            <Table>
-                <tbody>
-                {this.state.videos.map(v => <tr key={v.id}>
-                    <td><a href={`https://youtu.be/${v.videoId}`} target="_blank">{v.videoId}</a></td>
-                    <td>{v.project}</td>
-                    <td>
-                        {!!v.framesCount && moment.utc((v.framesCount/v.fps)*1000).format('HH:mm:ss')}
-                    </td>
-                    <td style={{minWidth: 200}}>{v.completed ?
-                        <Icon icon={IconNames.TICK_CIRCLE} intent={Intent.SUCCESS} />
-                        : v.framesCount > 0 ?
-                            <ProgressBar value={v.framesProcessed/v.framesCount} />
-                            : <Icon icon={IconNames.TIME} intent={Intent.PRIMARY} />}
-                    </td>
-                    <td><DeleteConfirmButton onConfirm={() => this.deleteVideo(v)} /></td>
-                </tr>)}
-                </tbody>
-            </Table>
+            <VideosTable videos={this.state.videos}/>
+            <RunnersTable runners={this.state.runners}/>
         </Container>
     }
 
@@ -89,15 +79,6 @@ export default class VideosPage extends LoaderComponent<{}, States> {
         const match = re.exec(link)
         const videoId = match !== null ? match[2] : ''
         this.setState({link, videoId})
-    }
-
-    deleteVideo = (video: IVideo) => {
-        api.video.delete(video)
-            .then(() => {
-                const i = this.state.videos.indexOf(video)
-                this.state.videos.splice(i, 1)
-                this.setState({videos: this.state.videos})
-            })
     }
 
     addVideo = () => {
@@ -118,7 +99,6 @@ export default class VideosPage extends LoaderComponent<{}, States> {
     }
 
     refresh = () => {
-        api.video.list()
-            .then((videos) => this.setState({videos}))
+        return this.load()
     }
 }

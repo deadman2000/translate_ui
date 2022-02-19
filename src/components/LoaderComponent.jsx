@@ -10,10 +10,10 @@ type States = {
 
 export default class LoaderComponent<P={},S={}> extends Component<P,S & States> {
     componentDidMount() {
-        this.load()
+        this._load()
     }
 
-    load() {
+    _load() {
         this.setState({
             loading: true,
             error: false
@@ -40,7 +40,7 @@ export default class LoaderComponent<P={},S={}> extends Component<P,S & States> 
             return <div className="centered">
                 <Card>
                     <H2><Icon icon={IconNames.WARNING_SIGN} intent={Intent.DANGER} iconSize={40}/> Error!</H2>
-                    <div><Button icon={IconNames.REFRESH} text="Try again" onClick={() => this.load()} minimal /></div>
+                    <div><Button icon={IconNames.REFRESH} text="Try again" onClick={() => this._load()} minimal /></div>
                 </Card>
             </div>
 
