@@ -24,11 +24,6 @@ module.exports = (env, argv) => {
                     target: argv['proxy_api'],
                     secure: false,
                     changeOrigin: true
-                },
-                '/resources': {
-                    target: argv['proxy_api'],
-                    secure: false,
-                    changeOrigin: true
                 }
             },
         },

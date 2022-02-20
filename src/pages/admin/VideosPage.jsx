@@ -70,7 +70,7 @@ export default class VideosPage extends LoaderComponent<{}, States> {
                 </Container>
             </div>
             <VideosTable videos={this.state.videos}/>
-            <RunnersTable runners={this.state.runners}/>
+            <RunnersTable runners={this.state.runners} onDelete={this.deleteRunner}/>
         </Container>
     }
 
@@ -100,5 +100,14 @@ export default class VideosPage extends LoaderComponent<{}, States> {
 
     refresh = () => {
         return this.load()
+    }
+
+    deleteRunner = (runner: IRunner) => {
+        api.video.deleteRunner(runner)
+            .then(() => {
+                const i = this.state.runners.indexOf(runner)
+                this.state.runners.splice(i, 1)
+                this.setState({runners: this.state.runners})
+            })
     }
 }

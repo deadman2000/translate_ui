@@ -15,6 +15,19 @@ type State = {
     videos: IVideo[]
 }
 
+function VideoProgress({video}: { video: IVideo }) {
+    if (video.framesCount === 0)
+        return <Icon icon={IconNames.TIME} intent={Intent.PRIMARY}/>
+
+    if (video.framesProcessed >= video.framesCount)
+        return <Icon icon={IconNames.TICK_CIRCLE} intent={Intent.SUCCESS}/>
+
+    return <ProgressBar value={video.framesProcessed / video.framesCount}
+                        animate={false}
+                        intent={Intent.PRIMARY}
+                        stripes={false}/>
+}
+
 export class VideosTable extends React.Component<Props, State> {
     constructor(props: Props) {
         super();
@@ -38,11 +51,7 @@ export class VideosTable extends React.Component<Props, State> {
                 <td>
                     {!!v.framesCount && moment.utc((v.framesCount / v.fps) * 1000).format('HH:mm:ss')}
                 </td>
-                <td style={{minWidth: 200}}>{v.completed ?
-                    <Icon icon={IconNames.TICK_CIRCLE} intent={Intent.SUCCESS}/>
-                    : v.framesCount > 0 ?
-                        <ProgressBar value={v.framesProcessed / v.framesCount} animate={false} intent={Intent.PRIMARY} stripes={false}/>
-                        : <Icon icon={IconNames.TIME} intent={Intent.PRIMARY}/>}
+                <td style={{minWidth: 200}}><VideoProgress video={v}/>
                 </td>
                 <td><DeleteConfirmButton onConfirm={() => this.deleteVideo(v)}/></td>
             </tr>)}

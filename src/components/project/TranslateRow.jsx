@@ -2,7 +2,10 @@ import React, {Component} from "react";
 import {Link} from "react-router-dom";
 import {Button, Intent} from "@blueprintjs/core";
 import {IconNames} from "@blueprintjs/icons";
+import {inject, observer} from "mobx-react";
 
+import api from "@/api/Api";
+import {GlobalStore} from "@/stores/GlobalStore";
 import type {ITextsResponse} from "@/model/ITextsResponse";
 import type {ITranslateInfo} from "@/model/ITranslateInfo";
 import {TranslateEditor} from "@/components/project/TranslateEditor";
@@ -10,10 +13,10 @@ import MonoText from "@/components/project/MonoText";
 import DialogInfo from "@/components/project/DialogInfo";
 
 import './TranslateRow.scss'
-import api from "@/api/Api";
 
 type Props = {
-    text: ITextsResponse
+    text: ITextsResponse,
+    global?: GlobalStore
 }
 
 type States = {
@@ -22,6 +25,8 @@ type States = {
     approvedByMe: boolean,
 }
 
+@inject("global")
+@observer
 export default class TranslateRow extends Component<Props, States> {
     constructor(props: Props) {
         super(props);
@@ -48,7 +53,16 @@ export default class TranslateRow extends Component<Props, States> {
         return <tr id={"t"+t.source.number}>
             <td className="col-num"><Link to={`${t.source.volume}#t${t.source.number}`}>{t.source.number}</Link></td>
             <td className="col-dialog"><DialogInfo text={t.source} /></td>
-            <td className="col-source-text"><MonoText text={t.source.text}/></td>
+            <td className="col-source-text">
+                <MonoText text={t.source.text}/>
+                {this.props.global.hints && t.refs && (<div className="videos">{t.refs.map(r => (
+                        <a href={`https://youtu.be/${r.videoId}?t=${r.t}`} target="_blank">
+                            <img src={`/api/resources/videos/${r.videoId}/${r.frame}.png`} alt="frame"/>
+                            <div className="labels">{r.rate.toFixed(2)}</div>
+                        </a>
+                    )
+                )}</div>)}
+            </td>
             <td className="col-splitter">
                 <Button icon={this.state.activated ? IconNames.DOUBLE_CHEVRON_RIGHT : IconNames.CHEVRON_RIGHT}
                         minimal fill

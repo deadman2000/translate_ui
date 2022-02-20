@@ -24,4 +24,8 @@ export class VideoApi {
     runners(): Promise<IRunner[]> {
         return this.api.get(`${baseUrl}/runners`)
     }
+
+    deleteRunner(runner: IRunner) {
+        return this.api.delete(`${baseUrl}/runner/${runner.id}`)
+    }
 }

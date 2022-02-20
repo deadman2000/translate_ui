@@ -8,9 +8,11 @@ export class GlobalStore {
     @observable volume: IVolume = {}
     @observable currentHistory: ITranslateInfo[] = []
     @observable changePasswordOpen = false
+    @observable hints = false
 
     constructor() {
         makeObservable(this)
+        this.hints = localStorage.getItem('hints') === 'on'
     }
 
     @action
@@ -37,6 +39,15 @@ export class GlobalStore {
     @action
     setChangePassword(isOpen: boolean) {
         this.changePasswordOpen = isOpen
+    }
+
+    @action
+    setHints(enabled: boolean) {
+        this.hints = enabled
+        if (enabled)
+            localStorage.setItem('hints', 'on')
+        else
+            localStorage.removeItem('hints')
     }
 }
 

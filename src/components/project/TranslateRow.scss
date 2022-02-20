@@ -51,3 +51,25 @@
     background-color: #fafad2 !important;
   }
 }
+
+.videos {
+  a {
+    position: relative;
+    display: inline-block;
+
+    img {
+      max-height: 100px;
+    }
+
+    .labels {
+      display: inline-block;
+      position: absolute;
+      right: 4px;
+      bottom: 0;
+
+      color: white;
+      font-size: smaller;
+      opacity: 90%;
+    }
+  }
+}

@@ -4,12 +4,13 @@ import {UserMenu} from "@/components/UserMenu";
 import {GlobalStore} from "@/stores/GlobalStore";
 import user from "@/stores/UserInfo";
 import type {RouteProps} from "@/types/RouteProps";
-import {Alignment, Breadcrumb, BreadcrumbProps, Breadcrumbs, Button, Icon, Navbar, Position} from "@blueprintjs/core";
+import {Alignment, Breadcrumb, Breadcrumbs, Button, IBreadcrumbProps, Icon, Navbar, Position} from "@blueprintjs/core";
 import {IconNames} from "@blueprintjs/icons";
 import {Popover2} from "@blueprintjs/popover2";
 import {inject, observer} from "mobx-react";
 import React, {Component} from "react";
 import {Link, Route, Switch, withRouter} from "react-router-dom";
+import {HintSwitch} from "@/components/HintSwitch";
 
 
 function breadcrumbRenderer({ text, href, icon }: IBreadcrumbProps) {
@@ -41,6 +42,10 @@ export default class AppNavbar extends Component<{global?: GlobalStore} & RouteP
                     <ProjectTabs project={this.props.global.project} />
                 </Route>
             </Switch>
+            <Navbar.Group align={Alignment.LEFT}>
+                <Navbar.Divider />
+                <HintSwitch />
+            </Navbar.Group>
             <Navbar.Group align={Alignment.RIGHT}>
                 {user.isAdmin && (
                     <Button icon={IconNames.ADD}
@@ -57,8 +62,8 @@ export default class AppNavbar extends Component<{global?: GlobalStore} & RouteP
         </Navbar>
     }
 
-    breadcrumbs(): BreadcrumbProps[] {
-        const list:BreadcrumbProps[] = []
+    breadcrumbs(): IBreadcrumbProps[] {
+        const list:IBreadcrumbProps[] = []
         list.push({href: "/projects", icon: "folder-close", text: "Projects"})
         if (this.props.global.project.code) {
             list.push({href: `/projects/${this.props.global.project.code}`, icon: "folder-close", text: this.props.global.project.name})
