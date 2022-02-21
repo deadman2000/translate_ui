@@ -19,7 +19,7 @@ function VideoProgress({video}: { video: IVideo }) {
     if (video.framesCount === 0)
         return <Icon icon={IconNames.TIME} intent={Intent.PRIMARY}/>
 
-    if (video.framesProcessed >= video.framesCount)
+    if (video.completed)
         return <Icon icon={IconNames.TICK_CIRCLE} intent={Intent.SUCCESS}/>
 
     return <ProgressBar value={video.framesProcessed / video.framesCount}
