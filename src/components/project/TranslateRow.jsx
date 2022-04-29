@@ -75,7 +75,7 @@ export default class TranslateRow extends Component<Props, States> {
                         }}
                 />
             </td>
-            <td className="col-translate-text">
+            <td className="col-translate-text" onDoubleClick={() => this.setState({activated: true})}>
                 {activated &&
                     <TranslateEditor text={t}
                                      ref={el => this.editor = el}

@@ -17,16 +17,20 @@ type Props = {
 }
 
 type States = {
-    showComments: boolean,
+    showEditor: boolean,
     comment: string,
     comments: IComment[]
 }
 
 export class TranslateView extends Component<Props, States> {
-    state: States = {
-        showComments: false,
-        comment: '',
-        comments: []
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {
+            showEditor: false,
+            comment: '',
+            comments: props.translate.comments,
+        }
     }
 
     render() {
@@ -34,34 +38,26 @@ export class TranslateView extends Component<Props, States> {
         return <>
             <MonoText text={tr.text} onClick={this.props.onClick}/>
             <div className="sign">{tr.author} {formatDateTime(tr.dateCreate)} <Button icon={IconNames.COMMENT} minimal small onClick={this.commentClick} /></div>
-            {this.state.showComments && (<div className="comments-block">
+            {(this.state.showEditor || !!tr.comments.length) && (<div className="comments-block">
                 {this.state.comments.map((c) => <CommentItem key={c.id} comment={c} onDeleted={this.onDeletedComment} />)}
-                <div style={{display: "flex"}}>
-                    <TextArea fill small
-                              value={this.state.comment}
-                              onChange={this.onTextChange}
-                              onKeyDown={this.commentKeyDown}
-                    />
-                    <Button icon={IconNames.SEND_MESSAGE}
-                            style={{margin: 0}} outlined
-                            onClick={this.sendComment} />
-                </div>
+                {this.state.showEditor && (
+                    <div style={{display: "flex"}}>
+                        <TextArea fill small autoFocus
+                                  value={this.state.comment}
+                                  onChange={this.onTextChange}
+                                  onKeyDown={this.commentKeyDown}
+                        />
+                        <Button icon={IconNames.SEND_MESSAGE}
+                                style={{margin: 0}} outlined
+                                onClick={this.sendComment} />
+                    </div>
+                )}
             </div>)}
         </>
     }
 
-    loadComments() {
-        api.comments.byTranslate(this.props.translate.id)
-            .then((comments) => {
-                this.setState({comments})
-            })
-    }
-
     commentClick = () => {
-        if (!this.state.showComments && !this.state.comments.length) {
-            this.loadComments()
-        }
-        this.setState({showComments: !this.state.showComments})
+        this.setState({showEditor: !this.state.showEditor})
     }
 
     onTextChange = (e) => {
@@ -77,7 +73,8 @@ export class TranslateView extends Component<Props, States> {
                 this.state.comments.push(comment)
                 this.setState({
                     comments: this.state.comments,
-                    comment: ''
+                    comment: '',
+                    showEditor: false
                 })
             })
     }

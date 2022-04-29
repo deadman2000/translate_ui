@@ -1,49 +1,20 @@
-import React, {Component} from "react";
-import {Link, withRouter} from "react-router-dom";
+import React from "react";
+import {withRouter} from "react-router-dom";
 import {Container, Table} from "react-bootstrap";
 import {Switch} from "@blueprintjs/core";
-import {Tooltip2} from "@blueprintjs/popover2";
 
 import api from "@/api/Api";
 import type {IProject} from "@/model/IProject";
 import type {IVolume} from "@/model/IVolume";
 import type {RouteProps} from "@/types/RouteProps";
 import LoaderComponent from "@/components/LoaderComponent";
-import {formatDateTime, fromNow} from "@/Utils";
+import {VolumeRow} from "@/components/project/VolumeRow";
+
+import './Volumes.scss'
 
 type States = {
     volumes: IVolume[],
     showCompleted: boolean
-}
-
-class VolumeRow extends Component<{volume: IVolume, baseUrl: string}> {
-    render() {
-        const v = this.props.volume
-        const url = this.props.baseUrl
-
-        const prTranslated = v.translatedLetters / v.letters
-        const prTranslatedP = Math.round(prTranslated * 100)
-        const prApproved = v.approvedLetters / v.letters
-        const prApprovedP = Math.round(prApproved * 100)
-
-        return <tr>
-            <td className="min-width"><Link to={`${url}/${v.code}`}>{v.name}</Link></td>
-            <td className="min-width">
-                {v.lastSubmit && <Tooltip2 content={formatDateTime(v.lastSubmit)}>{fromNow(v.lastSubmit)}</Tooltip2>}
-            </td>
-            <td className="max-width">
-                {v.translatedLetters > 0 && (
-                    <div className="progress">
-                        <div className="progress-bar bg-success" role="progressbar" style={{width: prApprovedP + "%"}}>
-                        </div>
-                        <div className="progress-bar" role="progressbar" style={{width: (prTranslatedP - prApprovedP)+"%"}}>
-                        </div>
-                    </div>
-                )}
-            </td>
-            <td className="min-width">{v.translatedTexts} / {v.texts}</td>
-        </tr>
-    }
 }
 
 @withRouter

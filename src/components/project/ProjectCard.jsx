@@ -53,12 +53,12 @@ export default class ProjectCard extends Component<{project: IProject} & RoutePr
             >
                 <Container fluid>
                     <Row>
-                        <Col>
-                            <Icon icon={IconNames.PROJECTS} intent={Intent.PRIMARY}/> {project.name}
-                        </Col>
+                        <Col><Icon icon={IconNames.PROJECTS} intent={Intent.PRIMARY}/> {project.name}</Col>
                         {!!project.letters && (
-                            <Col>
-                                {prTranslatedP}% {project.translatedTexts} / {project.texts}
+                            <Col className="project-stats">
+                                <div>Progress: {prTranslatedP}%</div>
+                                <div>Texts: {project.translatedTexts} / {project.texts}</div>
+                                <div>Letters: {project.translatedLetters} / {project.letters}</div>
                             </Col>
                         )}
                     </Row>

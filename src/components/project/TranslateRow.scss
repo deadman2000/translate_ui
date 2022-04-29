@@ -17,6 +17,10 @@
     vertical-align: top;
   }
 
+  .mono-text {
+    margin-bottom: 0;
+  }
+
   .col-translate-text {
     padding: 8px !important;
     width: 50%;
@@ -27,10 +31,6 @@
       box-shadow: none;
       background: white;
       padding: 4px;
-    }
-
-    .mono-text {
-      margin-bottom: 0;
     }
 
     .sign {

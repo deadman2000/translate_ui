@@ -20,8 +20,13 @@ export class CommentItem extends Component<{ comment: IComment, onDeleted: (comm
                         intent={this.state.deleteConfirm ? Intent.DANGER : Intent.NONE}
                         text={this.state.deleteConfirm ? 'Sure?' : ''}
                         onClick={this.deleteComment}
+                        onDoubleClick={this.stopPropagation}
                 />)}</div>
         </div>
+    }
+
+    stopPropagation = (e) => {
+        e.stopPropagation()
     }
 
     deleteComment = () => {

@@ -59,7 +59,7 @@ export class TranslateEditor extends Component<Props, States> {
         if (this.props.activated || this.state.activated || this.state.stored)
             return (<>
                 <div>
-                    <TextArea fill growVertically
+                    <TextArea fill growVertically autoFocus
                               value={this.state.text}
                               onChange={this.onTextChange}
                     />
@@ -86,8 +86,8 @@ export class TranslateEditor extends Component<Props, States> {
                 </div>
             </>);
 
-        if (this.state.tr)
-            return <TranslateView translate={this.state.tr} onClick={this.inactiveClick} />
+        if (tr)
+            return <TranslateView translate={tr} onClick={this.inactiveClick} />
 
         return <></>
     }
