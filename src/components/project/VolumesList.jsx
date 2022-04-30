@@ -34,7 +34,7 @@ export default class VolumesList extends LoaderComponent<{project: IProject} & R
         const {showCompleted, volumes} = this.state
 
         return <>
-            <Container className="pt-2">
+            <Container className="pt-2 volumes">
                 <div className="pt-2">
                     <Switch inline label="Show completed" checked={showCompleted}
                             onChange={() => {
