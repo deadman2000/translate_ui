@@ -6,6 +6,7 @@ import {inject, observer} from "mobx-react";
 
 import api from "@/api/Api";
 import {GlobalStore} from "@/stores/GlobalStore";
+import user from "@/stores/UserInfo";
 import type {ITextsResponse} from "@/model/ITextsResponse";
 import type {ITranslateInfo} from "@/model/ITranslateInfo";
 import {TranslateEditor} from "@/components/project/TranslateEditor";
@@ -93,16 +94,18 @@ export default class TranslateRow extends Component<Props, States> {
                     />
                 ))}
             </td>
-            <td className="col-approve">
-                {translates &&
-                    <Button
-                        icon={approved ? IconNames.TICK_CIRCLE : IconNames.TICK}
-                        intent={approved ? Intent.SUCCESS : Intent.NONE}
-                        minimal
-                        onClick={this.approveClick}
-                    />
-                }
-            </td>
+            {user.isAdmin && (
+                <td className="col-approve">
+                    {translates &&
+                        <Button
+                            icon={approved ? IconNames.TICK_CIRCLE : IconNames.TICK}
+                            intent={approved ? Intent.SUCCESS : Intent.NONE}
+                            minimal
+                            onClick={this.approveClick}
+                        />
+                    }
+                </td>
+            )}
         </tr>
     }
 
