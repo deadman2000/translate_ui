@@ -9,6 +9,7 @@ export class GlobalStore {
     @observable currentHistory: ITranslateInfo[] = []
     @observable changePasswordOpen = false
     @observable hints = false
+    @observable translatedLetters = 0
 
     constructor() {
         makeObservable(this)
@@ -48,6 +49,11 @@ export class GlobalStore {
             localStorage.setItem('hints', 'on')
         else
             localStorage.removeItem('hints')
+    }
+
+    @action
+    setLetters(letters: number) {
+        this.translatedLetters = letters
     }
 }
 

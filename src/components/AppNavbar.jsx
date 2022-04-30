@@ -47,6 +47,9 @@ export default class AppNavbar extends Component<{global?: GlobalStore} & RouteP
                 <HintSwitch />
             </Navbar.Group>
             <Navbar.Group align={Alignment.RIGHT}>
+                <span>
+                    Translated: {this.props.global.translatedLetters}
+                </span>
                 {user.isAdmin && (
                     <Button icon={IconNames.ADD}
                             text="Create project"

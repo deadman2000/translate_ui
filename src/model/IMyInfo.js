@@ -1,4 +1,5 @@
 export type IMyInfo = {
     login: string,
-    role: string
+    role: string,
+    letters: number,
 }
