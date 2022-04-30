@@ -56,8 +56,8 @@ export default class TranslateRow extends Component<Props, States> {
             <td className="col-source-text">
                 <MonoText text={t.source.text}/>
                 {this.props.global.hints && t.refs && (<div className="videos">{t.refs.map(r => (
-                        <a href={`https://youtu.be/${r.videoId}?t=${r.t}`} target="_blank">
-                            <img src={`/api/resources/videos/${r.videoId}/${r.frame}.png`} alt="frame"/>
+                        <a href={`https://youtu.be/${r.videoId}?t=${r.t}`} target="_blank" key={r.videoId+r.t}>
+                            <img src={`/api/resources/videos/${r.videoId}/${r.frame}.png`} alt="[]"/>
                             <div className="labels">{r.rate.toFixed(2)}</div>
                         </a>
                     )

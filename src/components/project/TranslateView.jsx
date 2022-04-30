@@ -35,11 +35,12 @@ export class TranslateView extends Component<Props, States> {
 
     render() {
         const tr = this.props.translate
+        const {comments} = this.state
         return <>
             <MonoText text={tr.text} onClick={this.props.onClick}/>
             <div className="sign">{tr.author} {formatDateTime(tr.dateCreate)} <Button icon={IconNames.COMMENT} minimal small onClick={this.commentClick} /></div>
-            {(this.state.showEditor || !!tr.comments.length) && (<div className="comments-block">
-                {this.state.comments.map((c) => <CommentItem key={c.id} comment={c} onDeleted={this.onDeletedComment} />)}
+            {(this.state.showEditor || (comments && !!comments.length)) && (<div className="comments-block">
+                {comments && comments.map((c) => <CommentItem key={c.id} comment={c} onDeleted={this.onDeletedComment} />)}
                 {this.state.showEditor && (
                     <div style={{display: "flex"}}>
                         <TextArea fill small autoFocus
