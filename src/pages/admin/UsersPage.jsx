@@ -28,6 +28,7 @@ export default class UsersPage extends LoaderComponent<{}, State>  {
                 {this.state.users.map(u => <tr key={u.id}>
                     <td>{u.login}</td>
                     <td>{u.role}</td>
+                    <td>{u.letters}</td>
                     <td><Button minimal icon={IconNames.ASTERISK} onClick={() => this.changePasswordClick(u)}/> <DeleteConfirmButton onConfirm={() => this.deleteUser(u)} /></td>
                 </tr>)}
                 </tbody>
