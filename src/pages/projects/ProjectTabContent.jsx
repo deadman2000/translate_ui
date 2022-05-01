@@ -7,22 +7,27 @@ import type {RouteProps} from "@/types/RouteProps";
 import DownloadPage from "@/pages/projects/download/DownloadPage";
 
 type R = {
-    tabid: string
+    tabid: string,
+    project: string,
+}
+
+function PageSwitch({tab}: {tab: string}) {
+    switch (tab) {
+        case 'volumes':
+            return <VolumesPage />
+        case 'patches':
+            return <PatchesPage />
+        case 'download':
+            return <DownloadPage />
+    }
+    return <div/>
 }
 
 @withRouter
 export default class ProjectTabContent extends React.Component<{} & RouteProps<R>> {
     render() {
-        const tab = this.props.match.params.tabid
-        switch (tab) {
-            case 'volumes':
-                return <VolumesPage />
-            case 'patches':
-                return <PatchesPage />
-            case 'download':
-                return <DownloadPage />
-        }
-
-        return <div/>
+        return <>
+            <PageSwitch tab={this.props.match.params.tabid} />
+        </>
     }
 }

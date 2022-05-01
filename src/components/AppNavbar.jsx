@@ -1,15 +1,15 @@
+import React, {Component} from "react";
+import {Link, Route, Switch, withRouter} from "react-router-dom";
+import {inject, observer} from "mobx-react";
+import {Alignment, Breadcrumb, Breadcrumbs, Button, IBreadcrumbProps, Icon, Navbar, Position} from "@blueprintjs/core";
+import {IconNames} from "@blueprintjs/icons";
+import {Popover2} from "@blueprintjs/popover2";
 import Search from "@/components/project/Search";
 import {ProjectTabs} from "@/components/ProjectTabs";
 import {UserMenu} from "@/components/UserMenu";
 import {GlobalStore} from "@/stores/GlobalStore";
 import user from "@/stores/UserInfo";
 import type {RouteProps} from "@/types/RouteProps";
-import {Alignment, Breadcrumb, Breadcrumbs, Button, IBreadcrumbProps, Icon, Navbar, Position} from "@blueprintjs/core";
-import {IconNames} from "@blueprintjs/icons";
-import {Popover2} from "@blueprintjs/popover2";
-import {inject, observer} from "mobx-react";
-import React, {Component} from "react";
-import {Link, Route, Switch, withRouter} from "react-router-dom";
 import {HintSwitch} from "@/components/HintSwitch";
 
 
@@ -38,7 +38,7 @@ export default class AppNavbar extends Component<{global?: GlobalStore} & RouteP
                 <Search />
             </Navbar.Group>
             <Switch>
-                <Route path="/projects/:project/:tabid">
+                <Route path="/projects/:project/:tabid" exact>
                     <ProjectTabs project={this.props.global.project} />
                 </Route>
             </Switch>
@@ -47,12 +47,8 @@ export default class AppNavbar extends Component<{global?: GlobalStore} & RouteP
                 <HintSwitch />
             </Navbar.Group>
             <Navbar.Group align={Alignment.RIGHT}>
-                <span>
-                    Translated: {this.props.global.translatedLetters}
-                </span>
                 {user.isAdmin && (
                     <Button icon={IconNames.ADD}
-                            text="Create project"
                             onClick={() => this.props.history.push('/projects/create')}
                             minimal/>
                 )}
@@ -61,6 +57,9 @@ export default class AppNavbar extends Component<{global?: GlobalStore} & RouteP
                             text={user.login}
                             minimal/>
                 </Popover2>
+            </Navbar.Group>
+            <Navbar.Group align={Alignment.RIGHT}>
+                Translated: {this.props.global.translatedLetters}
             </Navbar.Group>
         </Navbar>
     }
