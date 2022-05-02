@@ -36,6 +36,14 @@
     .sign {
       color: gray;
       font-size: 10pt;
+
+      span {
+        margin-right: 4px;
+      }
+
+      .bp3-button {
+        margin: 4px 0 0 0;
+      }
     }
 
     .bp3-button {

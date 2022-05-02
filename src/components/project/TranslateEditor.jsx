@@ -1,7 +1,6 @@
 import user from "@/stores/UserInfo";
 import React, {Component} from "react";
 import {Button, Intent, TextArea} from "@blueprintjs/core";
-import {IconNames} from "@blueprintjs/icons";
 import {inject} from "mobx-react";
 
 import api from "@/api/Api";
@@ -78,10 +77,6 @@ export class TranslateEditor extends Component<Props, States> {
                                 onClick={this.deleteClick}
                                 loading={this.state.loading}
                                 text={this.state.deletePressed ? "Sure?" : "Delete"}/>
-                    )}
-                    {tr && (
-                        <Button icon={IconNames.HISTORY} minimal
-                                onClick={this.openHistory} />
                     )}
                 </div>
             </>);
@@ -203,10 +198,5 @@ export class TranslateEditor extends Component<Props, States> {
                 loading: false,
                 activated: false,
             }))
-    }
-
-    openHistory = () => {
-        api.translate.history(this.state.tr.id)
-            .then(list => this.props.global.showHistory(list))
     }
 }

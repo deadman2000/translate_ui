@@ -1,17 +1,20 @@
+import React, {Component, MouseEventHandler} from "react";
+import {inject} from "mobx-react";
+import {Button, TextArea} from "@blueprintjs/core";
+import {IconNames} from "@blueprintjs/icons";
+
 import api from "@/api/Api";
+import {GlobalStore} from "@/stores/GlobalStore";
 import {CommentItem} from "@/components/project/CommentItem";
 import MonoText from "@/components/project/MonoText";
 import type {IComment} from "@/model/IComment";
-
 import type {ITranslateInfo} from "@/model/ITranslateInfo";
 import {formatDateTime} from "@/Utils";
-import {Button, TextArea} from "@blueprintjs/core";
-import {IconNames} from "@blueprintjs/icons";
-import React, {Component, MouseEventHandler} from "react";
 
 import './TranslateView.scss'
 
 type Props = {
+    global?: GlobalStore,
     translate: ITranslateInfo,
     onClick?: MouseEventHandler
 }
@@ -22,6 +25,7 @@ type States = {
     comments: IComment[]
 }
 
+@inject("global")
 export class TranslateView extends Component<Props, States> {
     constructor(props: Props) {
         super(props);
@@ -38,7 +42,11 @@ export class TranslateView extends Component<Props, States> {
         const {comments} = this.state
         return <>
             <MonoText text={tr.text} onClick={this.props.onClick}/>
-            <div className="sign">{tr.author} {formatDateTime(tr.dateCreate)} <Button icon={IconNames.COMMENT} minimal small onClick={this.commentClick} /></div>
+            <div className="sign">
+                <span>{tr.author} {formatDateTime(tr.dateCreate)}</span>
+                <Button icon={IconNames.COMMENT} minimal small onClick={this.commentClick} />
+                <Button icon={IconNames.HISTORY} minimal small onClick={this.openHistory} />
+            </div>
             {(this.state.showEditor || (comments && !!comments.length)) && (<div className="comments-block">
                 {comments && comments.map((c) => <CommentItem key={c.id} comment={c} onDeleted={this.onDeletedComment} />)}
                 {this.state.showEditor && (
@@ -89,5 +97,10 @@ export class TranslateView extends Component<Props, States> {
         const i = this.state.comments.indexOf(comment)
         this.state.comments.splice(i, 1)
         this.setState({comments: this.state.comments})
+    }
+
+    openHistory = () => {
+        api.translate.history(this.props.translate.id)
+            .then(list => this.props.global.showHistory(list))
     }
 }

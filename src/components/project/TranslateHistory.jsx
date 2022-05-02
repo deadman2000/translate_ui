@@ -42,7 +42,7 @@ export default class TranslateHistory extends Component<{global?: GlobalStore}> 
                                 type="chars"
                             /></pre>
                         )}
-                        <div className="sign">{t.author} {formatDateTime(t.dateCreate)}</div>
+                        <div className="sign">{t.editor || t.author} {formatDateTime(t.dateCreate)}</div>
                         <hr/>
                     </div>)}
                 </div>
