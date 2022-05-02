@@ -1,6 +1,6 @@
 import React from "react";
 import {withRouter} from "react-router-dom";
-import {inject} from "mobx-react";
+import {inject, observer} from "mobx-react";
 import {Table} from "react-bootstrap";
 
 import api from "@/api/Api";
@@ -27,6 +27,7 @@ type States = {
 
 @withRouter
 @inject("global")
+@observer
 export default class VolumePage extends LoaderComponent<Props, States> {
     prepare() {
         const {project, volume} = this.props.match.params
@@ -79,7 +80,7 @@ export default class VolumePage extends LoaderComponent<Props, States> {
     successRender() {
         return <>
             <TranslateHistory />
-            <Table striped bordered className="text-table">
+            <Table striped bordered className={"text-table " + (this.props.global.nonPrintShow ? "" : "hide-non-print")}>
                 <tbody>
                     {this.state.texts.map(t => <TranslateRow key={t.source.number} text={t} />)}
                 </tbody>

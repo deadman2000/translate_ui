@@ -11,6 +11,7 @@ import {GlobalStore} from "@/stores/GlobalStore";
 import user from "@/stores/UserInfo";
 import type {RouteProps} from "@/types/RouteProps";
 import {HintSwitch} from "@/components/HintSwitch";
+import {NonprintSwitch} from "@/components/NonprintSwitch";
 
 
 function breadcrumbRenderer({ text, href, icon }: IBreadcrumbProps) {
@@ -45,6 +46,7 @@ export default class AppNavbar extends Component<{global?: GlobalStore} & RouteP
             <Navbar.Group align={Alignment.LEFT}>
                 <Navbar.Divider />
                 <HintSwitch />
+                <NonprintSwitch />
             </Navbar.Group>
             <Navbar.Group align={Alignment.RIGHT}>
                 {user.isAdmin && (

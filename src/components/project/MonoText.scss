@@ -11,3 +11,7 @@
     position: absolute;
   }
 }
+
+.hide-non-print .mono-text span {
+  opacity: 0;
+}

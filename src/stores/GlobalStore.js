@@ -10,10 +10,12 @@ export class GlobalStore {
     @observable changePasswordOpen = false
     @observable hints = false
     @observable translatedLetters = 0
+    @observable nonPrintShow = false
 
     constructor() {
         makeObservable(this)
         this.hints = localStorage.getItem('hints') === 'on'
+        this.nonPrintShow = localStorage.getItem('non-print') === 'on'
     }
 
     @action
@@ -54,6 +56,15 @@ export class GlobalStore {
     @action
     setLetters(letters: number) {
         this.translatedLetters = letters
+    }
+
+    @action
+    setShowNonPrint(show: boolean) {
+        this.nonPrintShow = show
+        if (show)
+            localStorage.setItem('non-print', 'on')
+        else
+            localStorage.removeItem('non-print')
     }
 }
 
