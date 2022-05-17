@@ -76,7 +76,7 @@ export default class TranslateRow extends Component<Props, States> {
                         }}
                 />
             </td>
-            <td className="col-translate-text" onDoubleClick={() => this.setState({activated: true})}>
+            <td className="col-translate-text" onDoubleClick={this.doubleClickHandle}>
                 {activated &&
                     <TranslateEditor text={t}
                                      ref={el => this.editor = el}
@@ -143,5 +143,10 @@ export default class TranslateRow extends Component<Props, States> {
 
         api.translate.approve(translates[0].id, approved)
             .then(() => this.setState({approvedByMe: approved}))
+    }
+
+    doubleClickHandle = () => {
+        if (this.state.translates) return
+        this.setState({activated: true})
     }
 }

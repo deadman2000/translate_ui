@@ -61,7 +61,6 @@ export class TranslateEditor extends Component<Props, States> {
                     <TextArea fill growVertically autoFocus
                               value={this.state.text}
                               onChange={this.onTextChange}
-                              onDoubleClick={(e) => e.stopPropagation()}
                     />
                 </div>
                 <div style={{marginTop: 4}}>
