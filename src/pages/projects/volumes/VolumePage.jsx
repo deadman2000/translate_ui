@@ -70,7 +70,7 @@ export default class VolumePage extends LoaderComponent<Props, States> {
 
     componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<States>, snapshot) {
         if (prevProps.match.params.volume !== this.props.match.params.volume)
-            this.load()
+            this._load()
     }
 
     componentWillUnmount() {
