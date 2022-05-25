@@ -79,9 +79,10 @@ export class TranslateView extends Component<Props, States> {
 
         api.comments.submit({translateId: this.props.translate.id, text})
             .then((comment) => {
-                this.state.comments.push(comment)
+                const comments = this.state.comments ?? []
+                comments.push(comment)
                 this.setState({
-                    comments: this.state.comments,
+                    comments,
                     comment: '',
                     showEditor: false
                 })
