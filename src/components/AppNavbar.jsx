@@ -61,7 +61,12 @@ export default class AppNavbar extends Component<{global?: GlobalStore} & RouteP
                 </Popover2>
             </Navbar.Group>
             <Navbar.Group align={Alignment.RIGHT}>
-                Translated: {this.props.global.translatedLetters}
+                <span>Translated: {this.props.global.translatedLetters}</span>
+                <Navbar.Divider />
+                <Button icon={IconNames.COMMENT} className="btn-badge"
+                        onClick={() => this.props.history.push('/notify')}
+                        text={this.props.global.unread ? this.props.global.unread : ""}
+                        minimal/>
             </Navbar.Group>
         </Navbar>
     }

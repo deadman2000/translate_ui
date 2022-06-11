@@ -10,6 +10,7 @@ export class GlobalStore {
     @observable changePasswordOpen = false
     @observable hints = false
     @observable translatedLetters = 0
+    @observable unread = 0
     @observable nonPrintShow = false
 
     constructor() {
@@ -59,6 +60,12 @@ export class GlobalStore {
     }
 
     @action
+    setUserInfo(info) {
+        this.unread = info.unread
+        this.translatedLetters = info.letters
+    }
+
+    @action
     setShowNonPrint(show: boolean) {
         this.nonPrintShow = show
         if (show)
@@ -66,6 +73,7 @@ export class GlobalStore {
         else
             localStorage.removeItem('non-print')
     }
+
 }
 
 const globalStore = new GlobalStore()

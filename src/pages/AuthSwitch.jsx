@@ -7,6 +7,7 @@ import AppNavbar from "@/components/AppNavbar";
 import ProjectsRootPage from "@/pages/projects/ProjectsRootPage";
 import AdminPage from "@/pages/admin/AdminPage";
 import ChangePasswordDialog from "@/components/ChangePasswordDialog";
+import NotifyPage from "@/pages/NotifyPage";
 
 export default class AuthSwitch extends Component<{}> {
     render() {
@@ -20,6 +21,9 @@ export default class AuthSwitch extends Component<{}> {
                         </Route>
                         <Route path="/admin">
                             <AdminPage/>
+                        </Route>
+                        <Route path="/notify">
+                            <NotifyPage/>
                         </Route>
                         <Route path="*">
                             <Redirect to="/projects"/>

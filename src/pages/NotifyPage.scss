@@ -1,0 +1,25 @@
+@import "~@blueprintjs/core/lib/scss/variables";
+
+.notifies {
+  a, a:hover {
+    color: $pt-text-color;
+    text-decoration: none;
+  }
+
+  .sign {
+    font-style: italic;
+    color: rgba(1, 1, 1, 0.5);
+  }
+
+  .col1 {
+    width: 10%;
+  }
+
+  .read {
+    transition: background-color 500ms linear;
+  }
+
+  .notread {
+    background-color: #ddddf5;
+  }
+}

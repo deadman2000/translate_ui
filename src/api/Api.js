@@ -8,6 +8,7 @@ import {SearchApi} from "@/api/SearchApi";
 import {CommentsApi} from "@/api/CommentsApi";
 import {InvitesApi} from "@/api/InvitesApi";
 import {VideoApi} from "@/api/VideoApi";
+import {NotifyApi} from "@/api/NotifyApi";
 
 function dataExtract(e) {
     return e.data
@@ -29,6 +30,7 @@ export class Api {
         this.comments = new CommentsApi(this)
         this.invites = new InvitesApi(this)
         this.video = new VideoApi(this)
+        this.notify = new NotifyApi(this)
     }
 
     get(url: string) {
