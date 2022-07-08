@@ -42,4 +42,8 @@ export class UsersApi {
             password
         })
     }
+
+    chart(id: string): Promise {
+        return this.api.get(`${baseUrl}/${id}/chart`)
+    }
 }

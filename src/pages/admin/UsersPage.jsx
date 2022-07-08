@@ -4,7 +4,7 @@ import type {IUser} from "@/model/IUser";
 import api from "@/api/Api";
 import {Container, Table} from "react-bootstrap";
 import DeleteConfirmButton from "@/components/DeleteConfirmButton";
-import {Button, Classes, Dialog, FormGroup, InputGroup, Intent} from "@blueprintjs/core";
+import {AnchorButton, Button, Classes, Dialog, FormGroup, InputGroup, Intent} from "@blueprintjs/core";
 import {IconNames} from "@blueprintjs/icons";
 import {toast} from "@/components/AppToaster";
 
@@ -29,7 +29,11 @@ export default class UsersPage extends LoaderComponent<{}, State>  {
                     <td>{u.login}</td>
                     <td>{u.role}</td>
                     <td>{u.letters}</td>
-                    <td><Button minimal icon={IconNames.ASTERISK} onClick={() => this.changePasswordClick(u)}/> <DeleteConfirmButton onConfirm={() => this.deleteUser(u)} /></td>
+                    <td>
+                        <AnchorButton minimal icon={IconNames.CHART} href={`/admin/users/${u.id}/chart`}/>
+                        <Button minimal icon={IconNames.ASTERISK} onClick={() => this.changePasswordClick(u)}/>
+                        <DeleteConfirmButton onConfirm={() => this.deleteUser(u)} />
+                    </td>
                 </tr>)}
                 </tbody>
             </Table>
