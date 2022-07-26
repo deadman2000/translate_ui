@@ -11,6 +11,8 @@ import {GlobalStore} from "@/stores/GlobalStore";
 import LoaderComponent from "@/components/LoaderComponent";
 import TranslateRow from "@/components/project/TranslateRow";
 import TranslateHistory from "@/components/project/TranslateHistory";
+import user from "@/stores/UserInfo";
+import {EditableText} from "@blueprintjs/core";
 
 
 type R = {
@@ -23,6 +25,26 @@ type Props = {global?: GlobalStore} & RouteProps<R>
 type States = {
     volume: IVolume,
     texts: ITextsResponse[]
+}
+
+class DescriptionEditor extends React.Component<{volume: IVolume}> {
+    render(){
+        const {volume} = this.props
+        return <div className="pl-3 pr-3 pt-1 pb-1">
+            <EditableText defaultValue={volume.description}
+                          onConfirm={this.rename}
+            />
+        </div>
+    }
+
+    rename = (value) => {
+        const {volume} = this.props
+
+        api.project(volume.project)
+            .volume(volume.code)
+            .update({description: value})
+            .then()
+    }
 }
 
 @withRouter
@@ -78,8 +100,13 @@ export default class VolumePage extends LoaderComponent<Props, States> {
     }
 
     successRender() {
+        const {volume} = this.state
         return <>
             <TranslateHistory />
+            {user.isAdmin
+                ? <DescriptionEditor volume={volume} />
+                : (!!volume.description && <div className="pl-3 pr-3 pt-1 pb-1">{volume.description}</div>)
+            }
             <Table striped bordered className={"text-table " + (this.props.global.nonPrintShow ? "" : "hide-non-print")}>
                 <tbody>
                     {this.state.texts.map(t => <TranslateRow key={t.source.number} text={t} />)}

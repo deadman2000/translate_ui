@@ -29,6 +29,7 @@ export class VolumeRow extends Component<{ volume: IVolume, baseUrl: string }> {
                         </div>
                     </div>
                 )}
+                {!!v.description && <div className="description">{v.description}</div>}
             </td>
             <td className="min-width volume-stats">
                 <div>{v.translatedTexts} / {v.texts}</div>

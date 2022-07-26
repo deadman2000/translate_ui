@@ -2,6 +2,12 @@
   font-size: 10pt;
 }
 
-.volumes .progress {
-  background-color: #cfd2d5;
+.volumes {
+  .progress {
+    background-color: #cfd2d5;
+  }
+
+  .description {
+    white-space: normal;
+  }
 }
