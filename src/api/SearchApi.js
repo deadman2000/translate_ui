@@ -13,9 +13,11 @@ export class SearchApi {
         this.api = api
     }
 
-    query(searchText: string): Promise<SearchResponse> {
+    query(searchText: string, inSource: boolean, inTranslated: boolean): Promise<SearchResponse> {
         return this.api.http.post(baseUrl, {
-            query: searchText
+            query: searchText,
+            source: inSource,
+            translated: inTranslated,
         }).then(result => result.data)
     }
 }

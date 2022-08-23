@@ -1,8 +1,7 @@
 import React, {Component} from "react";
 import {withRouter} from "react-router-dom";
 import {Col, Container, Row, Table} from "react-bootstrap";
-import {InputGroup} from "@blueprintjs/core";
-import {IconNames} from "@blueprintjs/icons";
+import {Button, InputGroup, Intent} from "@blueprintjs/core";
 import {Popover2} from "@blueprintjs/popover2";
 
 import api from "@/api/Api";
@@ -49,16 +48,28 @@ export default class Search extends Component<{}> {
         value: '',
         result: null,
         isOpen: false,
+        inSource: true,
     }
 
     timer = null
 
     render() {
+        const {inSource, result, isOpen, value} = this.state
+
+        const button = (
+            <Button
+                text={inSource ? "EN": "RU"}
+                //icon={IconNames.TRANSLATE}
+                intent={Intent.WARNING}
+                minimal={true}
+                onClick={this.toggleSource}
+            />
+        )
+
         return <Popover2
-            //isOpen={!!this.state.result}
-            content={<SearchResult result={this.state.result} onClick={() => this.setState({isOpen: false})} />}
+            content={<SearchResult result={result} onClick={() => this.setState({isOpen: false})} />}
             interactionKind="click"
-            isOpen={this.state.isOpen}
+            isOpen={isOpen}
             onInteraction={this.handleInteraction}
             minimal
             autoFocus={false}
@@ -69,12 +80,19 @@ export default class Search extends Component<{}> {
         >
             <InputGroup
                 placeholder="Search"
-                leftIcon={IconNames.SEARCH}
-                value={this.state.value}
+                //leftIcon={IconNames.SEARCH}
+                value={value}
                 onChange={this.handleChange}
+                rightElement={button}
                 round
             />
         </Popover2>
+    }
+
+    toggleSource = () => {
+        const val = !this.state.inSource
+        this.setState({inSource: val})
+        this.search(val)
     }
 
     handleInteraction = (nextOpenState: boolean) => {
@@ -87,11 +105,17 @@ export default class Search extends Component<{}> {
         this.timer = setTimeout(this.search, 300)
     }
 
-    search = () => {
-        if (this.state.value) {
-            api.search.query(this.state.value)
+    search = (inSourceOverride) => {
+        const {value} = this.state
+
+        let inSource = this.state.inSource
+        if (inSourceOverride !== undefined)
+            inSource = inSourceOverride
+
+        if (value) {
+            api.search.query(value, inSource, !inSource)
                 .then(response => {
-                    if (response.query === this.state.value) {
+                    if (response.query === value) {
                         this.setState({
                             result: response.result,
                             isOpen: true
