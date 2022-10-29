@@ -17,7 +17,7 @@ type Props = {
     activated?: boolean,
     onCancel?: () => void,
     onSubmit?: (translate: ITranslateInfo) => void,
-    onDeleted?: (translate: ITranslateInfo) => void
+    onDeleted?: () => void
 }
 
 type States = {
@@ -188,11 +188,11 @@ export class TranslateEditor extends Component<Props, States> {
         this.setState({loading: true})
 
         api.translate.delete(this.state.tr.id)
-            .then((translate) => {
+            .then(() => {
                 toast("Translate removed")
                 this.props.global.setLetters(this.props.global.translatedLetters - this.props.text.source.letters)
                 if (this.props.onDeleted)
-                    this.props.onDeleted(translate)
+                    this.props.onDeleted()
             })
             .finally(() => this.setState({
                 loading: false,

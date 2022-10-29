@@ -89,8 +89,11 @@ export default class TranslateRow extends Component<Props, States> {
                     <TranslateEditor key={tr.id}
                                      text={t}
                                      translate={tr}
-                                     onDeleted={(newTr) => this.replaceTranslate(tr, newTr)}
-                                     onSubmit={(newTr) => this.replaceTranslate(tr, newTr)}
+                                     onDeleted={() => this.deleteTranslate(tr) }
+                                     onSubmit={(newTr) => {
+                                         this.replaceTranslate(tr, newTr)
+                                         this.setState({approvedByMe: false})
+                                     }}
                     />
                 ))}
             </td>
@@ -127,12 +130,15 @@ export default class TranslateRow extends Component<Props, States> {
         const {translates} = this.state
         const ind = translates.indexOf(tr)
         if (ind < 0) return
+        translates[ind] = newTr
+        this.setState({translates})
+    }
 
-        if (newTr) {
-            translates[ind] = newTr
-        } else {
-            translates.splice(ind, 1)
-        }
+    deleteTranslate(tr: ITranslateInfo) {
+        const {translates} = this.state
+        const ind = translates.indexOf(tr)
+        if (ind < 0) return
+        translates.splice(ind, 1)
         this.setState({translates})
     }
 

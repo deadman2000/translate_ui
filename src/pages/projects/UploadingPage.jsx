@@ -36,7 +36,7 @@ export default class UploadingPage extends Component<{project: IProject} & Route
                                onInputChange={this.selectFile} />
                     {uploading && <ProgressBar value={this.state.progress} intent={Intent.PRIMARY} />}
 
-                    <Button onClick={this.upload} disabled={!this.state.file}>UPLOAD</Button>
+                    <Button onClick={this.upload} disabled={!file}>UPLOAD</Button>
                 </FormGroup>
 
                 <div>
