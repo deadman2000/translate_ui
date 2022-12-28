@@ -22,7 +22,7 @@ function ProjectCardStatus({project}: {project: IProject}) {
             <Container fluid>
                 <Row>
                     <Col>
-                        <Icon icon={IconNames.PROJECTS} intent={Intent.PRIMARY}/> {project.name}
+                        <Icon icon={IconNames.PROJECTS} intent={Intent.PRIMARY} className="mr-2"/>{project.name}
                     </Col>
                     <Col>
                         {getStatusDescription(project.status)}

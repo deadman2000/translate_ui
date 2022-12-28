@@ -48,21 +48,30 @@ export default class Search extends Component<{}> {
         value: '',
         result: null,
         isOpen: false,
-        inSource: true,
+        mode: 0,
     }
 
     timer = null
 
+    modeText() {
+        switch (this.state.mode) {
+            case 0: return "ALL"
+            case 1: return "EN"
+            case 2: return "RU"
+        }
+    }
+
     render() {
-        const {inSource, result, isOpen, value} = this.state
+        const {result, isOpen, value} = this.state
 
         const button = (
             <Button
-                text={inSource ? "EN": "RU"}
+                text={this.modeText()}
                 //icon={IconNames.TRANSLATE}
                 intent={Intent.WARNING}
                 minimal={true}
                 onClick={this.toggleSource}
+                autoFocus={false}
             />
         )
 
@@ -90,9 +99,11 @@ export default class Search extends Component<{}> {
     }
 
     toggleSource = () => {
-        const val = !this.state.inSource
-        this.setState({inSource: val})
-        this.search(val)
+        console.log(this.field)
+        let newMode = this.state.mode + 1
+        if (newMode > 2) newMode = 0
+        this.setState({mode: newMode})
+        this.searchMode(newMode)
     }
 
     handleInteraction = (nextOpenState: boolean) => {
@@ -105,15 +116,18 @@ export default class Search extends Component<{}> {
         this.timer = setTimeout(this.search, 300)
     }
 
-    search = (inSourceOverride) => {
+    search = () => {
+        this.searchMode(this.state.mode)
+    }
+
+    searchMode = (mode) => {
         const {value} = this.state
 
-        let inSource = this.state.inSource
-        if (inSourceOverride !== undefined)
-            inSource = inSourceOverride
+        const inSource = mode === 0 || mode === 1
+        const inTr = mode === 0 || mode === 2
 
         if (value) {
-            api.search.query(value, inSource, !inSource)
+            api.search.query(value, inSource, inTr)
                 .then(response => {
                     if (response.query === value) {
                         this.setState({
