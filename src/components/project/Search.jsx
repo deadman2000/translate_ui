@@ -1,3 +1,4 @@
+import globalStore from "@/stores/GlobalStore"
 import React, {Component} from "react";
 import {withRouter} from "react-router-dom";
 import {Col, Container, Row, Table} from "react-bootstrap";
@@ -99,7 +100,6 @@ export default class Search extends Component<{}> {
     }
 
     toggleSource = () => {
-        console.log(this.field)
         let newMode = this.state.mode + 1
         if (newMode > 2) newMode = 0
         this.setState({mode: newMode})
@@ -126,8 +126,10 @@ export default class Search extends Component<{}> {
         const inSource = mode === 0 || mode === 1
         const inTr = mode === 0 || mode === 2
 
+        const proj = globalStore.project ? globalStore.project.code : null
+
         if (value) {
-            api.search.query(value, inSource, inTr)
+            api.search.query(proj, value, inSource, inTr)
                 .then(response => {
                     if (response.query === value) {
                         this.setState({
