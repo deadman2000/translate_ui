@@ -39,11 +39,13 @@ export class TranslateView extends Component<Props, States> {
 
     render() {
         const tr = this.props.translate
+        const project = this.props.global.project.code
         const {comments} = this.state
         return <>
             <MonoText text={tr.text} onClick={this.props.onClick}/>
             <div className="sign">
-                <span>{tr.author} {formatDateTime(tr.dateCreate)}</span>
+                <a href={`/projects/${project}/byuser/${tr.author}`}>{tr.author}</a>
+                <span>{formatDateTime(tr.dateCreate)}</span>
                 <Button icon={IconNames.COMMENT} minimal small onClick={this.commentClick} />
                 <Button icon={IconNames.HISTORY} minimal small onClick={this.openHistory} />
             </div>

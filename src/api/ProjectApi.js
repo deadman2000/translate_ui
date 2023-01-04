@@ -1,3 +1,4 @@
+import {ITextTr} from "@/model/ITextTr"
 import {Api} from "./Api";
 import {VolumeApi} from "@/api/VolumeApi";
 import type {IProject} from "@/model/IProject";
@@ -27,6 +28,10 @@ export class ProjectApi {
         return this.api.post(`${this.baseUrl}/reindex`)
     }
 
+    rebuild() {
+        return this.api.post(`${this.baseUrl}/rebuild`)
+    }
+
     delete() {
         return this.api.delete(this.baseUrl)
     }
@@ -41,5 +46,9 @@ export class ProjectApi {
 
     deletePatch(id: string): Promise {
         return this.api.delete(`${this.baseUrl}/patches/${id}`)
+    }
+
+    byUser(user: string): Promise<ITextTr[]> {
+        return this.api.get(`${this.baseUrl}/byuser/${user}`)
     }
 }

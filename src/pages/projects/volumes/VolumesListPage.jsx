@@ -18,6 +18,7 @@ export default class VolumesListPage extends Component<{ global?: GlobalStore }>
                 <Container className="pt-4">
                     <div className="buttons-container">
                         <ReindexButton project={project}/>
+                        {/*<RebuildButton project={project}/>*/}
                         <DeleteButton project={project}/>
                     </div>
                 </Container>

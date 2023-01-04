@@ -1,5 +1,6 @@
 import api from "@/api/Api";
 import LoaderComponent from "@/components/LoaderComponent";
+import {TranslatesByUser} from "@/components/project/TranslatesByUser"
 import {ProjectStatus} from "@/enum";
 import type {IProject} from "@/model/IProject";
 import ProjectTabContent from "@/pages/projects/ProjectTabContent";
@@ -55,6 +56,9 @@ export default class ProjectLoader extends LoaderComponent<Props, States> {
         return <Switch>
             <Route exact path={path}>
                 <Redirect to={`${project.code}/volumes`}/>
+            </Route>
+            <Route path={`${path}/byuser/:user`}>
+                <TranslatesByUser />
             </Route>
             <Route path={`${path}/:tabid`}>
                 <ProjectTabContent />
