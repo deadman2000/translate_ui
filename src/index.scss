@@ -48,3 +48,15 @@ body {
     margin-right: -23px;
   }
 }
+
+.Difference {
+  del {
+    background-color: rgb(255, 224, 224);
+    text-decoration: line-through;
+  }
+
+  ins {
+    background-color: rgb(201, 238, 211);
+    text-decoration: none;
+  }
+}

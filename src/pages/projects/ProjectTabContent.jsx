@@ -1,3 +1,4 @@
+import {FixesPage} from "@/pages/projects/fixes/FixesPage"
 import React from "react";
 import {withRouter} from "react-router-dom";
 
@@ -19,6 +20,8 @@ function PageSwitch({tab}: {tab: string}) {
             return <PatchesPage />
         case 'download':
             return <DownloadPage />
+        case 'fixes':
+            return <FixesPage />
     }
     return <div/>
 }

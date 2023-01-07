@@ -1,3 +1,4 @@
+import {FixesApi} from "@/api/FixesApi"
 import axios from "axios";
 import {axiosToastCatch} from "@/components/AppToaster";
 import {ProjectsApi} from "@/api/ProjectsApi";
@@ -31,6 +32,7 @@ export class Api {
         this.invites = new InvitesApi(this)
         this.video = new VideoApi(this)
         this.notify = new NotifyApi(this)
+        this.fixes = new FixesApi(this)
     }
 
     get(url: string) {

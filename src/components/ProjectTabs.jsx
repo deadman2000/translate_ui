@@ -20,6 +20,7 @@ export class ProjectTabs extends Component<{} & RouteProps<R>> {
                     <Tab id="volumes" title="Volumes"/>
                     <Tab id="patches" title="Patches"/>
                     <Tab id="download" title="Download"/>
+                    <Tab id="fixes" title="Fixes"/>
                 </Tabs>
             </Navbar.Group>
         )
