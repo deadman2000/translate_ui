@@ -28,10 +28,6 @@ export class ProjectApi {
         return this.api.post(`${this.baseUrl}/reindex`)
     }
 
-    rebuild() {
-        return this.api.post(`${this.baseUrl}/rebuild`)
-    }
-
     delete() {
         return this.api.delete(this.baseUrl)
     }
