@@ -1,5 +1,5 @@
 import api from "@/api/Api"
-import MonoText from "@/components/project/MonoText"
+import {MonoText} from "@/components/project/MonoText"
 import {IFixMode} from "@/model/IFix"
 import type {IFix} from "@/model/IFix"
 import type {IProject} from "@/model/IProject"

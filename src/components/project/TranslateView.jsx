@@ -6,7 +6,7 @@ import {IconNames} from "@blueprintjs/icons";
 import api from "@/api/Api";
 import {GlobalStore} from "@/stores/GlobalStore";
 import {CommentItem} from "@/components/project/CommentItem";
-import MonoText from "@/components/project/MonoText";
+import {MonoText} from "@/components/project/MonoText";
 import type {IComment} from "@/model/IComment";
 import type {ITranslateInfo} from "@/model/ITranslateInfo";
 import {formatDateTime} from "@/Utils";

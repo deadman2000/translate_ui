@@ -10,7 +10,7 @@ import user from "@/stores/UserInfo";
 import type {ITextsResponse} from "@/model/ITextsResponse";
 import type {ITranslateInfo} from "@/model/ITranslateInfo";
 import {TranslateEditor} from "@/components/project/TranslateEditor";
-import MonoText from "@/components/project/MonoText";
+import {MonoText} from "@/components/project/MonoText";
 import DialogInfo from "@/components/project/DialogInfo";
 
 import './TranslateRow.scss'
