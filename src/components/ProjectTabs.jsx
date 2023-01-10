@@ -1,3 +1,4 @@
+import user from "@/stores/UserInfo"
 import type {RouteProps} from "@/types/RouteProps";
 import {Alignment, Navbar, Tab, TabId, Tabs} from "@blueprintjs/core";
 import React, {Component} from "react";
@@ -20,7 +21,8 @@ export class ProjectTabs extends Component<{} & RouteProps<R>> {
                     <Tab id="volumes" title="Volumes"/>
                     <Tab id="patches" title="Patches"/>
                     <Tab id="download" title="Download"/>
-                    <Tab id="fixes" title="Fixes"/>
+                    {user.isAdmin && <Tab id="fixes" title="Fixes"/>}
+                    {user.isAdmin && <Tab id="import" title="Import"/>}
                 </Tabs>
             </Navbar.Group>
         )

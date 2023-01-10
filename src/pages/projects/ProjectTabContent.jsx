@@ -1,11 +1,12 @@
+import DownloadPage from "@/pages/projects/download/DownloadPage";
 import {FixesPage} from "@/pages/projects/fixes/FixesPage"
-import React from "react";
-import {withRouter} from "react-router-dom";
+import {ImportPage} from "@/pages/projects/ImportPage"
 
 import PatchesPage from "@/pages/projects/patches/PatchesPage";
 import VolumesPage from "@/pages/projects/volumes/VolumesPage";
 import type {RouteProps} from "@/types/RouteProps";
-import DownloadPage from "@/pages/projects/download/DownloadPage";
+import React from "react";
+import {withRouter} from "react-router-dom";
 
 type R = {
     tabid: string,
@@ -22,6 +23,8 @@ function PageSwitch({tab}: {tab: string}) {
             return <DownloadPage />
         case 'fixes':
             return <FixesPage />
+        case 'import':
+            return <ImportPage />
     }
     return <div/>
 }

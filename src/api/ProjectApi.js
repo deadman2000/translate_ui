@@ -47,4 +47,12 @@ export class ProjectApi {
     byUser(user: string): Promise<ITextTr[]> {
         return this.api.get(`${this.baseUrl}/byuser/${user}`)
     }
+
+    import(file: File, onUploadProgress){
+        return this.api.upload(`${this.baseUrl}/import`, file, onUploadProgress)
+    }
+
+    json(file: File, onUploadProgress){
+        return this.api.upload(`${this.baseUrl}/json`, file, onUploadProgress)
+    }
 }
