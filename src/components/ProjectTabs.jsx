@@ -21,7 +21,7 @@ export class ProjectTabs extends Component<{} & RouteProps<R>> {
                     <Tab id="volumes" title="Volumes"/>
                     <Tab id="patches" title="Patches"/>
                     <Tab id="download" title="Download"/>
-                    {user.isAdmin && <Tab id="fixes" title="Fixes"/>}
+                    {user.isAdmin && <Tab id="replace" title="Replace"/>}
                     {user.isAdmin && <Tab id="import" title="Import"/>}
                 </Tabs>
             </Navbar.Group>

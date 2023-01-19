@@ -1,4 +1,4 @@
-export type IFix = {
+export type IReplace = {
     id: string,
     volume: string,
     number: number,
@@ -7,7 +7,7 @@ export type IFix = {
     replaced: string
 }
 
-export type IFixMode = {
+export type IReplaceMode = {
     mode: string,
     desc: string
 }

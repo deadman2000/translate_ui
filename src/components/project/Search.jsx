@@ -1,4 +1,5 @@
 import globalStore from "@/stores/GlobalStore"
+import {IconNames} from "@blueprintjs/icons"
 import React, {Component} from "react";
 import {withRouter} from "react-router-dom";
 import {Col, Container, Row, Table} from "react-bootstrap";
@@ -44,7 +45,8 @@ class SearchResult extends Component<Props> {
     }
 }
 
-export default class Search extends Component<{}> {
+@withRouter
+export default class Search extends Component<RouteProps<>> {
     state = {
         value: '',
         result: null,
@@ -66,14 +68,22 @@ export default class Search extends Component<{}> {
         const {result, isOpen, value} = this.state
 
         const button = (
-            <Button
-                text={this.modeText()}
-                //icon={IconNames.TRANSLATE}
-                intent={Intent.WARNING}
-                minimal={true}
-                onClick={this.toggleSource}
-                autoFocus={false}
-            />
+            <>
+                <Button
+                    text={this.modeText()}
+                    //icon={IconNames.TRANSLATE}
+                    intent={Intent.WARNING}
+                    minimal
+                    onClick={this.toggleSource}
+                    autoFocus={false}
+                />
+                <Button
+                    icon={IconNames.SEARCH}
+                    minimal
+                    onClick={this.searchClick}
+                    autoFocus={false}
+                />
+            </>
         )
 
         return <Popover2
@@ -102,8 +112,7 @@ export default class Search extends Component<{}> {
     toggleSource = () => {
         let newMode = this.state.mode + 1
         if (newMode > 2) newMode = 0
-        this.setState({mode: newMode})
-        this.searchMode(newMode)
+        this.setState({mode: newMode}, this.search)
     }
 
     handleInteraction = (nextOpenState: boolean) => {
@@ -117,11 +126,7 @@ export default class Search extends Component<{}> {
     }
 
     search = () => {
-        this.searchMode(this.state.mode)
-    }
-
-    searchMode = (mode) => {
-        const {value} = this.state
+        const {value, mode} = this.state
 
         const inSource = mode === 0 || mode === 1
         const inTr = mode === 0 || mode === 2
@@ -129,7 +134,13 @@ export default class Search extends Component<{}> {
         const proj = globalStore.project ? globalStore.project.code : null
 
         if (value) {
-            api.search.query(proj, value, inSource, inTr)
+            api.search.query({
+                project: proj,
+                query: value,
+                source: inSource,
+                translated: inTr,
+                size: 10
+            })
                 .then(response => {
                     if (response.query === value) {
                         this.setState({
@@ -144,5 +155,12 @@ export default class Search extends Component<{}> {
                 isOpen: false
             })
         }
+    }
+
+    searchClick = () => {
+        if (globalStore.project.code) {
+            this.props.history.push(`/projects/${globalStore.project.code}/search/${encodeURIComponent(this.state.value)}`)
+        } else
+            this.props.history.push(`/search/${encodeURIComponent(this.state.value)}`)
     }
 }

@@ -13,7 +13,7 @@ export default class VolumesListPage extends Component<{ global?: GlobalStore }>
     render() {
         const project = this.props.global.project;
 
-        return <div>
+        return <>
             {user.isAdmin && (
                 <Container className="pt-4">
                     <div className="buttons-container">
@@ -23,6 +23,6 @@ export default class VolumesListPage extends Component<{ global?: GlobalStore }>
                 </Container>
             )}
             <VolumesList project={project}/>
-        </div>
+        </>
     }
 }

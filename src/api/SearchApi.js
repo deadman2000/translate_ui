@@ -1,4 +1,5 @@
 import {Api} from "@/api/Api";
+import {ISearchQuery} from "@/model/ISearchQuery"
 import type {ISearchResult} from "@/model/ISearchResult";
 
 const baseUrl = '/search'
@@ -13,12 +14,7 @@ export class SearchApi {
         this.api = api
     }
 
-    query(project: string, searchText: string, inSource: boolean, inTranslated: boolean): Promise<SearchResponse> {
-        return this.api.http.post(baseUrl, {
-            project,
-            query: searchText,
-            source: inSource,
-            translated: inTranslated,
-        }).then(result => result.data)
+    query(query: ISearchQuery): Promise<SearchResponse> {
+        return this.api.post(baseUrl, query)
     }
 }

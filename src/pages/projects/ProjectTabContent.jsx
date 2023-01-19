@@ -1,5 +1,5 @@
 import DownloadPage from "@/pages/projects/download/DownloadPage";
-import {FixesPage} from "@/pages/projects/fixes/FixesPage"
+import {ReplacePage} from "@/pages/projects/replace/ReplacePage"
 import {ImportPage} from "@/pages/projects/ImportPage"
 
 import PatchesPage from "@/pages/projects/patches/PatchesPage";
@@ -21,8 +21,8 @@ function PageSwitch({tab}: {tab: string}) {
             return <PatchesPage />
         case 'download':
             return <DownloadPage />
-        case 'fixes':
-            return <FixesPage />
+        case 'replace':
+            return <ReplacePage />
         case 'import':
             return <ImportPage />
     }

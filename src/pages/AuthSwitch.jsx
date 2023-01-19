@@ -1,3 +1,4 @@
+import SearchPage from "@/pages/SearchPage"
 import React, {Component} from "react";
 import {BrowserRouter as Router, Redirect, Route, Switch} from "react-router-dom";
 import {Provider} from "mobx-react";
@@ -24,6 +25,9 @@ export default class AuthSwitch extends Component<{}> {
                         </Route>
                         <Route path="/notify">
                             <NotifyPage/>
+                        </Route>
+                        <Route path="/search">
+                            <SearchPage/>
                         </Route>
                         <Route path="*">
                             <Redirect to="/projects"/>

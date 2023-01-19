@@ -4,4 +4,5 @@ export type ISearchResult = {
     volume: string,
     number: number,
     html: string,
+    score?: number,
 }

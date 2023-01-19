@@ -1,20 +1,24 @@
 import {Api} from "@/api/Api"
-import {IFixMode} from "@/model/IFix"
-import type {IFix} from "@/model/IFix"
+import {IReplaceMode} from "@/model/IReplace"
+import type {IReplace} from "@/model/IReplace"
 
-const baseUrl = '/fixes'
+const baseUrl = '/replace'
 
-export class FixesApi {
+export class ReplaceApi {
     constructor(api: Api) {
         this.api = api
     }
 
-    modes(): Promise<IFixMode[]> {
+    modes(): Promise<IReplaceMode[]> {
         return this.api.get(`${baseUrl}/modes`)
     }
 
-    fixes(project: string, mode: string, count: number, skip: string[]): Promise<IFix[]> {
+    get(project: string, mode: string, count: number, skip: string[]): Promise<IReplace[]> {
         return this.api.post(`${baseUrl}/${project}/get`, {mode, count, skip})
+    }
+
+    regex(project: string, regex: string, replace: string, count: number, skip: string[]): Promise<IReplace[]> {
+        return this.api.post(`${baseUrl}/${project}/regex`, {regex, replace, count, skip})
     }
 
     apply(id: string, replace: string): Promise {

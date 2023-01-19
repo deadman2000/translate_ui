@@ -5,6 +5,7 @@ import {ProjectStatus} from "@/enum";
 import type {IProject} from "@/model/IProject";
 import ProjectTabContent from "@/pages/projects/ProjectTabContent";
 import UploadingPage from "@/pages/projects/UploadingPage";
+import SearchPage from "@/pages/SearchPage"
 import {GlobalStore} from "@/stores/GlobalStore";
 import type {RouteProps} from "@/types/RouteProps";
 import {inject} from "mobx-react";
@@ -59,6 +60,9 @@ export default class ProjectLoader extends LoaderComponent<Props, States> {
             </Route>
             <Route path={`${path}/byuser/:user`}>
                 <TranslatesByUser />
+            </Route>
+            <Route path={`${path}/search`}>
+                <SearchPage />
             </Route>
             <Route path={`${path}/:tabid`}>
                 <ProjectTabContent />
