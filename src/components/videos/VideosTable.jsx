@@ -2,7 +2,7 @@ import React from "react";
 import type {IVideo} from "@/model/IVideo";
 import {Table} from "react-bootstrap";
 import moment from "moment";
-import {Icon, Intent, ProgressBar} from "@blueprintjs/core";
+import {Button, Icon, Intent, ProgressBar} from "@blueprintjs/core";
 import {IconNames} from "@blueprintjs/icons";
 import DeleteConfirmButton from "@/components/DeleteConfirmButton";
 import api from "@/api/Api";
@@ -51,12 +51,19 @@ export class VideosTable extends React.Component<Props, State> {
                 <td>
                     {!!v.framesCount && moment.utc((v.framesCount / v.fps) * 1000).format('HH:mm:ss')}
                 </td>
-                <td style={{minWidth: 200}}><VideoProgress video={v}/>
-                </td>
+                <td style={{minWidth: 200}}><VideoProgress video={v}/></td>
+                <td>{v.completed && <Button minimal icon={IconNames.REFRESH} onClick={() => this.restart(v)}/>}</td>
                 <td><DeleteConfirmButton onConfirm={() => this.deleteVideo(v)}/></td>
             </tr>)}
             </tbody>
         </Table>
+    }
+
+    restart = (video: IVideo) => {
+        api.video.restart(video)
+            .then(() => {
+                api.video.list().then((videos) => this.setState({videos}))
+            })
     }
 
     deleteVideo = (video: IVideo) => {

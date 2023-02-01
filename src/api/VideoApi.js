@@ -17,6 +17,10 @@ export class VideoApi {
         return this.api.post(baseUrl, video)
     }
 
+    restart(video: IVideo): Promise {
+        return this.api.post(`${baseUrl}/${video.id}/restart`)
+    }
+
     delete(video: IVideo): Promise {
         return this.api.delete(`${baseUrl}/${video.videoId}`)
     }
