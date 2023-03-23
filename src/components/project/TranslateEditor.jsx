@@ -150,7 +150,7 @@ export class TranslateEditor extends Component<Props, States> {
             .then(info => {
                 localStorage.removeItem(this.storeKey)
                 this.storeKey = `translate_${info.id}`
-                if (!tr) this.props.global.setLetters(this.props.global.translatedLetters + s.letters)
+                if (!tr) this.props.global.addLetters(s.project, s.letters)
                 this.setState({
                     stored: false,
                     tr: info,
@@ -185,12 +185,13 @@ export class TranslateEditor extends Component<Props, States> {
     }
 
     delete() {
+        const s = this.props.text.source
         this.setState({loading: true})
 
         api.translate.delete(this.state.tr.id)
             .then(() => {
                 toast("Translate removed")
-                this.props.global.setLetters(this.props.global.translatedLetters - this.props.text.source.letters)
+                this.props.global.subLetters(s.project, s.letters)
                 if (this.props.onDeleted)
                     this.props.onDeleted()
             })

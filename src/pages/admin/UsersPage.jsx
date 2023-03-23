@@ -28,7 +28,7 @@ export default class UsersPage extends LoaderComponent<{}, State>  {
                 {this.state.users.map(u => <tr key={u.id}>
                     <td>{u.login}</td>
                     <td>{u.role}</td>
-                    <td>{u.letters}</td>
+                    <td>{u.lettersByProject.map((lp) => <p key={lp.project}>{lp.project}: {lp.letters}</p>)}</td>
                     <td>
                         <AnchorButton minimal icon={IconNames.CHART} href={`/admin/users/${u.id}/chart`}/>
                         <Button minimal icon={IconNames.ASTERISK} onClick={() => this.changePasswordClick(u)}/>

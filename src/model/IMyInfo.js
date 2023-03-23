@@ -1,6 +1,11 @@
+export type IProjectLetters = {
+    project: string,
+    letters: number,
+}
+
 export type IMyInfo = {
     login: string,
     role: string,
-    letters: number,
+    letters: IProjectLetters[],
     unread: number,
 }

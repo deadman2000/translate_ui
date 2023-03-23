@@ -1,3 +1,4 @@
+import type {IMyInfo} from "@/model/IMyInfo"
 import {action, makeObservable, observable} from "mobx";
 import type {IProject} from "@/model/IProject";
 import type {IVolume} from "@/model/IVolume";
@@ -9,7 +10,7 @@ export class GlobalStore {
     @observable currentHistory: ITranslateInfo[] = []
     @observable changePasswordOpen = false
     @observable hints = false
-    @observable translatedLetters = 0
+    @observable translatedLetters = {}
     @observable unread = 0
     @observable nonPrintShow = false
 
@@ -17,6 +18,11 @@ export class GlobalStore {
         makeObservable(this)
         this.hints = localStorage.getItem('hints') === 'on'
         this.nonPrintShow = localStorage.getItem('non-print') === 'on'
+    }
+
+    get projectLetters() {
+        if (!this.project || !this.project.code) return null
+        return this.translatedLetters[this.project.code]
     }
 
     @action
@@ -55,14 +61,26 @@ export class GlobalStore {
     }
 
     @action
-    setLetters(letters: number) {
-        this.translatedLetters = letters
+    addLetters(project: string, letters: number) {
+        this.translatedLetters[project] += letters
     }
 
     @action
-    setUserInfo(info) {
+    subLetters(project: string, letters: number){
+        this.translatedLetters[project] -= letters
+    }
+
+    @action
+    setLetters(project: string, letters: number) {
+        this.translatedLetters[project] = letters
+    }
+
+    @action
+    setUserInfo(info: IMyInfo) {
         this.unread = info.unread
-        this.translatedLetters = info.letters
+        for (const pl of info.letters) {
+            this.translatedLetters[pl.project] = pl.letters
+        }
     }
 
     @action
