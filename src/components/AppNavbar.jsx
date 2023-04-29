@@ -1,9 +1,10 @@
+import {BreadcrumbProps} from "@blueprintjs/core"
 import React, {Component} from "react";
 import {Link, Route, Switch, withRouter} from "react-router-dom";
 import {inject, observer} from "mobx-react";
-import {Alignment, Breadcrumb, Breadcrumbs, Button, IBreadcrumbProps, Icon, Navbar, Position} from "@blueprintjs/core";
+import {Alignment, Breadcrumb, Button, Icon, Navbar, Position} from "@blueprintjs/core";
 import {IconNames} from "@blueprintjs/icons";
-import {Popover2} from "@blueprintjs/popover2";
+import {Breadcrumbs2, Popover2} from "@blueprintjs/popover2";
 import Search from "@/components/project/Search";
 import {ProjectTabs} from "@/components/ProjectTabs";
 import {UserMenu} from "@/components/UserMenu";
@@ -14,9 +15,9 @@ import {HintSwitch} from "@/components/HintSwitch";
 import {NonprintSwitch} from "@/components/NonprintSwitch";
 
 
-function breadcrumbRenderer({ text, href, icon }: IBreadcrumbProps) {
+function breadcrumbRenderer({ text, href, icon }: BreadcrumbProps) {
     if (href)
-        return <Link className="bp3-breadcrumb" to={href}><Icon icon={icon}/> {text}</Link>
+        return <Link className="bp4-breadcrumb" to={href}><Icon icon={icon}/> {text}</Link>
     return <Breadcrumb text={text} icon={icon}/>
 }
 
@@ -32,8 +33,8 @@ export default class AppNavbar extends Component<{global?: GlobalStore} & RouteP
     render() {
         return <Navbar fixedToTop>
             <Navbar.Group align={Alignment.LEFT}>
-                <Breadcrumbs items={this.breadcrumbs()}
-                             breadcrumbRenderer={breadcrumbRenderer}
+                <Breadcrumbs2 items={this.breadcrumbs()}
+                              currentBreadcrumbRenderer={breadcrumbRenderer}
                 />
                 <Navbar.Divider />
                 <Search />
@@ -71,8 +72,8 @@ export default class AppNavbar extends Component<{global?: GlobalStore} & RouteP
         </Navbar>
     }
 
-    breadcrumbs(): IBreadcrumbProps[] {
-        const list:IBreadcrumbProps[] = []
+    breadcrumbs(): BreadcrumbProps[] {
+        const list:BreadcrumbProps[] = []
         list.push({href: "/projects", icon: "folder-close", text: "Projects"})
         if (this.props.global.project.code) {
             list.push({href: `/projects/${this.props.global.project.code}`, icon: "folder-close", text: this.props.global.project.name})
