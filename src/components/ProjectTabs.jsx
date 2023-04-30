@@ -1,12 +1,24 @@
+import api from "@/api/Api"
 import user from "@/stores/UserInfo"
 import type {RouteProps} from "@/types/RouteProps";
 import {Alignment, Navbar, Tab, TabId, Tabs} from "@blueprintjs/core";
-import React, {Component} from "react";
+import React, {Component, useEffect, useState} from "react";
 import {withRouter} from "react-router-dom";
 
 type R = {
     project: string,
     tabid: string
+}
+
+function SpellCounter(props: {project: string}) {
+    const [count, setCount] = useState()
+    useEffect(() => {
+        api.spellcheck.total(props.project)
+            .then((response) => {
+                setCount(response.total)
+            })
+    }, [])
+    return <>{count}</>
 }
 
 @withRouter
@@ -21,6 +33,7 @@ export class ProjectTabs extends Component<{} & RouteProps<R>> {
                     <Tab id="volumes" title="Volumes"/>
                     <Tab id="patches" title="Patches"/>
                     <Tab id="download" title="Download"/>
+                    <Tab id="spellcheck" title="Spelling" tagContent={<SpellCounter project={this.props.match.params.project}/>} tagProps={{round: true}}/>
                     {user.isAdmin && <Tab id="replace" title="Replace"/>}
                     {user.isAdmin && <Tab id="import" title="Import"/>}
                 </Tabs>

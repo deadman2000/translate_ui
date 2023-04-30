@@ -3,6 +3,7 @@ import {ReplacePage} from "@/pages/projects/replace/ReplacePage"
 import {ImportPage} from "@/pages/projects/ImportPage"
 
 import PatchesPage from "@/pages/projects/patches/PatchesPage";
+import SpellCheckPage from "@/pages/projects/spellcheck/SpellCheckPage"
 import VolumesPage from "@/pages/projects/volumes/VolumesPage";
 import type {RouteProps} from "@/types/RouteProps";
 import React from "react";
@@ -21,6 +22,8 @@ function PageSwitch({tab}: {tab: string}) {
             return <PatchesPage />
         case 'download':
             return <DownloadPage />
+        case 'spellcheck':
+            return <SpellCheckPage />
         case 'replace':
             return <ReplacePage />
         case 'import':

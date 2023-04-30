@@ -1,6 +1,8 @@
-import {ReplaceApi} from "@/api/ReplaceApi"
 import axios from "axios";
 import {axiosToastCatch} from "@/components/AppToaster";
+
+import {ReplaceApi} from "@/api/ReplaceApi"
+import {SpellcheckApi} from "@/api/SpellcheckApi"
 import {ProjectsApi} from "@/api/ProjectsApi";
 import {UsersApi} from "@/api/UsersApi";
 import {ProjectApi} from "@/api/ProjectApi";
@@ -33,6 +35,7 @@ export class Api {
         this.video = new VideoApi(this)
         this.notify = new NotifyApi(this)
         this.replace = new ReplaceApi(this)
+        this.spellcheck = new SpellcheckApi(this)
     }
 
     get(url: string) {

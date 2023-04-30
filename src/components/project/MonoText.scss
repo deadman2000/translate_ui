@@ -3,15 +3,15 @@
   word-break: break-word;
   font-size: 10pt;
 
-  span {
+  .dot {
     opacity: 0.4;
   }
-  span:before {
+  .dot:before {
     content: "·";
     position: absolute;
   }
 }
 
-.hide-non-print .mono-text span {
+.hide-non-print .mono-text .dot {
   opacity: 0;
 }
