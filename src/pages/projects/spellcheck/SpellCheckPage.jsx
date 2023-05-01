@@ -19,9 +19,9 @@ function SpellRow(props: {spell: ISpellcheck, project: IProject, onComplete: () 
             icon={IconNames.SHARE}
             minimal
         /></td>
-        <td><SpellText text={spell.text} spells={spell.spellcheck}/></td>
+        <td><SpellText id={spell.id} text={spell.text} spells={spell.spellcheck}/></td>
         <td className="min-width"><Button text="Skip" onClick={() => {
-            api.spellcheck.skip(project.code, spell).then(props.onComplete)
+            api.spellcheck.skip(spell.id).then(props.onComplete)
         }}/></td>
     </tr>
 }
@@ -65,7 +65,7 @@ export default class SpellCheckPage extends React.Component<{global?: GlobalStor
             <Table striped bordered>
                 <tbody>
                 {this.state.spellchecks.map((s) => (
-                    <SpellRow key={s.volume + '_' + s.number}
+                    <SpellRow key={s.id}
                               spell={s}
                               project={project}
                               onComplete={() => this.removeSpellcheck(s)}

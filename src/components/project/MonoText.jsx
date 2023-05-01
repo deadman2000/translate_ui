@@ -7,18 +7,24 @@ import './MonoText.scss'
 
 type Props = {
     text: string,
-    spells: ISpellResult[],
+    id?: string,
+    spells?: ISpellResult[],
     onClick?: MouseEventHandler
 }
 
-export const MonoText = observer(({text, spells, onClick}: Props) => {
+export const MonoText = observer(({text, id, spells, onClick}: Props) => {
     if (globalStore.nonPrintShow) {
         const html = text.replaceAll(/( )/g, '<span class="dot"> </span>')
         return <pre dangerouslySetInnerHTML={{__html: html}}
                     className="mono-text"
                     onClick={onClick}/>
-    } else {
-        return <pre className="mono-text"
-                    onClick={onClick}><SpellText text={text} spells={spells}/></pre>
     }
+
+    if (spells) {
+        return <pre className="mono-text"
+                    onClick={onClick}><SpellText id={id} text={text} spells={spells}/></pre>
+    }
+
+    return <pre className="mono-text"
+                onClick={onClick}>{text}/></pre>
 })

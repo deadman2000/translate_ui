@@ -12,11 +12,8 @@ export class SpellcheckApi {
         return this.api.get(`${baseUrl}/${project}`)
     }
 
-    skip(project: string, spell: ISpellcheck): Promise {
-        return this.api.post(`${baseUrl}/${project}/skip`, {
-            volume: spell.volume,
-            number: spell.number
-        })
+    skip(id: string, word: ?string): Promise {
+        return this.api.post(`${baseUrl}/skip`, { id, word })
     }
 
     total(project: string): Promise<{total: number}> {

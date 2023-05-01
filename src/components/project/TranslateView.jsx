@@ -42,7 +42,7 @@ export class TranslateView extends Component<Props, States> {
         const project = this.props.global.project.code
         const {comments} = this.state
         return <>
-            <MonoText text={tr.text} spells={tr.spellcheck} onClick={this.props.onClick}/>
+            <MonoText text={tr.text} id={tr.id} spells={tr.spellcheck} onClick={this.props.onClick}/>
             <div className="sign">
                 <a href={`/projects/${project}/byuser/${tr.author}`}>{tr.author}</a>
                 <span>{formatDateTime(tr.dateCreate)}</span>
