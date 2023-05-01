@@ -26,5 +26,5 @@ export const MonoText = observer(({text, id, spells, onClick}: Props) => {
     }
 
     return <pre className="mono-text"
-                onClick={onClick}>{text}/></pre>
+                onClick={onClick}>{text}</pre>
 })
