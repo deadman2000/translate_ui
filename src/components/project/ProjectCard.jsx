@@ -42,10 +42,11 @@ export default class ProjectCard extends Component<{project: IProject} & RoutePr
             return <ProjectCardStatus project={project} />
         }
 
-        const prTranslated = project.translatedLetters / project.letters
-        const prTranslatedP = Math.round(prTranslated * 100)
-        const prApproved = project.approvedLetters / project.letters
-        const prApprovedP = Math.round(prApproved * 100)
+        const prTranslated = (project.translatedLetters / project.letters) * 100
+        let prTranslatedP = Math.round(prTranslated)
+        const prApproved = (project.approvedLetters / project.letters) * 100
+        if (prTranslatedP === 100 && project.translatedLetters !== project.letters)
+            prTranslatedP = 99
 
         return <div className="project-card col-xs-12 col-sm-6 col-md-6 col-lg-4">
             <Card elevation={2} interactive
@@ -66,9 +67,9 @@ export default class ProjectCard extends Component<{project: IProject} & RoutePr
                         <Row>
                             <Col>
                                 <div className="progress">
-                                    <div className="progress-bar bg-success" role="progressbar" style={{width: prApprovedP + "%"}}>
+                                    <div className="progress-bar bg-success" role="progressbar" style={{width: prApproved + "%"}}>
                                     </div>
-                                    <div className="progress-bar bg-warning" role="progressbar" style={{width: (prTranslatedP - prApprovedP)+"%"}}>
+                                    <div className="progress-bar bg-warning" role="progressbar" style={{width: (prTranslated - prApproved) + "%"}}>
                                     </div>
                                 </div>
                             </Col>
