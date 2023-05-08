@@ -1,3 +1,4 @@
+import DeleteConfirmButton from "@/components/DeleteConfirmButton"
 import React from "react";
 import LoaderComponent from "@/components/LoaderComponent";
 import api from "@/api/Api";
@@ -28,7 +29,7 @@ export default class NotifyPage extends LoaderComponent<RouteProps, States> {
         return <div className="content notifies">
             <Table>
                 <tbody style={{cursor: "pointer"}}>
-                {this.state.notifies.map(n => <tr key={n.id} /*onClick={() => this.openComment(n)}*/ className={n.read ? "read" : "notread"}>
+                {this.state.notifies.map(n => <tr key={n.id} className={n.read ? "read" : "notread"}>
                     <td className="col1">
                         <a href={`/projects/${n.project}/volumes/${n.volume}#t${n.number}`}>
                             <div>{n.project}</div>
@@ -43,14 +44,13 @@ export default class NotifyPage extends LoaderComponent<RouteProps, States> {
                             </div>
                         </a>
                     </td>
+                    <td className="min-width">
+                        <DeleteConfirmButton onConfirm={() => this.deleteNotify(n)}/>
+                    </td>
                 </tr>)}
                 </tbody>
             </Table>
         </div>
-    }
-
-    openComment(notify: ICommentNotify) {
-        this.props.history.push(`/projects/${notify.project}/volumes/${notify.volume}#t${notify.number}`)
     }
 
     markRead = () => {
@@ -63,4 +63,12 @@ export default class NotifyPage extends LoaderComponent<RouteProps, States> {
             })
     }
 
+    deleteNotify(notify: ICommentNotify)  {
+        api.notify.delete(notify.id)
+            .then(() => {
+                const i = this.state.notifies.indexOf(notify)
+                this.state.notifies.splice(i, 1)
+                this.setState({patches: this.state.notifies})
+            })
+    }
 }

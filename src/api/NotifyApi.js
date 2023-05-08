@@ -15,4 +15,8 @@ export class NotifyApi {
     markRead(): Promise {
         return this.api.post(`${baseUrl}/read`)
     }
+
+    delete(id: string): Promise {
+        return this.api.delete(`${baseUrl}/${id}`)
+    }
 }
