@@ -56,13 +56,18 @@ export default class TranslateRow extends Component<Props, States> {
             <td className="col-dialog"><DialogInfo text={t.source} /></td>
             <td className="col-source-text">
                 <MonoText text={t.source.text}/>
-                {this.props.global.hints && t.refs && (<div className="videos">{t.refs.map(r => (
-                        <a href={`https://youtu.be/${r.videoId}?t=${r.t}`} target="_blank" key={r.videoId+r.t}>
-                            <img src={`/api/resources/videos/${r.videoId}/${r.frame}.png`} alt="[]"/>
-                            <div className="labels">{r.rate.toFixed(2)}</div>
-                        </a>
-                    )
-                )}</div>)}
+                {this.props.global.hints && <>
+                    {t.source.description && <div className="text-description">
+                        {t.source.description}
+                    </div>}
+                    {t.refs && <div className="videos">{t.refs.map(r => (
+                            <a href={`https://youtu.be/${r.videoId}?t=${r.t}`} target="_blank" key={r.videoId+r.t}>
+                                <img src={`/api/resources/videos/${r.videoId}/${r.frame}.png`} alt="[]"/>
+                                <div className="labels">{r.rate.toFixed(2)}</div>
+                            </a>
+                        )
+                    )}</div>}
+                </>}
             </td>
             <td className="col-splitter">
                 <Button icon={this.state.activated ? IconNames.DOUBLE_CHEVRON_RIGHT : IconNames.CHEVRON_RIGHT}

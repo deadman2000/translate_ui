@@ -9,4 +9,5 @@ export type ITextResource = {
     noun?: string[],
     letters: number,
     translateApproved: boolean,
+    description?: string
 }
