@@ -64,6 +64,9 @@ export default class ProjectLoader extends LoaderComponent<Props, States> {
             <Route path={`${path}/search`}>
                 <SearchPage />
             </Route>
+            <Route path={`${path}/reupload`}>
+                <UploadingPage project={project} />
+            </Route>
             <Route path={`${path}/:tabid`}>
                 <ProjectTabContent />
             </Route>

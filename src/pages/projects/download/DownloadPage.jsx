@@ -1,3 +1,4 @@
+import user from "@/stores/UserInfo"
 import React from "react";
 import {Container, Table} from "react-bootstrap";
 import {Icon} from "@blueprintjs/core";
@@ -19,6 +20,12 @@ export default class DownloadPage extends React.Component<{global?: GlobalStore}
                     </tr>
                     <tr>
                         <td><a href={`/api/projects/${project.code}/download/patch`}><Icon icon={IconNames.ARCHIVE}/> Patch</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href={`/api/projects/${project.code}/download/source`}><Icon icon={IconNames.ARCHIVE}/> Source</a></td>
+                        {user.isAdmin && (
+                            <td><a href={`/projects/${project.code}/reupload`}><Icon icon={IconNames.UPLOAD}/> Replace source</a></td>
+                        )}
                     </tr>
                 </tbody>
             </Table>
