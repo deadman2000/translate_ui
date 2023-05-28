@@ -15,6 +15,7 @@ type States = {
     link: string,
     videoId: string,
     project: string,
+    filters: string,
 }
 
 const re = /(youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/
@@ -28,7 +29,10 @@ export default class VideosPage extends LoaderComponent<{}, States> {
 
     prepare(): Promise {
         const project = localStorage.getItem('video_last_project')
-        this.setState({project})
+        this.setState({
+            project,
+            filters: 'h_600:thresh:unsharp'
+        })
         return this.load()
     }
 
@@ -49,6 +53,13 @@ export default class VideosPage extends LoaderComponent<{}, States> {
                                 <InputGroup id="project"
                                             onChange={e => this.setState({project: e.target.value})}
                                             value={this.state.project}/>
+                            </FormGroup>
+                        </Col>
+                        <Col>
+                            <FormGroup label="Filters" labelFor="filters">
+                                <InputGroup id="filters"
+                                            onChange={e => this.setState({filters: e.target.value})}
+                                            value={this.state.filters}/>
                             </FormGroup>
                         </Col>
                     </Row>
@@ -82,12 +93,12 @@ export default class VideosPage extends LoaderComponent<{}, States> {
     }
 
     addVideo = () => {
-        const {videoId, project} = this.state
+        const {videoId, project, filters} = this.state
         if (!videoId || !project) return
 
         localStorage.setItem('video_last_project', project)
 
-        api.video.create({ videoId, project })
+        api.video.create({ videoId, project, filters })
             .then((video) => {
                 this.state.videos.push(video)
                 this.setState({
