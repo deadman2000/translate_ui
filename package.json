@@ -47,7 +47,7 @@
   },
   "scripts": {
     "start_local": "webpack-dev-server --proxy_api=http://localhost:5000/",
-    "start_inner": "webpack-dev-server --proxy_api=http://192.168.88.13/",
+    "start_inner": "webpack-dev-server --proxy_api=http://192.168.1.250/",
     "start_outer": "webpack-dev-server --proxy_api=https://deadman.sknt.ru/",
     "build": "webpack --mode production"
   },

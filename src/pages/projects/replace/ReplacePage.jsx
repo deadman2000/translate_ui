@@ -12,7 +12,7 @@ import {Col, Container, Row, Table} from "react-bootstrap"
 import Diff from "react-stylable-diff"
 import './Replace.scss'
 
-const COUNT = 10
+const COUNT = 50
 
 type State = {
     modes: IReplaceMode[],
@@ -182,6 +182,7 @@ class ReplaceForm extends Component<{ project: IProject }, State> {
 
     applyAll = () => {
         const {replaces} = this.state
+        this.setState({nextLoading: true})
 
         api.replace.applyMany(replaces.map((f) => ({id: f.id, replace: f.replaced})))
             .then(this.next)
