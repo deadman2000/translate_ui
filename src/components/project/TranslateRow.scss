@@ -3,10 +3,6 @@
     width: 40px;
   }
 
-  .col-dialog {
-    width: 40px;
-  }
-
   .col-source-text {
     padding: 8px 4px !important;
   }
@@ -91,4 +87,8 @@
 .text-description {
   font-style: italic;
   font-size: smaller;
+  p {
+    margin: 0 0 0 16px;
+    padding: 0;
+  }
 }

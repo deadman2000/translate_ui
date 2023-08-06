@@ -11,7 +11,6 @@ import type {ITextsResponse} from "@/model/ITextsResponse";
 import type {ITranslateInfo} from "@/model/ITranslateInfo";
 import {TranslateEditor} from "@/components/project/TranslateEditor";
 import {MonoText} from "@/components/project/MonoText";
-import DialogInfo from "@/components/project/DialogInfo";
 
 import './TranslateRow.scss'
 
@@ -53,12 +52,13 @@ export default class TranslateRow extends Component<Props, States> {
 
         return <tr id={"t"+t.source.number}>
             <td className="col-num"><Link to={`${t.source.volume}#t${t.source.number}`}>{t.source.number}</Link></td>
-            <td className="col-dialog"><DialogInfo text={t.source} /></td>
             <td className="col-source-text">
                 <MonoText text={t.source.text}/>
                 {this.props.global.hints && <>
                     {t.source.description && <div className="text-description">
-                        {t.source.description}
+                        {t.source.description.split('\n').map((v, i) => <p key={i}>
+                            {v}
+                        </p>)}
                     </div>}
                     {t.refs && <div className="videos">{t.refs.map(r => (
                             <a href={`https://youtu.be/${r.videoId}?t=${r.t}`} target="_blank" key={r.videoId+r.t}>
