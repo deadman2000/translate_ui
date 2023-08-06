@@ -73,7 +73,7 @@ export default class UploadingPage extends Component<{project: IProject} & Route
     }
 
     onUploaded = () => {
-        this.props.project.status = ProjectStatus.PROCESSING;
+        this.props.project.status = ProjectStatus.TEXT_EXTRACT;
         this.props.history.replace(`/projects`)
     }
 }

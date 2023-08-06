@@ -1,3 +1,4 @@
+import api from "@/api/Api"
 import React, {Component} from "react";
 import {withRouter} from "react-router-dom";
 import {Card, Icon, Intent} from "@blueprintjs/core";
@@ -11,42 +12,84 @@ import {ProjectStatus} from "@/enum";
 function getStatusDescription(status: number) {
     switch (status) {
         case ProjectStatus.NEW: return "New"
-        case ProjectStatus.PROCESSING: return "Processing..."
+        case ProjectStatus.TEXT_EXTRACT: return "Extract text..."
+        case ProjectStatus.RES_EXTRACT: return "Extract resources..."
+        case ProjectStatus.INDEXING: return "Indexing..."
+        case ProjectStatus.READY: return ""
         case ProjectStatus.ERROR: return "Error"
+        default: return status.toString()
     }
 }
 
-function ProjectCardStatus({project}: {project: IProject}) {
-    return <div className="project-card col-xs-12 col-sm-6 col-md-6 col-lg-4">
-        <Card elevation={2}>
-            <Container fluid>
-                <Row>
-                    <Col>
-                        <Icon icon={IconNames.PROJECTS} intent={Intent.PRIMARY} className="mr-2"/>{project.name}
-                    </Col>
-                    <Col>
-                        {getStatusDescription(project.status)}
-                    </Col>
-                </Row>
-            </Container>
-        </Card>
+function TranslateStatus(props: { project: IProject }) {
+    const {project} = props
+
+    const prTranslated = (project.translatedLetters / project.letters) * 100
+    let prTranslatedP = Math.round(prTranslated)
+    if (prTranslatedP === 100 && project.translatedLetters !== project.letters)
+        prTranslatedP = 99
+
+    return <>
+        <div>Progress: {prTranslatedP}%</div>
+        <div>Texts: {project.translatedTexts} / {project.texts}</div>
+        <div>Letters: {project.translatedLetters} / {project.letters}</div>
+    </>
+}
+
+function TranslatePB(props: { project: IProject }) {
+    const {project} = props
+
+    const prTranslated = (project.translatedLetters / project.letters) * 100
+    const prApproved = (project.approvedLetters / project.letters) * 100
+
+    return <div className="progress">
+        <div className="progress-bar bg-success" role="progressbar" style={{width: prApproved + "%"}}>
+        </div>
+        <div className="progress-bar bg-warning" role="progressbar" style={{width: (prTranslated - prApproved) + "%"}}>
+        </div>
     </div>
 }
 
+type State = {
+    interval: number,
+    project: IProject
+}
+
 @withRouter
-export default class ProjectCard extends Component<{project: IProject} & RouteProps> {
-    render() {
+export default class ProjectCard extends Component<{project: IProject} & RouteProps, State> {
+    state: State = {}
+
+    componentDidMount() {
         const {project} = this.props
-
-        if (project.status === ProjectStatus.PROCESSING || project.status === ProjectStatus.ERROR) {
-            return <ProjectCardStatus project={project} />
+        this.setState({project})
+        if (project.status !== ProjectStatus.READY) {
+            const interval = setInterval(this.updateProj, 1000)
+            this.setState({interval})
         }
+    }
 
-        const prTranslated = (project.translatedLetters / project.letters) * 100
-        let prTranslatedP = Math.round(prTranslated)
-        const prApproved = (project.approvedLetters / project.letters) * 100
-        if (prTranslatedP === 100 && project.translatedLetters !== project.letters)
-            prTranslatedP = 99
+    updateProj = () => {
+        const {project} = this.state
+
+        api.projects.get(project.code)
+            .then((proj) => {
+                if (proj.status !== project.status)
+                    this.setState({project: proj})
+                if (proj.status === ProjectStatus.READY) {
+                    clearInterval(this.state.interval)
+                    this.setState({interval: null})
+                }
+            })
+    }
+
+    componentWillUnmount() {
+        const {interval} = this.state
+        if (interval) clearInterval(interval)
+    }
+
+    render() {
+        const {project} = this.state
+        if (!project) return <></>
 
         return <div className="project-card col-xs-12 col-sm-6 col-md-6 col-lg-4">
             <Card elevation={2} interactive
@@ -54,27 +97,23 @@ export default class ProjectCard extends Component<{project: IProject} & RoutePr
             >
                 <Container fluid>
                     <Row>
-                        <Col><Icon icon={IconNames.PROJECTS} intent={Intent.PRIMARY}/> {project.name}</Col>
-                        {!!project.letters && (
-                            <Col className="project-stats">
-                                <div>Progress: {prTranslatedP}%</div>
-                                <div>Texts: {project.translatedTexts} / {project.texts}</div>
-                                <div>Letters: {project.translatedLetters} / {project.letters}</div>
-                            </Col>
-                        )}
+                        <Col>
+                            <div>
+                                <Icon icon={IconNames.PROJECTS} intent={Intent.PRIMARY}/> {project.name}
+                            </div>
+                            <div>
+                                {getStatusDescription(project.status)}
+                            </div>
+                        </Col>
+                        <Col className="project-stats">
+                            {!!project.letters && <TranslateStatus project={project}/>}
+                        </Col>
                     </Row>
-                    {!!project.letters && (
-                        <Row>
-                            <Col>
-                                <div className="progress">
-                                    <div className="progress-bar bg-success" role="progressbar" style={{width: prApproved + "%"}}>
-                                    </div>
-                                    <div className="progress-bar bg-warning" role="progressbar" style={{width: (prTranslated - prApproved) + "%"}}>
-                                    </div>
-                                </div>
-                            </Col>
-                        </Row>
-                    )}
+                    <Row>
+                        <Col>
+                            {!!project.letters && <TranslatePB project={project}/>}
+                        </Col>
+                    </Row>
                 </Container>
             </Card>
         </div>
