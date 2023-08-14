@@ -51,6 +51,7 @@ export class VideosTable extends React.Component<Props, State> {
                 <td>
                     {!!v.framesCount && moment.utc((v.framesCount / v.fps) * 1000).format('HH:mm:ss')}
                 </td>
+                <td>{v.filters}</td>
                 <td style={{minWidth: 200}}><VideoProgress video={v}/></td>
                 <td>{v.completed && <Button minimal icon={IconNames.REFRESH} onClick={() => this.restart(v)}/>}</td>
                 <td><DeleteConfirmButton onConfirm={() => this.deleteVideo(v)}/></td>

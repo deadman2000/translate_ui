@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {withRouter} from "react-router-dom";
 import {Button, Container, Jumbotron} from "react-bootstrap";
-import {FormGroup, H2, InputGroup} from "@blueprintjs/core";
+import {FormGroup, H2, HTMLSelect, InputGroup} from "@blueprintjs/core";
 
 import api from "@/api/Api";
 import type {RouteProps} from "@/types/RouteProps";
@@ -15,6 +15,7 @@ export default class CreateProjectPage extends Component<RouteProps> {
     state = {
         projectName: '',
         code: undefined,
+        engine: "sci"
     }
 
     get code() {
@@ -46,6 +47,18 @@ export default class CreateProjectPage extends Component<RouteProps> {
                                 value={this.code}/>
                 </FormGroup>
 
+                <FormGroup
+                    label="Engine"
+                    labelFor="engine"
+                >
+                    <HTMLSelect id="engine"
+                            onChange={e => this.setState({engine: e.target.value})}
+                            value={this.state.engine}>
+                        <option value="sci">SCI</option>
+                        <option value="ags">AGS</option>
+                    </HTMLSelect>
+                </FormGroup>
+
                 <div>
                     <Button onClick={this.createProject} className="mr-2">CREATE</Button>
                     <Button onClick={this.cancel} variant="outline-secondary">CANCEL</Button>
@@ -55,8 +68,8 @@ export default class CreateProjectPage extends Component<RouteProps> {
     }
 
     createProject = () => {
-        const {projectName} = this.state
-        api.projects.create(projectName, this.code)
+        const {projectName, engine} = this.state
+        api.projects.create(projectName, this.code, engine)
             .then(this.onCreated)
     }
 

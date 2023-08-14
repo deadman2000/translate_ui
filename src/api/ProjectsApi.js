@@ -16,8 +16,8 @@ export class ProjectsApi {
         return this.api.get(`${baseUrl}/${code}`)
     }
 
-    create(name: string, code: string): Promise<IProject> {
-        return this.api.post(`${baseUrl}/create`, {name, code})
+    create(name: string, code: string, engine: string): Promise<IProject> {
+        return this.api.post(`${baseUrl}/create`, {name, code, engine})
     }
 
     upload(code: string, file: File, onUploadProgress) {
