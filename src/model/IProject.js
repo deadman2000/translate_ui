@@ -10,4 +10,5 @@ export type IProject = {
     translatedTexts: number,
     approvedLetters: number,
     approvedTexts: number,
+    shared: boolean,
 }

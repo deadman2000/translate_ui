@@ -18,8 +18,8 @@ export class InvitesApi {
         return this.api.get(baseUrl)
     }
 
-    create(): Promise<IInvite> {
-        return this.api.post(baseUrl)
+    create(role: string): Promise<IInvite> {
+        return this.api.post(baseUrl, {role})
     }
 
     delete(id: string): Promise {

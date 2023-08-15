@@ -1,12 +1,11 @@
 import {BreadcrumbProps} from "@blueprintjs/core"
 import React, {Component} from "react";
-import {Link, Route, Switch, withRouter} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import {inject, observer} from "mobx-react";
 import {Alignment, Breadcrumb, Button, Icon, Navbar, Position} from "@blueprintjs/core";
 import {IconNames} from "@blueprintjs/icons";
 import {Breadcrumbs2, Popover2} from "@blueprintjs/popover2";
 import Search from "@/components/project/Search";
-import {ProjectTabs} from "@/components/ProjectTabs";
 import {UserMenu} from "@/components/UserMenu";
 import {GlobalStore} from "@/stores/GlobalStore";
 import user from "@/stores/UserInfo";
@@ -39,11 +38,6 @@ export default class AppNavbar extends Component<{global?: GlobalStore} & RouteP
                 <Navbar.Divider />
                 <Search />
             </Navbar.Group>
-            <Switch>
-                <Route path="/projects/:project/:tabid" exact>
-                    <ProjectTabs project={this.props.global.project} />
-                </Route>
-            </Switch>
             <Navbar.Group align={Alignment.LEFT}>
                 <Navbar.Divider />
                 <HintSwitch />

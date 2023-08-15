@@ -21,8 +21,8 @@ export class GlobalStore {
     }
 
     get projectLetters() {
-        if (!this.project || !this.project.code) return null
-        return this.translatedLetters[this.project.code]
+        if (!this.project || !this.project.code) return 0
+        return this.translatedLetters[this.project.code] || 0
     }
 
     @action

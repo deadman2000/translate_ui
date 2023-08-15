@@ -1,11 +1,11 @@
-import api from "@/api/Api"
-import type {ISearchResult} from "@/model/ISearchResult"
-import {AnchorButton, Button, InputGroup, Intent} from "@blueprintjs/core"
-import {IconNames} from "@blueprintjs/icons"
-import React, {Component} from "react"
-import type {RouteProps} from "@/types/RouteProps"
-import {Container, Table} from "react-bootstrap"
-import {withRouter} from "react-router-dom"
+import api from "@/api/Api";
+import type {ISearchResult} from "@/model/ISearchResult";
+import {AnchorButton, Button, InputGroup, Intent} from "@blueprintjs/core";
+import {IconNames} from "@blueprintjs/icons";
+import React, {Component} from "react";
+import type {RouteProps} from "@/types/RouteProps";
+import {Container, Table} from "react-bootstrap";
+import {withRouter} from "react-router-dom";
 
 type State = {
     query: string,

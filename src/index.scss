@@ -60,3 +60,13 @@ body {
     text-decoration: none;
   }
 }
+
+.bp4-overflow-list {
+  white-space: nowrap;
+}
+
+.bp4-vertical-custom {
+  .bp4-tab-list > :not(:last-child) {
+    margin-right: 0 !important;
+  }
+}

@@ -55,4 +55,8 @@ export class ProjectApi {
     json(file: File, onUploadProgress){
         return this.api.upload(`${this.baseUrl}/json`, file, onUploadProgress)
     }
+
+    setShared(share: boolean) {
+        return this.api.post(`${this.baseUrl}/share`, {share})
+    }
 }

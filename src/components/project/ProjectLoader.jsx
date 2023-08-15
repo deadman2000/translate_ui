@@ -5,6 +5,7 @@ import {ProjectStatus} from "@/enum";
 import type {IProject} from "@/model/IProject";
 import ProjectTabContent from "@/pages/projects/ProjectTabContent";
 import UploadingPage from "@/pages/projects/UploadingPage";
+import VolumePage from "@/pages/projects/volumes/VolumePage"
 import SearchPage from "@/pages/SearchPage"
 import {GlobalStore} from "@/stores/GlobalStore";
 import type {RouteProps} from "@/types/RouteProps";
@@ -66,6 +67,9 @@ export default class ProjectLoader extends LoaderComponent<Props, States> {
             </Route>
             <Route path={`${path}/reupload`}>
                 <UploadingPage project={project} />
+            </Route>
+            <Route path={`${path}/volumes/:volume`}>
+                <VolumePage/>
             </Route>
             <Route path={`${path}/:tabid`}>
                 <ProjectTabContent />

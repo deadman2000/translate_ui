@@ -1,11 +1,11 @@
 import DownloadPage from "@/pages/projects/download/DownloadPage";
-import {ReplacePage} from "@/pages/projects/replace/ReplacePage"
 import {ImportPage} from "@/pages/projects/ImportPage"
-
 import PatchesPage from "@/pages/projects/patches/PatchesPage";
+import ProjectLeftMenu from "@/pages/projects/ProjectLeftMenu"
+import {ReplacePage} from "@/pages/projects/replace/ReplacePage"
+import {SettingsPage} from "@/pages/projects/SettingsPage"
 import SpellCheckPage from "@/pages/projects/spellcheck/SpellCheckPage"
-import VolumesPage from "@/pages/projects/volumes/VolumesPage";
-import type {RouteProps} from "@/types/RouteProps";
+import VolumesListPage from "@/pages/projects/volumes/VolumesListPage"
 import React from "react";
 import {withRouter} from "react-router-dom";
 
@@ -17,7 +17,7 @@ type R = {
 function PageSwitch({tab}: {tab: string}) {
     switch (tab) {
         case 'volumes':
-            return <VolumesPage />
+            return <VolumesListPage/>
         case 'patches':
             return <PatchesPage />
         case 'download':
@@ -28,6 +28,8 @@ function PageSwitch({tab}: {tab: string}) {
             return <ReplacePage />
         case 'import':
             return <ImportPage />
+        case 'settings':
+            return <SettingsPage />
     }
     return <div/>
 }
@@ -36,7 +38,9 @@ function PageSwitch({tab}: {tab: string}) {
 export default class ProjectTabContent extends React.Component<{} & RouteProps<R>> {
     render() {
         return <>
-            <PageSwitch tab={this.props.match.params.tabid} />
+            <ProjectLeftMenu>
+                <PageSwitch tab={this.props.match.params.tabid} />
+            </ProjectLeftMenu>
         </>
     }
 }
