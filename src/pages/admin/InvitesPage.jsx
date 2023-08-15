@@ -69,7 +69,12 @@ export default class InvitesPage extends LoaderComponent<{}, State> {
     }
 
     copyLink(invite: IInvite) {
-        navigator.clipboard.writeText(`${location.origin}/invite/${invite.code}`)
-            .then(() => toast('Link copied'))
+        const link = `${location.origin}/invite/${invite.code}`
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(link)
+                .then(() => toast('Link copied'))
+        } else {
+            alert(link)
+        }
     }
 }

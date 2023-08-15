@@ -41,11 +41,12 @@ export class SettingsPage extends React.Component<{ global?: GlobalStore }> {
     }
 
     shareChanged = (e) => {
+        const val = e.target.checked
         api.project(this.props.global.project.code)
-            .setShared(e.target.checked)
+            .setShared(val)
             .then(() => {
                 this.setState({
-                    shared: e.target.checked
+                    shared: val
                 })
             })
     }
