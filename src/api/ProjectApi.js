@@ -40,6 +40,10 @@ export class ProjectApi {
         return this.api.upload(`${this.baseUrl}/patches`, file, onUploadProgress)
     }
 
+    uploadZipPatch(file: File, onUploadProgress) {
+        return this.api.upload(`${this.baseUrl}/patches/zip`, file, onUploadProgress)
+    }
+
     deletePatch(id: string): Promise {
         return this.api.delete(`${this.baseUrl}/patches/${id}`)
     }

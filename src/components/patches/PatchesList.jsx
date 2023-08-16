@@ -35,6 +35,7 @@ export class PatchesList extends LoaderComponent<{ global?: GlobalStore } & Rout
             <Container className="pt-2">
                 <div className="buttons-container mt-2 mb-2">
                     <Button icon={IconNames.CLOUD_UPLOAD} text="Upload" onClick={this.uploadClick}/>
+                    <Button icon={IconNames.ARCHIVE} text="Upload ZIP" onClick={this.uploadZipClick}/>
                 </div>
                 <Table striped>
                     <tbody>
@@ -52,6 +53,10 @@ export class PatchesList extends LoaderComponent<{ global?: GlobalStore } & Rout
 
     uploadClick = () => {
         this.props.history.push(`${this.props.match.url}/upload`)
+    }
+
+    uploadZipClick = () => {
+        this.props.history.push(`${this.props.match.url}/upload_zip`)
     }
 
     deletePatch(patch: IPatch) {
