@@ -15,10 +15,10 @@ export default class ReindexButton extends Component<{ project: IProject }> {
         return <Button icon={IconNames.REFRESH}
                        text="Reindex"
                        loading={this.state.loading}
-                       onClick={this.reindex}/>
+                       onClick={this.clickCallback}/>
     }
 
-    reindex = () => {
+    clickCallback = () => {
         this.setState({loading: true})
         api.project(this.props.project.code)
             .reindex()

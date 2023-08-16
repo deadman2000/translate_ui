@@ -11,10 +11,10 @@ export default class DeleteButton extends Component<{ project: IProject }> {
         return <Button icon={IconNames.TRASH}
                        intent={Intent.DANGER}
                        text="Delete"
-                       onClick={this.handleClick}/>
+                       onClick={this.clickCallback}/>
     }
 
-    handleClick = () => {
+    clickCallback = () => {
         toaster.show({
             message: "Remove project?",
             intent: Intent.WARNING,

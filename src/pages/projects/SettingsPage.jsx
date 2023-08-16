@@ -1,6 +1,7 @@
 import api from "@/api/Api"
 import DeleteButton from "@/components/project/DeleteButton"
 import ReindexButton from "@/components/project/ReindexButton"
+import {SaidsButton} from "@/components/project/SaidsButton"
 import {GlobalStore} from "@/stores/GlobalStore"
 import user from "@/stores/UserInfo"
 import {Card, H5, Switch} from "@blueprintjs/core"
@@ -32,6 +33,10 @@ export class SettingsPage extends React.Component<{ global?: GlobalStore }> {
             <Card className="m-3 d-flex">
                 <H5 className="flex-grow-1">Reindex all text</H5>
                 <ReindexButton project={project}/>
+            </Card>
+            <Card className="m-3 d-flex">
+                <H5 className="flex-grow-1">Setup saids</H5>
+                <SaidsButton project={project}/>
             </Card>
             <Card className="m-3 d-flex">
                 <H5 className="flex-grow-1">Delete project</H5>

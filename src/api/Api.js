@@ -1,3 +1,4 @@
+import {ToolsApi} from "@/api/ToolsApi"
 import axios from "axios";
 import {axiosToastCatch} from "@/components/AppToaster";
 
@@ -36,6 +37,7 @@ export class Api {
         this.notify = new NotifyApi(this)
         this.replace = new ReplaceApi(this)
         this.spellcheck = new SpellcheckApi(this)
+        this.tools = new ToolsApi(this)
     }
 
     get(url: string) {
