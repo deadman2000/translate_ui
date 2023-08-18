@@ -102,23 +102,26 @@ export default class TranslateRow extends Component<Props, States> {
                     />
                 ))}
             </td>
-            <td className="col-approve">
             {user.isAdmin ? (
-                translates &&
-                    <Button
-                        icon={approved ? IconNames.TICK_CIRCLE : IconNames.TICK}
-                        intent={approved ? Intent.SUCCESS : Intent.NONE}
-                        minimal
-                        onClick={this.approveClick}
-                    />
+                <td className="col-approve">
+                    {translates &&
+                        <Button
+                            icon={approved ? IconNames.TICK_CIRCLE : IconNames.TICK}
+                            intent={approved ? Intent.SUCCESS : Intent.NONE}
+                            minimal
+                            onClick={this.approveClick}
+                        />
+                    }
+                </td>
             ) : (
-                translates && approved && (
-                    <Icon icon={IconNames.TICK_CIRCLE}
-                          intent={Intent.SUCCESS}
-                    />
-                )
+                <td className="col-approve-info">
+                    {translates && approved &&
+                        <Icon icon={IconNames.TICK_CIRCLE}
+                              intent={Intent.SUCCESS}
+                        />
+                    }
+                </td>
             )}
-            </td>
         </tr>
     }
 
