@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
-import {Button, Intent} from "@blueprintjs/core";
+import {Button, Icon, Intent} from "@blueprintjs/core";
 import {IconNames} from "@blueprintjs/icons";
 import {inject, observer} from "mobx-react";
 
@@ -102,18 +102,23 @@ export default class TranslateRow extends Component<Props, States> {
                     />
                 ))}
             </td>
-            {user.isAdmin && (
-                <td className="col-approve">
-                    {translates &&
-                        <Button
-                            icon={approved ? IconNames.TICK_CIRCLE : IconNames.TICK}
-                            intent={approved ? Intent.SUCCESS : Intent.NONE}
-                            minimal
-                            onClick={this.approveClick}
-                        />
-                    }
-                </td>
+            <td className="col-approve">
+            {user.isAdmin ? (
+                translates &&
+                    <Button
+                        icon={approved ? IconNames.TICK_CIRCLE : IconNames.TICK}
+                        intent={approved ? Intent.SUCCESS : Intent.NONE}
+                        minimal
+                        onClick={this.approveClick}
+                    />
+            ) : (
+                translates && approved && (
+                    <Icon icon={IconNames.TICK_CIRCLE}
+                          intent={Intent.SUCCESS}
+                    />
+                )
             )}
+            </td>
         </tr>
     }
 
