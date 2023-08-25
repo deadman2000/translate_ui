@@ -1,26 +1,29 @@
-import api from "@/api/Api"
 import {toast} from "@/components/AppToaster"
-import type {IProject} from "@/model/IProject"
 import {Button} from "@blueprintjs/core"
-import {IconNames} from "@blueprintjs/icons"
+import {IconName} from "@blueprintjs/icons"
 import React from "react"
 
-export class SaidsButton extends React.Component<{ project: IProject }> {
+type Props = {
+    icon: IconName,
+    text: string,
+    action: () => Promise
+}
+
+export class TaskButton extends React.Component<Props> {
     state = {
         loading: false
     }
 
     render() {
-        return <Button icon={IconNames.REFRESH}
-                       text="Setup saids"
+        return <Button icon={this.props.icon}
+                       text={this.props.text}
                        loading={this.state.loading}
                        onClick={this.clickCallback}/>
     }
 
     clickCallback = () => {
         this.setState({loading: true})
-        api.tools
-            .setupSaids(this.props.project.code)
+        this.props.action()
             .then(() => toast("Completed"))
             .finally(() => this.setState({loading: false}))
     }

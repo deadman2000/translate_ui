@@ -1,18 +1,20 @@
-import {ToolsApi} from "@/api/ToolsApi"
-import axios from "axios";
-import {axiosToastCatch} from "@/components/AppToaster";
-
-import {ReplaceApi} from "@/api/ReplaceApi"
-import {SpellcheckApi} from "@/api/SpellcheckApi"
-import {ProjectsApi} from "@/api/ProjectsApi";
-import {UsersApi} from "@/api/UsersApi";
-import {ProjectApi} from "@/api/ProjectApi";
-import {TranslateApi} from "@/api/TranslateApi";
-import {SearchApi} from "@/api/SearchApi";
 import {CommentsApi} from "@/api/CommentsApi";
 import {InvitesApi} from "@/api/InvitesApi";
-import {VideoApi} from "@/api/VideoApi";
 import {NotifyApi} from "@/api/NotifyApi";
+import {ProjectApi} from "@/api/ProjectApi";
+import {ProjectsApi} from "@/api/ProjectsApi";
+import {ReplaceApi} from "@/api/ReplaceApi"
+import {SaidsApi} from "@/api/SaidsApi"
+import {SearchApi} from "@/api/SearchApi";
+import {SpellcheckApi} from "@/api/SpellcheckApi"
+import {SuffixesApi} from "@/api/SuffixesApi"
+import {ToolsApi} from "@/api/ToolsApi"
+import {TranslateApi} from "@/api/TranslateApi";
+import {UsersApi} from "@/api/UsersApi";
+import {VideoApi} from "@/api/VideoApi";
+import {WordsApi} from "@/api/WordsApi"
+import {axiosToastCatch} from "@/components/AppToaster";
+import axios from "axios";
 
 function dataExtract(e) {
     return e.data
@@ -38,6 +40,9 @@ export class Api {
         this.replace = new ReplaceApi(this)
         this.spellcheck = new SpellcheckApi(this)
         this.tools = new ToolsApi(this)
+        this.words = new WordsApi(this)
+        this.suffixes = new SuffixesApi(this)
+        this.saids = new SaidsApi(this)
     }
 
     get(url: string) {

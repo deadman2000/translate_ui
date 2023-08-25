@@ -1,0 +1,16 @@
+@import "~@blueprintjs/core/lib/scss/variables.scss";
+
+.en {
+  color: red;
+  padding: unset;
+  background-color: unset;
+}
+
+.print-table {
+  tr {
+    border-bottom: 1px solid $gray5;
+  }
+  tr:last-child {
+    border-bottom: none;
+  }
+}

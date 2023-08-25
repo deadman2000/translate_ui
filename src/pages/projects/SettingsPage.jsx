@@ -1,10 +1,10 @@
 import api from "@/api/Api"
 import DeleteButton from "@/components/project/DeleteButton"
-import ReindexButton from "@/components/project/ReindexButton"
-import {SaidsButton} from "@/components/project/SaidsButton"
+import {TaskButton} from "@/components/project/TaskButton"
 import {GlobalStore} from "@/stores/GlobalStore"
 import user from "@/stores/UserInfo"
 import {Card, H5, Switch} from "@blueprintjs/core"
+import {IconNames} from "@blueprintjs/icons"
 import {inject} from "mobx-react"
 import React from "react"
 import {Container} from "react-bootstrap"
@@ -32,11 +32,24 @@ export class SettingsPage extends React.Component<{ global?: GlobalStore }> {
             </Card>
             <Card className="m-3 d-flex">
                 <H5 className="flex-grow-1">Reindex all text</H5>
-                <ReindexButton project={project}/>
+                <TaskButton text="Reindex"
+                            icon={IconNames.REFRESH}
+                            action={() => api.project(project.code).reindex()}
+                />
             </Card>
             <Card className="m-3 d-flex">
-                <H5 className="flex-grow-1">Setup saids</H5>
-                <SaidsButton project={project}/>
+                <H5 className="flex-grow-1">Extract parser</H5>
+                <TaskButton text="Extract"
+                            icon={IconNames.COMMENT}
+                            action={() => api.tools.extractParser(project.code)}
+                />
+            </Card>
+            <Card className="m-3 d-flex">
+                <H5 className="flex-grow-1">Import parser</H5>
+                <TaskButton text="Import"
+                            icon={IconNames.IMPORT}
+                            action={() => api.tools.import()}
+                />
             </Card>
             <Card className="m-3 d-flex">
                 <H5 className="flex-grow-1">Delete project</H5>

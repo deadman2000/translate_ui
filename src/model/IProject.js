@@ -11,4 +11,5 @@ export type IProject = {
     approvedLetters: number,
     approvedTexts: number,
     shared: boolean,
+    hasSaid: boolean,
 }

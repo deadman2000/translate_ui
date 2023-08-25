@@ -10,6 +10,9 @@ export class GlobalStore {
     @observable currentHistory: ITranslateInfo[] = []
     @observable changePasswordOpen = false
     @observable hints = false
+    @observable showUntr = false
+    @observable showTr = false
+    @observable showAppr = false
     @observable translatedLetters = {}
     @observable unread = 0
     @observable nonPrintShow = false
@@ -17,6 +20,9 @@ export class GlobalStore {
     constructor() {
         makeObservable(this)
         this.hints = localStorage.getItem('hints') === 'on'
+        this.showUntr = localStorage.getItem('show_untr') !== 'off'
+        this.showTr = localStorage.getItem('show_tr') !== 'off'
+        this.showAppr = localStorage.getItem('show_appr') !== 'off'
         this.nonPrintShow = localStorage.getItem('non-print') === 'on'
     }
 
@@ -58,6 +64,33 @@ export class GlobalStore {
             localStorage.setItem('hints', 'on')
         else
             localStorage.removeItem('hints')
+    }
+
+    @action
+    setShowUntr(enabled: boolean) {
+        this.showUntr = enabled
+        if (enabled)
+            localStorage.setItem('show_untr', 'on')
+        else
+            localStorage.setItem('show_untr', 'off')
+    }
+
+    @action
+    setShowTr(enabled: boolean) {
+        this.showTr = enabled
+        if (enabled)
+            localStorage.setItem('show_tr', 'on')
+        else
+            localStorage.setItem('show_tr', 'off')
+    }
+
+    @action
+    setShowAppr(enabled: boolean) {
+        this.showAppr = enabled
+        if (enabled)
+            localStorage.setItem('show_appr', 'on')
+        else
+            localStorage.setItem('show_appr', 'off')
     }
 
     @action

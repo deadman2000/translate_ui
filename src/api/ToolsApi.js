@@ -7,7 +7,11 @@ export class ToolsApi {
         this.api = api
     }
 
-    setupSaids(project: string): Promise {
-        return this.api.post(`${baseUrl}/setup_said/${project}`)
+    extractParser(project: string): Promise {
+        return this.api.post(`${baseUrl}/parser/${project}`)
+    }
+
+    import(): Promise {
+        return this.api.post(`${baseUrl}/import`)
     }
 }

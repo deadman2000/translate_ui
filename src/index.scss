@@ -65,8 +65,28 @@ body {
   white-space: nowrap;
 }
 
-.bp4-vertical-custom {
-  .bp4-tab-list > :not(:last-child) {
-    margin-right: 0 !important;
+.left-menu {
+  .bp4-vertical-custom {
+    .bp4-tab-list > :not(:last-child) {
+      margin-right: 0 !important;
+    }
+  }
+
+  .bp4-tab a {
+    color: $dark-gray5;
+    width: 100%;
+
+    &:hover {
+      text-decoration: none;
+      background-color: $light-gray1;
+    }
+
+    .bp4-icon {
+      color: $gray1;
+    }
+
+    .d-sm-inline {
+      margin-left: 4px;
+    }
   }
 }

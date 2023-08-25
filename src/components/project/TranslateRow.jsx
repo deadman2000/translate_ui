@@ -1,11 +1,11 @@
-import React, {Component} from "react";
+import React, {Component, memo} from "react";
 import {Link} from "react-router-dom";
 import {Button, Icon, Intent} from "@blueprintjs/core";
 import {IconNames} from "@blueprintjs/icons";
 import {inject, observer} from "mobx-react";
 
 import api from "@/api/Api";
-import {GlobalStore} from "@/stores/GlobalStore";
+import globalStore, {GlobalStore} from "@/stores/GlobalStore";
 import user from "@/stores/UserInfo";
 import type {ITextsResponse} from "@/model/ITextsResponse";
 import type {ITranslateInfo} from "@/model/ITranslateInfo";
@@ -25,9 +25,10 @@ type States = {
     approvedByMe: boolean,
 }
 
+@memo
 @inject("global")
 @observer
-export default class TranslateRow extends Component<Props, States> {
+class TranslateColumns extends Component<Props, States> {
     constructor(props: Props) {
         super(props);
 
@@ -50,7 +51,7 @@ export default class TranslateRow extends Component<Props, States> {
         const {activated, translates, approvedByMe} = this.state
         const approved = approvedByMe !== undefined ? approvedByMe : t.source.translateApproved
 
-        return <tr id={"t"+t.source.number}>
+        return <>
             <td className="col-num"><Link to={`${t.source.volume}#t${t.source.number}`}>{t.source.number}</Link></td>
             <td className="col-source-text">
                 <MonoText text={t.source.text}/>
@@ -122,7 +123,7 @@ export default class TranslateRow extends Component<Props, States> {
                     }
                 </td>
             )}
-        </tr>
+        </>
     }
 
     newSubmitted = (info: ITranslateInfo) => {
@@ -169,3 +170,15 @@ export default class TranslateRow extends Component<Props, States> {
         this.setState({activated: true})
     }
 }
+
+const TranslateRow = observer((props: {text: ITextsResponse}) => {
+    const t = props.text
+    const hidden = (!globalStore.showTr && t.translates) ||
+        (!globalStore.showUntr && !t.translates) ||
+        (!globalStore.showAppr && t.source.translateApproved)
+    return <tr id={"t"+t.source.number} className={hidden ? "d-none" : ""}>
+        <TranslateColumns text={t}/>
+    </tr>
+})
+
+export default TranslateRow

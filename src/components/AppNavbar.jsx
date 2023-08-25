@@ -1,3 +1,6 @@
+import {ShowApprSwitch} from "@/components/ShowApprSwitch"
+import {ShowTrSwitch} from "@/components/ShowTrSwitch"
+import {ShowUntrSwitch} from "@/components/ShowUntrSwitch"
 import {BreadcrumbProps} from "@blueprintjs/core"
 import React, {Component} from "react";
 import {Link, withRouter} from "react-router-dom";
@@ -14,7 +17,7 @@ import {HintSwitch} from "@/components/HintSwitch";
 import {NonprintSwitch} from "@/components/NonprintSwitch";
 
 
-function breadcrumbRenderer({ text, href, icon }: BreadcrumbProps) {
+function breadcrumbRenderer({text, href, icon}: BreadcrumbProps) {
     if (href)
         return <Link className="bp4-breadcrumb" to={href}><Icon icon={icon}/> {text}</Link>
     return <Breadcrumb text={text} icon={icon}/>
@@ -28,21 +31,26 @@ type R = {
 @withRouter
 @inject("global")
 @observer
-export default class AppNavbar extends Component<{global?: GlobalStore} & RouteProps<R>> {
+export default class AppNavbar extends Component<{ global?: GlobalStore } & RouteProps<R>> {
     render() {
         return <Navbar fixedToTop>
             <Navbar.Group align={Alignment.LEFT}>
                 <Breadcrumbs2 items={this.breadcrumbs()}
                               currentBreadcrumbRenderer={breadcrumbRenderer}
                 />
-                <Navbar.Divider />
-                <Search />
+                <Navbar.Divider/>
+                <Search/>
             </Navbar.Group>
-            <Navbar.Group align={Alignment.LEFT}>
-                <Navbar.Divider />
-                <HintSwitch />
-                <NonprintSwitch />
-            </Navbar.Group>
+            {this.props.global.volume.id && (
+                <Navbar.Group align={Alignment.LEFT}>
+                    <Navbar.Divider/>
+                    <HintSwitch/>
+                    <ShowUntrSwitch/>
+                    <ShowTrSwitch/>
+                    <ShowApprSwitch/>
+                    <NonprintSwitch/>
+                </Navbar.Group>
+            )}
             <Navbar.Group align={Alignment.RIGHT}>
                 {user.isAdmin && (
                     <Button icon={IconNames.ADD}
@@ -57,7 +65,7 @@ export default class AppNavbar extends Component<{global?: GlobalStore} & RouteP
             </Navbar.Group>
             <Navbar.Group align={Alignment.RIGHT}>
                 {this.props.global.project.code && <span>Translated: {this.props.global.projectLetters}</span>}
-                <Navbar.Divider />
+                <Navbar.Divider/>
                 <Button icon={IconNames.COMMENT} className="btn-badge"
                         onClick={() => this.props.history.push('/notify')}
                         text={this.props.global.unread ? this.props.global.unread : ""}
@@ -67,10 +75,14 @@ export default class AppNavbar extends Component<{global?: GlobalStore} & RouteP
     }
 
     breadcrumbs(): BreadcrumbProps[] {
-        const list:BreadcrumbProps[] = []
+        const list: BreadcrumbProps[] = []
         list.push({href: "/projects", icon: "folder-close", text: "Projects"})
         if (this.props.global.project.code) {
-            list.push({href: `/projects/${this.props.global.project.code}`, icon: "folder-close", text: this.props.global.project.name})
+            list.push({
+                href: `/projects/${this.props.global.project.code}`,
+                icon: "folder-close",
+                text: this.props.global.project.name
+            })
             if (this.props.global.volume.name)
                 list.push({icon: "document", text: this.props.global.volume.name})
         }

@@ -1,0 +1,10 @@
+.usage-col {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 0;
+
+    span.bp4-popover2-target {
+        display: inline;
+    }
+}
