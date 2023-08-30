@@ -44,13 +44,13 @@ export class SettingsPage extends React.Component<{ global?: GlobalStore }> {
                             action={() => api.tools.extractParser(project.code)}
                 />
             </Card>
-            <Card className="m-3 d-flex">
+            {/*<Card className="m-3 d-flex">
                 <H5 className="flex-grow-1">Import parser</H5>
                 <TaskButton text="Import"
                             icon={IconNames.IMPORT}
                             action={() => api.tools.import()}
                 />
-            </Card>
+            </Card>*/}
             <Card className="m-3 d-flex">
                 <H5 className="flex-grow-1">Delete project</H5>
                 <DeleteButton project={project}/>

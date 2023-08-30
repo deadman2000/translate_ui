@@ -157,7 +157,7 @@ function WordsValidation(props: { project: string }) {
     useEffect(() => {
         api.words.dublicate(props.project)
             .then((words) => {
-                if (words) setError('Multiple words: ' + words.join(', '))
+                if (words && words.length > 0) setError('Multiple words: ' + words.join(', '))
                 setLoading(false)
             })
     }, [])
