@@ -8,6 +8,7 @@ import {SaidsApi} from "@/api/SaidsApi"
 import {SearchApi} from "@/api/SearchApi";
 import {SpellcheckApi} from "@/api/SpellcheckApi"
 import {SuffixesApi} from "@/api/SuffixesApi"
+import {SynonymsApi} from "@/api/SynonymsApi"
 import {ToolsApi} from "@/api/ToolsApi"
 import {TranslateApi} from "@/api/TranslateApi";
 import {UsersApi} from "@/api/UsersApi";
@@ -43,6 +44,7 @@ export class Api {
         this.words = new WordsApi(this)
         this.suffixes = new SuffixesApi(this)
         this.saids = new SaidsApi(this)
+        this.synonyms = new SynonymsApi(this)
     }
 
     get(url: string) {

@@ -17,5 +17,6 @@ export type ISaidValidateResult = {
     errWord: string,
     said: string[],
     saidTree: string,
-    examples: IValidateExample[]
+    examples: IValidateExample[],
+    valid: boolean
 }

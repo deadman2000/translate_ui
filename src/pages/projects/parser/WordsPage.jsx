@@ -1,8 +1,8 @@
 import {classToStr, hex3, wordClassMap} from "@/pages/projects/parser/utils"
-import {Button, Checkbox, Classes, Dialog, InputGroup, Intent, Spinner} from "@blueprintjs/core"
+import {Button, Checkbox, Classes, Dialog, Icon, InputGroup, Intent, Spinner} from "@blueprintjs/core"
 import {IconNames} from "@blueprintjs/icons"
 import {Tooltip2} from "@blueprintjs/popover2"
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import api from "@/api/Api"
 import type {IWord} from "@/model/IWord"
 import {GlobalStore} from "@/stores/GlobalStore"
@@ -150,6 +150,29 @@ type State = {
     filter: string
 }
 
+function WordsValidation(props: { project: string }) {
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState('')
+
+    useEffect(() => {
+        api.words.dublicate(props.project)
+            .then((words) => {
+                if (words) setError('Multiple words: ' + words.join(', '))
+                setLoading(false)
+            })
+    }, [])
+
+    if (loading)
+        return <Spinner/>
+
+    if (error)
+        return <Tooltip2 content={error}>
+            <Icon icon={IconNames.WARNING_SIGN} intent={Intent.WARNING}/>
+        </Tooltip2>
+
+    return null
+}
+
 @inject("global")
 export default class WordsPage extends LoaderComponent<{ global?: GlobalStore }, State> {
     get project() {
@@ -177,6 +200,9 @@ export default class WordsPage extends LoaderComponent<{ global?: GlobalStore },
                                  placeholder="filter"
                                  style={{width: 300}}
                 /></Col>
+                <Col>
+                    <WordsValidation project={this.project}/>
+                </Col>
             </Row>
             <Table striped size="sm">
                 <thead>

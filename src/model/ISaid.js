@@ -1,3 +1,5 @@
+import type {ISaidValidateResult} from "@/model/ISaidValidateResult"
+
 export type ISaid = {
     id: string,
     script: number,
@@ -6,5 +8,6 @@ export type ISaid = {
     patch?: string,
     approved: boolean,
     examples: string[],
-    prints?: string
+    prints?: string,
+    validation: ISaidValidateResult
 }

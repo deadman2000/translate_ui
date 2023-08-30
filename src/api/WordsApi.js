@@ -15,4 +15,8 @@ export class WordsApi {
     translate(project: string, gr: number, cl: number, words: string): Promise<IWord> {
         return this.api.post(`${baseUrl}/${project}`, {words, gr, cl})
     }
+
+    dublicate(project: string): Promise<string[]> {
+        return this.api.get(`${baseUrl}/dublicate/${project}`)
+    }
 }

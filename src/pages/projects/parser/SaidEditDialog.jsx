@@ -1,7 +1,8 @@
 import api from "@/api/Api"
 import type {ISaid} from "@/model/ISaid"
+import type {ISaidValidateResult, IValidateWord} from "@/model/ISaidValidateResult"
 import {IValidateExample} from "@/model/ISaidValidateResult"
-import {Button, Classes, Dialog, Icon, InputGroup, Intent} from "@blueprintjs/core"
+import {Button, Classes, Dialog, H2, Icon, InputGroup, Intent, Tag} from "@blueprintjs/core"
 import {IconNames} from "@blueprintjs/icons"
 import {Tooltip2} from "@blueprintjs/popover2"
 import React, {useEffect, useState} from "react"
@@ -10,6 +11,32 @@ import {Table} from "react-bootstrap"
 type Example = {
     text: string,
     validation: IValidateExample,
+}
+
+function SaidTags(props: { said: string[] }) {
+    const {said} = props
+    return said.map((s, i) => <Tag key={i} round>{s}</Tag>)
+}
+
+function WordTag(props: { word: IValidateWord }) {
+    const {word} = props
+    if (!word.isValid)
+        return <Tag intent={Intent.DANGER} round>{word.word}</Tag>
+
+    const hex = word.ids.map((i) => i.split(':')[1]).join('/')
+    return <Tooltip2 content={<>
+        <div>{word.word}</div>
+        {word.ids.map((id, i) => <div key={i}>{id}</div>)}
+    </>}>
+        <Tag round intent={word.ids.length > 1 ? Intent.WARNING : Intent.NONE}>{hex}</Tag>
+    </Tooltip2>
+}
+
+function WordsTags(props: { words: IValidateWord[] }) {
+    const {words} = props
+    return words.map((w, i) => (
+        <WordTag word={w} key={i}/>
+    ))
 }
 
 function ExampleRow(props: {
@@ -22,31 +49,36 @@ function ExampleRow(props: {
     const validation = props.example.validation
 
     return <>
-        <td>
-            <InputGroup value={value}
-                        onChange={(e) => {
-                            setValue(e.target.value)
-                            props.onChange(e.target.value)
-                        }}
-                        placeholder="do anything"
-                        fill
-            />
-        </td>
-        <td>
-            {validation && (
-                <Icon
-                    icon={validation.match ? IconNames.TICK : IconNames.CROSS}
-                    intent={validation.match ? Intent.SUCCESS : Intent.DANGER}
+        <tr>
+            <td>
+                <InputGroup value={value}
+                            onChange={(e) => {
+                                setValue(e.target.value)
+                                props.onChange(e.target.value)
+                            }}
+                            placeholder="do anything"
+                            fill
                 />
-            )}
-        </td>
-        <td>
-            {validation && validation.tree &&
-                <Tooltip2 content={<pre className="bp4-code-block">{validation.tree}</pre>}>
-                    <Icon icon={IconNames.DIAGRAM_TREE}/>
-                </Tooltip2>
-            }
-        </td>
+            </td>
+            <td>
+                {validation && (
+                    <Icon
+                        icon={validation.match ? IconNames.TICK : IconNames.CROSS}
+                        intent={validation.match ? Intent.SUCCESS : Intent.DANGER}
+                    />
+                )}
+            </td>
+            <td>
+                {validation && validation.tree &&
+                    <Tooltip2 content={<pre className="bp4-code-block">{validation.tree}</pre>}>
+                        <Icon icon={IconNames.DIAGRAM_TREE} className="color-gray"/>
+                    </Tooltip2>
+                }
+            </td>
+        </tr>
+        {validation && validation.words && <tr>
+            <td colSpan={3}><WordsTags words={validation.words}/></td>
+        </tr>}
     </>
 }
 
@@ -55,7 +87,7 @@ export function SaidEditDialog(props: { project: string, said: ISaid, update: (s
     const [loading, setLoading] = useState(false)
     const [value, setValue] = useState('')
     const [examples, setExamples] = useState([])
-    const [validation, setValidation] = useState(null)
+    const [validation, setValidation]: [ISaidValidateResult, Function] = useState(null)
 
     useEffect(() => {
         if (said) {
@@ -66,25 +98,27 @@ export function SaidEditDialog(props: { project: string, said: ISaid, update: (s
                 })
                 exmp.push({text: ''})
                 setExamples(exmp)
-            }
-            else
-            {
+            } else {
                 setExamples([{text: ''}])
             }
-            setValidation(null)
+            setValidation(said.validation)
             setLoading(false)
         }
     }, [said])
 
+    useEffect(() => {
+        if (validation && validation.examples) {
+            for (let i = 0; i < validation.examples.length; i++) {
+                examples[i].validation = validation.examples[i]
+            }
+            setExamples([...examples])
+        }
+    }, [validation])
+
     const validate = () => {
-        const exmp = examples
-        api.saids.validate(project, value, exmp.map((e) => e.text.trim()).filter((s) => s.length > 0))
+        api.saids.validate(project, value, examples.map((e) => e.text.trim()).filter((s) => s.length > 0))
             .then((result) => {
                 setValidation(result)
-                for (let i = 0; i < result.examples.length; i++) {
-                    exmp[i].validation = result.examples[i]
-                }
-                setExamples([...exmp])
             })
     }
 
@@ -98,41 +132,48 @@ export function SaidEditDialog(props: { project: string, said: ISaid, update: (s
 
     return <Dialog isOpen={!!said}>
         {said && <div className={Classes.DIALOG_BODY}>
-            <p>{said.expression}</p>
-            <div className="pb-1">
-                <InputGroup value={value}
-                            onChange={(e) => setValue(e.target.value)}
-                            placeholder="*/(said,expression)[<!*]>"
-                />
-                {validation &&
-                    <Tooltip2 content={<pre className="bp4-code-block">{validation.saidTree}</pre>}>
-                        <Icon icon={IconNames.DIAGRAM_TREE}/>
-                    </Tooltip2>
-                }
-            </div>
-            <div>
-                Examples:
-                <Table size="sm" borderless>
-                    <colgroup>
-                        <col/>
-                        <col width="1%"/>
-                        <col width="1%"/>
-                    </colgroup>
-                    <tbody>
-                    {examples.map((e: Example, i) => <tr key={i}>
-                        <ExampleRow example={e}
-                                    validation={validation && i < validation.examples.length ? validation.examples[i] : null}
-                                    onChange={(v) => {
-                                        e.text = v
-                                        if (v.length > 0 && i === examples.length - 1) {
-                                            setExamples([...examples, {text: ''}])
-                                        }
-                                    }}
+            <H2 className="bp4-text-overflow-ellipsis">{said.expression}</H2>
+            <Table size="sm" borderless>
+                <colgroup>
+                    <col/>
+                    <col width="1%"/>
+                    <col width="1%"/>
+                </colgroup>
+                <tbody>
+                <tr>
+                    <td colSpan={2}>
+                        <InputGroup value={value}
+                                    onChange={(e) => setValue(e.target.value)}
+                                    placeholder="*/(said,expression)[<!*]>"
                         />
-                    </tr>)}
-                    </tbody>
-                </Table>
-            </div>
+                    </td>
+                    <td>
+                        {validation &&
+                            <Tooltip2 content={<pre className="bp4-code-block">{validation.saidTree}</pre>}>
+                                <Icon icon={IconNames.DIAGRAM_TREE} className="color-gray"/>
+                            </Tooltip2>
+                        }
+                    </td>
+                </tr>
+                {validation && validation.said && <tr>
+                    <td colSpan={3}><SaidTags said={validation.said}/></td>
+                </tr>}
+                <tr>
+                    <td colSpan={3}>Examples:</td>
+                </tr>
+                {examples.map((e: Example, i) =>
+                    <ExampleRow key={i}
+                                example={e}
+                                validation={validation && validation.examples && i < validation.examples.length ? validation.examples[i] : null}
+                                onChange={(v) => {
+                                    e.text = v
+                                    if (v.length > 0 && i === examples.length - 1) {
+                                        setExamples([...examples, {text: ''}])
+                                    }
+                                }}
+                    />)}
+                </tbody>
+            </Table>
         </div>}
         <div className={Classes.DIALOG_FOOTER}>
             <div className={Classes.DIALOG_FOOTER_ACTIONS}>

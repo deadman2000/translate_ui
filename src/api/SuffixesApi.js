@@ -23,4 +23,8 @@ export class SuffixesApi {
     delete(project: string, id: string): Promise {
         return this.api.delete(`${baseUrl}/${project}/${id}`)
     }
+
+    test(project: string, word: string): Promise<string[]> {
+        return this.api.post(`${baseUrl}/${project}/test`, {word})
+    }
 }
