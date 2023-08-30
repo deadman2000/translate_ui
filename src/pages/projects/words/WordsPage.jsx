@@ -1,4 +1,4 @@
-import {classToStr, hex3, wordClassMap} from "@/pages/projects/parser/utils"
+import {classToStr, hex3, wordClassMap} from "@/pages/projects/saids/utils"
 import {Button, Checkbox, Classes, Dialog, Icon, InputGroup, Intent, Spinner} from "@blueprintjs/core"
 import {IconNames} from "@blueprintjs/icons"
 import {Tooltip2} from "@blueprintjs/popover2"

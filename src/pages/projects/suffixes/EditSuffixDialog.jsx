@@ -1,5 +1,5 @@
 import type {ISuffix} from "@/model/ISuffix"
-import {ClassEditor, WordClasses} from "@/pages/projects/parser/utils"
+import {ClassEditor, WordClasses} from "@/pages/projects/saids/utils"
 import {Button, Classes, Dialog, InputGroup, Intent} from "@blueprintjs/core"
 import React, {useEffect, useState} from "react"
 import {Col, Row} from "react-bootstrap"

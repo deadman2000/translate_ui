@@ -1,5 +1,5 @@
-import SaidScriptsPage from "@/pages/projects/parser/SaidScriptsPage"
-import SaidsPage from "@/pages/projects/parser/SaidsPage"
+import SaidScriptsPage from "@/pages/projects/saids/SaidScriptsPage"
+import SaidsPage from "@/pages/projects/saids/SaidsPage"
 import React, {Component} from "react"
 import {Route, Switch} from "react-router-dom"
 
