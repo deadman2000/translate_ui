@@ -2,6 +2,8 @@ import api from "@/api/Api"
 import type {ISaid} from "@/model/ISaid"
 import type {ISaidValidateResult, IValidateWord} from "@/model/ISaidValidateResult"
 import {IValidateExample} from "@/model/ISaidValidateResult"
+import {classToStr} from "@/pages/projects/saids/utils"
+import globalStore from "@/stores/GlobalStore"
 import {Button, Classes, Dialog, H2, Icon, InputGroup, Intent, Tag} from "@blueprintjs/core"
 import {IconNames} from "@blueprintjs/icons"
 import {Tooltip2} from "@blueprintjs/popover2"
@@ -13,9 +15,28 @@ type Example = {
     validation: IValidateExample,
 }
 
-function SaidTags(props: { said: string[] }) {
-    const {said} = props
-    return said.map((s, i) => <Tag key={i} round>{s}</Tag>)
+function SaidTag(props: { token: string }) {
+    const {token} = props
+    const [words, setWords] = useState(null)
+
+    useEffect(() => {
+        if (token.length === 3) {
+            api.words.words(globalStore.project.code, parseInt(token, 16))
+                .then((words) => setWords(words))
+        }
+    }, [])
+
+    if (words) {
+        return <Tooltip2 content={words.map((w, i) => <div key={`${i}${w}`}>{w}</div>)}>
+            <Tag round>{token}</Tag>
+        </Tooltip2>
+    }
+    return <Tag round>{token}</Tag>
+}
+
+function getWordClass(id: string) {
+    const cl = parseInt(id.split(':')[0], 16)
+    return classToStr(cl)
 }
 
 function WordTag(props: { word: IValidateWord }) {
@@ -26,17 +47,10 @@ function WordTag(props: { word: IValidateWord }) {
     const hex = word.ids.map((i) => i.split(':')[1]).join('/')
     return <Tooltip2 content={<>
         <div>{word.word}</div>
-        {word.ids.map((id, i) => <div key={i}>{id}</div>)}
+        {word.ids.map((id, i) => <div key={i}>{id}  {getWordClass(id)}</div>)}
     </>}>
         <Tag round intent={word.ids.length > 1 ? Intent.WARNING : Intent.NONE}>{hex}</Tag>
     </Tooltip2>
-}
-
-function WordsTags(props: { words: IValidateWord[] }) {
-    const {words} = props
-    return words.map((w, i) => (
-        <WordTag word={w} key={i}/>
-    ))
 }
 
 function ExampleRow(props: {
@@ -77,7 +91,11 @@ function ExampleRow(props: {
             </td>
         </tr>
         {validation && validation.words && <tr>
-            <td colSpan={3}><WordsTags words={validation.words}/></td>
+            <td colSpan={3}>
+                {validation.words.map((w, i) => (
+                    <WordTag word={w} key={i}/>
+                ))}
+            </td>
         </tr>}
     </>
 }
@@ -148,15 +166,21 @@ export function SaidEditDialog(props: { project: string, said: ISaid, update: (s
                         />
                     </td>
                     <td>
-                        {validation &&
-                            <Tooltip2 content={<pre className="bp4-code-block">{validation.saidTree}</pre>}>
-                                <Icon icon={IconNames.DIAGRAM_TREE} className="color-gray"/>
-                            </Tooltip2>
-                        }
+                        {validation && (
+                            validation.error ? <Tooltip2 content={validation.error}>
+                                    <Icon icon={IconNames.CROSS} intent={Intent.DANGER}/>
+                                </Tooltip2>
+                                :
+                                <Tooltip2 content={<pre className="bp4-code-block">{validation.saidTree}</pre>}>
+                                    <Icon icon={IconNames.DIAGRAM_TREE} className="color-gray"/>
+                                </Tooltip2>
+                        )}
                     </td>
                 </tr>
                 {validation && validation.said && <tr>
-                    <td colSpan={3}><SaidTags said={validation.said}/></td>
+                    <td colSpan={3}>
+                        {validation.said.map((s, i) => <SaidTag key={`${i}${s}`} token={s}/>)}
+                    </td>
                 </tr>}
                 <tr>
                     <td colSpan={3}>Examples:</td>

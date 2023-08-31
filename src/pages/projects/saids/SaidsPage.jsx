@@ -14,17 +14,17 @@ import Highlighter from "react-highlight-words"
 import {withRouter} from "react-router-dom"
 import './Saids.scss'
 
-function SaidHighlight(props: { said: ISaid }) {
-    const txt = props.said.patch
-    const enWords = txt.match(/([a-z]+)/g)
+function EnHighlight(props: { text: string }) {
+    const {text} = props
+    const enWords = text.match(/([a-z0-9]+)/g)
     if (enWords) {
         return <Highlighter highlightClassName="en"
                             searchWords={enWords}
-                            textToHighlight={txt}
+                            textToHighlight={text}
                             highlightTag="span"
         />
     }
-    return txt
+    return text
 }
 
 function Prints(props: { project: string, said: ISaid }) {
@@ -96,8 +96,10 @@ function SaidValidation(props: { said: ISaid }) {
     if (said.validation.valid) {
         if (said.validation.examples.length === 0)
             return null
-        return <Icon icon={IconNames.THUMBS_UP}
+        return <Tooltip2 content={said.examples.map((e, i) => <div key={i}>{e}</div>)}>
+            <Icon icon={IconNames.THUMBS_UP}
                      className="color-gray"/>
+        </Tooltip2>
     }
 
     const tooltipContent = () => {
@@ -127,7 +129,7 @@ const SaidRow = React.memo((props: { project: string, said: ISaid, edit: (said: 
                     minimal
                     onClick={() => edit(said)}
         /></td>
-        <td className="text-break"><SaidHighlight said={said}/></td>
+        <td className="text-break"><EnHighlight text={said.patch}/></td>
         <td><SaidValidation said={said}/></td>
         <td>{said.prints && <Prints project={project} said={said}/>}</td>
         <td><ApproveButton project={project} said={said}/></td>
@@ -215,8 +217,8 @@ export default class SaidsPage extends LoaderComponent<RouteProps<R>, State> {
                 </colgroup>
                 <tbody>
                 {synonyms.map((s) => <tr key={s.id} className={s.delete ? "line-through" : undefined}>
-                    <td>{s.wordAStr}</td>
-                    <td>{s.wordBStr}</td>
+                    <td><EnHighlight text={s.wordAStr}/></td>
+                    <td><EnHighlight text={s.wordBStr}/></td>
                     <td><Button icon={IconNames.TRASH}
                                 intent={s.delete ? Intent.DANGER : Intent.NONE}
                                 minimal

@@ -138,7 +138,11 @@ export default class SuffixesPage extends LoaderComponent<{ global?: GlobalStore
     }
 
     updateTest = () => {
-        api.suffixes.test(this.project, this.state.testWord)
-            .then((result) => this.setState({testRes: result}))
+        if (!this.state.testWord) {
+            this.setState({testRes: null})
+        } else {
+            api.suffixes.test(this.project, this.state.testWord)
+                .then((result) => this.setState({testRes: result}))
+        }
     }
 }

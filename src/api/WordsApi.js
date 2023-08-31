@@ -12,6 +12,10 @@ export class WordsApi {
         return this.api.get(`${baseUrl}/${project}`)
     }
 
+    words(project: string, id: number): Promise<string[]> {
+        return this.api.get(`${baseUrl}/${project}/${id}`)
+    }
+
     translate(project: string, gr: number, cl: number, words: string): Promise<IWord> {
         return this.api.post(`${baseUrl}/${project}`, {words, gr, cl})
     }

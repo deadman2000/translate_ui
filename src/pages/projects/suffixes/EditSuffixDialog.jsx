@@ -38,13 +38,13 @@ export function EditSuffixDialog({suffix, open, create, cancel}: Props) {
             <div className={Classes.DIALOG_BODY}>
                 <Row>
                     <Col>
-                        <InputGroup placeholder="*from"
+                        <InputGroup placeholder="from"
                                     onChange={(e) => setInp(e.target.value)}
                                     value={inp}/>
                         <ClassEditor value={clin} onChange={setClassIn}/>
                     </Col>
                     <Col>
-                        <InputGroup placeholder="*to"
+                        <InputGroup placeholder="to"
                                     onChange={(e) => setOut(e.target.value)}
                                     value={out}/>
                         <ClassEditor value={clout} onChange={setClassOut}/>
