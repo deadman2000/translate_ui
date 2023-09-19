@@ -33,4 +33,8 @@ export class SaidsApi {
     validate(project: string, said: string, examples: string[]): Promise<ISaidValidateResult> {
         return this.api.post(`${baseUrl}/${project}/validate`, {said, examples})
     }
+
+    translate(project: string, said: string): Promise<string> {
+        return this.api.post(`${baseUrl}/${project}/translate`, {said})
+    }
 }

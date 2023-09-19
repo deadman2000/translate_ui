@@ -196,7 +196,7 @@ export default class WordsPage extends LoaderComponent<{ global?: GlobalStore },
                 <Col sm={2}><Button icon={IconNames.ADD} text="Create word"
                                     onClick={() => this.setState({createWord: true})}/></Col>
                 <Col><InputGroup value={this.state.filter}
-                                 onChange={(e) => this.setState({filter: e.target.value})}
+                                 onChange={(e) => this.setState({filter: e.target.value.toLowerCase().trim()})}
                                  placeholder="filter"
                                  style={{width: 300}}
                 /></Col>

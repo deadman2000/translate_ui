@@ -109,11 +109,12 @@ export function SaidEditDialog(props: { project: string, said: ISaid, update: (s
 
     useEffect(() => {
         if (said) {
+            api.saids.translate(project, said.patch)
+                .then((patch) => setValue(patch))
+
             setValue(said.patch)
             if (said.examples) {
-                const exmp = said.examples.map((e) => {
-                    return {text: e}
-                })
+                const exmp = said.examples.map((e) => ({text: e}))
                 exmp.push({text: ''})
                 setExamples(exmp)
             } else {
