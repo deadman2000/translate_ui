@@ -11,6 +11,10 @@ export class ToolsApi {
         return this.api.post(`${baseUrl}/parser/${project}`)
     }
 
+    prints(project: string): Promise {
+        return this.api.post(`${baseUrl}/prints/${project}`)
+    }
+
     import(): Promise {
         return this.api.post(`${baseUrl}/import`)
     }

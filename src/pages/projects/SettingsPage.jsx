@@ -45,6 +45,14 @@ export class SettingsPage extends React.Component<{ global?: GlobalStore }> {
                             action={() => api.tools.extractParser(project.code)}
                 />
             </Card>}
+            {project.hasSaid &&
+                <Card className="m-3 d-flex">
+                    <H5 className="flex-grow-1">Rebuild said hint's</H5>
+                    <TaskButton text="Rebuild"
+                                icon={IconNames.REFRESH}
+                                action={() => api.tools.prints(project.code)}
+                    />
+                </Card>}
             {/*<Card className="m-3 d-flex">
                 <H5 className="flex-grow-1">Import parser</H5>
                 <TaskButton text="Import"
