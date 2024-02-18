@@ -9,6 +9,10 @@ import './DownloadPage.scss'
 
 @inject("global")
 export default class DownloadPage extends React.Component<{global?: GlobalStore}> {
+    componentDidMount() {
+        document.title = `Download ${this.props.global.project.name}`;
+    }
+
     render() {
         const project = this.props.global.project
 

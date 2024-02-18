@@ -6,6 +6,8 @@ import React, {Component} from "react";
 import type {RouteProps} from "@/types/RouteProps";
 import {Container, Table} from "react-bootstrap";
 import {withRouter} from "react-router-dom";
+import {inject} from "mobx-react";
+import {GlobalStore} from "@/stores/GlobalStore";
 
 type State = {
     query: string,
@@ -17,7 +19,8 @@ type State = {
 }
 
 @withRouter
-export default class SearchPage extends Component<RouteProps, State> {
+@inject("global")
+export default class SearchPage extends Component<{global?: GlobalStore} & RouteProps, State> {
     state: State = {
         query: '',
         value: '',
@@ -25,6 +28,10 @@ export default class SearchPage extends Component<RouteProps, State> {
         mode: 0,
         regex: false,
         ignoreCase: true,
+    }
+
+    componentDidMount() {
+        document.title = `Search ${this.props.global.project.name}`;
     }
 
     render() {

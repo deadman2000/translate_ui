@@ -27,6 +27,8 @@ export default class VolumesListPage extends LoaderComponent<{ global?: GlobalSt
     }
 
     prepare(): Promise {
+        document.title = `Volumes ${this.props.global.project.name}`;
+
         this.setState({
             showCompleted: localStorage.getItem('showCompleted') === 'true',
             showApproved: localStorage.getItem('showApproved') === 'true'

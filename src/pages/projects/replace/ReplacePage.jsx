@@ -207,6 +207,10 @@ class ReplaceForm extends Component<{ project: IProject }, State> {
 
 @inject("global")
 export class ReplacePage extends React.Component<{global?: GlobalStore}> {
+    componentDidMount() {
+        document.title = `Replace ${this.props.global.project.name}`;
+    }
+
     render() {
         const project = this.props.global.project
 

@@ -13,6 +13,8 @@ import {Table} from "react-bootstrap"
 import Highlighter from "react-highlight-words"
 import {withRouter} from "react-router-dom"
 import './Saids.scss'
+import {GlobalStore} from "@/stores/GlobalStore";
+import {inject} from "mobx-react";
 
 function EnHighlight(props: { text: string }) {
     const {text} = props
@@ -150,7 +152,8 @@ type State = {
 }
 
 @withRouter
-export default class SaidsPage extends LoaderComponent<RouteProps<R>, State> {
+@inject("global")
+export default class SaidsPage extends LoaderComponent<{ global?: GlobalStore } & RouteProps<R>, State> {
     get project() {
         return this.props.match.params.project
     }
@@ -160,6 +163,7 @@ export default class SaidsPage extends LoaderComponent<RouteProps<R>, State> {
     }
 
     prepare(): Promise {
+        document.title = `Said ${this.script} ${this.props.global.project.name}`;
         this.setState({
             wordA: '',
             wordB: ''

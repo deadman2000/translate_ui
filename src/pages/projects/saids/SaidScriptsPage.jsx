@@ -14,6 +14,7 @@ export default class SaidScriptsPage extends LoaderComponent<{ global?: GlobalSt
     }
 
     prepare(): Promise {
+        document.title = `Saids ${this.props.global.project.name}`;
         return api.saids.scripts(this.project)
             .then((scripts) => this.setState({scripts}))
     }

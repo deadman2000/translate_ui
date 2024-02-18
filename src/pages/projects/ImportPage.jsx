@@ -2,7 +2,7 @@ import api from "@/api/Api"
 import {toast} from "@/components/AppToaster"
 import globalStore from "@/stores/GlobalStore"
 import {Button, FileInput, FormGroup, Intent, ProgressBar} from "@blueprintjs/core"
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Container} from "react-bootstrap"
 
 function ImportPackage() {
@@ -79,6 +79,9 @@ function ImportJson() {
 }
 
 export function ImportPage() {
+    useEffect(() => {
+        document.title = `Import ${globalStore.project.name}`;
+    }, [])
 
     return <Container>
         <ImportPackage/>

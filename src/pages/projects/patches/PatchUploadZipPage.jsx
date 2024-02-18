@@ -19,10 +19,14 @@ const fileTypes = ["ZIP"];
 
 @inject("global")
 @withRouter
-export class PatchUploadZipPage extends  React.Component<{global?: GlobalStore} & RouteProps, State> {
+export class PatchUploadZipPage extends React.Component<{global?: GlobalStore} & RouteProps, State> {
     state: State = {
         uploading: false,
         file: null,
+    }
+
+    componentDidMount() {
+        document.title = `Upload ZIP ${this.props.global.project.name}`;
     }
 
     render() {

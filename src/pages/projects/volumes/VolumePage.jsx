@@ -67,6 +67,8 @@ export default class VolumePage extends LoaderComponent<Props, States> {
                 this.scrollToLocation()
             })
 
+        document.title = `${volume} ${this.props.global.project.name}`;
+
         return Promise.all([loadVolume, loadTexts])
     }
 

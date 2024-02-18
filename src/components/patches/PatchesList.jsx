@@ -21,6 +21,7 @@ type States = {
 @withRouter
 export class PatchesList extends LoaderComponent<{ global?: GlobalStore } & RouteProps, States> {
     prepare(): Promise {
+        document.title = `Patches ${this.props.global.project.name}`;
         return api.project(this.props.global.project.code).patches()
             .then(patches => {
                 this.setState({patches})

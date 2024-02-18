@@ -180,6 +180,7 @@ export default class WordsPage extends LoaderComponent<{ global?: GlobalStore },
     }
 
     prepare() {
+        document.title = `Words ${this.props.global.project.name}`;
         this.setState({newWords: []})
         return api.words.get(this.project)
             .then((words) => this.setState({words}))

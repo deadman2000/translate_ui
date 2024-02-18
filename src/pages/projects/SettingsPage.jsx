@@ -20,6 +20,7 @@ export class SettingsPage extends React.Component<{ global?: GlobalStore }> {
         this.setState({
             shared: project.shared
         })
+        document.title = `Settings ${project.name}`;
     }
 
     render() {

@@ -33,6 +33,10 @@ export default class PatchUploadPage extends React.Component<{global?: GlobalSto
         files: [],
     }
 
+    componentDidMount() {
+        document.title = `Upload ${this.props.global.project.name}`;
+    }
+
     render() {
         const {uploading, files} = this.state
 

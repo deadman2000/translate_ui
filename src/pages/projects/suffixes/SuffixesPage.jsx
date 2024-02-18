@@ -26,6 +26,7 @@ export default class SuffixesPage extends LoaderComponent<{ global?: GlobalStore
     }
 
     prepare() {
+        document.title = `Suffixes ${this.props.global.project.name}`;
         this.setState({testWord: '', timer: 0})
         return api.suffixes.get(this.project)
             .then((suffixes) => this.setState({suffixes}))

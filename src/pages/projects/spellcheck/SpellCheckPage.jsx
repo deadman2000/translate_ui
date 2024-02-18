@@ -39,6 +39,7 @@ export default class SpellCheckPage extends React.Component<{global?: GlobalStor
     }
 
     componentDidMount() {
+        document.title = `Spelling ${this.props.global.project.name}`;
         this.update()
     }
 
