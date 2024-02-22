@@ -13,6 +13,11 @@ import TranslateRow from "@/components/project/TranslateRow";
 import TranslateHistory from "@/components/project/TranslateHistory";
 import user from "@/stores/UserInfo";
 import {EditableText} from "@blueprintjs/core";
+import {HintSwitch} from "@/components/HintSwitch";
+import {ShowUntrSwitch} from "@/components/ShowUntrSwitch";
+import {ShowTrSwitch} from "@/components/ShowTrSwitch";
+import {ShowApprSwitch} from "@/components/ShowApprSwitch";
+import {NonprintSwitch} from "@/components/NonprintSwitch";
 
 
 type R = {
@@ -109,6 +114,13 @@ export default class VolumePage extends LoaderComponent<Props, States> {
                 ? <DescriptionEditor volume={volume} />
                 : (!!volume.description && <div className="pl-3 pr-3 pt-1 pb-1">{volume.description}</div>)
             }
+            <div className="pl-3 pb-1">
+                <HintSwitch/>
+                <ShowUntrSwitch/>
+                <ShowTrSwitch/>
+                <ShowApprSwitch/>
+                <NonprintSwitch/>
+            </div>
             <Table striped bordered className={"text-table " + (this.props.global.nonPrintShow ? "" : "hide-non-print")}>
                 <tbody>
                     {this.state.texts.map(t => <TranslateRow key={t.source.number} text={t} />)}
