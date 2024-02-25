@@ -1,4 +1,5 @@
 import type {ISaidValidateResult} from "@/model/ISaidValidateResult"
+import type {ISaidTest} from "@/model/ISaidTest";
 
 export type ISaid = {
     id: string,
@@ -7,7 +8,7 @@ export type ISaid = {
     expression: string,
     patch?: string,
     approved: boolean,
-    examples: string[],
+    tests: ISaidTest[],
     prints?: string,
     validation: ISaidValidateResult
 }

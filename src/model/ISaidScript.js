@@ -1,5 +1,6 @@
 export type ISaidScript = {
     script: number,
     count: number,
-    approved: number
+    approved: number,
+    valid: boolean
 }

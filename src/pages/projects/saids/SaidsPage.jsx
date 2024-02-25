@@ -1,7 +1,7 @@
 import api from "@/api/Api"
 import LoaderComponent from "@/components/LoaderComponent"
 import type {ISaid} from "@/model/ISaid"
-import type {IValidateExample} from "@/model/ISaidValidateResult"
+import type {ISaidTestResult} from "@/model/ISaidValidateResult"
 import type {ISynonym} from "@/model/ISynonym"
 import {SaidEditDialog} from "@/pages/projects/saids/SaidEditDialog"
 import type {RouteProps} from "@/types/RouteProps"
@@ -75,17 +75,17 @@ function ApproveButton(props: { project: string, said: ISaid }) {
     />
 }
 
-function ExampleError(props: { str: string, example: IValidateExample }) {
-    const {str, example} = props
-    if (example.errWords)
+function TestError(props: { str: string, testResult: ISaidTestResult }) {
+    const {str, testResult} = props
+    if (testResult.errWords)
         return <Highlighter highlightClassName="en"
-                            searchWords={example.errWords}
+                            searchWords={testResult.errWords}
                             textToHighlight={str}
                             highlightTag="span"
         />
 
-    if (example.error)
-        return <>{str}: <span className="en">{example.error}</span></>
+    if (testResult.error)
+        return <>{str}: <span className="en">{testResult.error}</span></>
 
     return <>{str} <Icon icon={IconNames.CROSS} intent={Intent.DANGER}/></>
 }
@@ -96,9 +96,9 @@ function SaidValidation(props: { said: ISaid }) {
         return null
 
     if (said.validation.valid) {
-        if (said.validation.examples.length === 0)
+        if (said.validation.tests.length === 0)
             return null
-        return <Tooltip2 content={said.examples.map((e, i) => <div key={i}>{e}</div>)}>
+        return <Tooltip2 content={said.tests.map((t, i) => <div key={i}>{t.said}</div>)}>
             <Icon icon={IconNames.THUMBS_UP}
                      className="color-gray"/>
         </Tooltip2>
@@ -108,11 +108,11 @@ function SaidValidation(props: { said: ISaid }) {
         if (said.validation.error)
             return said.validation.error
 
-        return said.validation.examples
-            .map((e, i) => [e, said.examples[i]])
-            .filter(([e, _]) => !e.match)
-            .map(([e, s]) => <div key={s}>
-                <ExampleError example={e} str={s}/>
+        return said.validation.tests
+            .map((r, i) => [r, said.tests[i]])
+            .filter(([r, _]) => !r.success)
+            .map(([r, s]) => <div key={s.said}>
+                <TestError testResult={r} str={s.said}/>
             </div>)
     }
 

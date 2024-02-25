@@ -1,7 +1,7 @@
 import api from "@/api/Api"
 import type {ISaid} from "@/model/ISaid"
 import type {ISaidValidateResult, IValidateWord} from "@/model/ISaidValidateResult"
-import {IValidateExample} from "@/model/ISaidValidateResult"
+import {ISaidTestResult} from "@/model/ISaidValidateResult"
 import {classToStr} from "@/pages/projects/saids/utils"
 import globalStore from "@/stores/GlobalStore"
 import {Button, Classes, Dialog, H2, Icon, InputGroup, Intent, Tag} from "@blueprintjs/core"
@@ -9,10 +9,12 @@ import {IconNames} from "@blueprintjs/icons"
 import {Tooltip2} from "@blueprintjs/popover2"
 import React, {useEffect, useState} from "react"
 import {Table} from "react-bootstrap"
+import type {ISaidTest} from "@/model/ISaidTest";
 
-type Example = {
-    text: string,
-    validation: IValidateExample,
+type SaidTest = {
+    said: string,
+    positive: boolean,
+    validation: ISaidTestResult,
 }
 
 function SaidTag(props: { token: string }) {
@@ -53,14 +55,18 @@ function WordTag(props: { word: IValidateWord }) {
     </Tooltip2>
 }
 
-function ExampleRow(props: {
-    example: Example,
-    onChange: (value: string) => void,
+function SaidTestRow(props: {
+    test: SaidTest,
+    onChange: (value: ISaidTest) => void,
 }) {
     const [value, setValue] = useState('')
-    useEffect(() => setValue(props.example.text), [props.example])
+    const [positive, setPositive] = useState(true)
+    useEffect(() => {
+        setValue(props.test.said)
+        setPositive(props.test.positive)
+    }, [props.test])
 
-    const validation = props.example.validation
+    const validation = props.test.validation
 
     return <>
         <tr>
@@ -68,7 +74,7 @@ function ExampleRow(props: {
                 <InputGroup value={value}
                             onChange={(e) => {
                                 setValue(e.target.value)
-                                props.onChange(e.target.value)
+                                props.onChange({said: e.target.value, positive: positive})
                             }}
                             placeholder="do anything"
                             fill
@@ -76,10 +82,23 @@ function ExampleRow(props: {
             </td>
             <td>
                 {validation && (
-                    <Icon
-                        icon={validation.match ? IconNames.TICK : IconNames.CROSS}
-                        intent={validation.match ? Intent.SUCCESS : Intent.DANGER}
-                    />
+                    validation.error ?
+                        (<Tooltip2 content={validation.error}>
+                            <Icon
+                                icon={IconNames.WARNING_SIGN}
+                                intent={Intent.DANGER}
+                            />
+                        </Tooltip2>):
+                        (<Button
+                            minimal
+                            icon={validation.match ? IconNames.TICK : IconNames.CROSS}
+                            intent={validation.match === positive ? Intent.SUCCESS : Intent.DANGER}
+                            onClick={() => {
+                                const p = !positive
+                                setPositive(p)
+                                props.onChange({said: value, positive: p})
+                            }}
+                        />)
                 )}
             </td>
             <td>
@@ -104,7 +123,7 @@ export function SaidEditDialog(props: { project: string, said: ISaid, update: (s
     const {project, said} = props
     const [loading, setLoading] = useState(false)
     const [value, setValue] = useState('')
-    const [examples, setExamples] = useState([])
+    const [tests, setTests] = useState([])
     const [validation, setValidation]: [ISaidValidateResult, Function] = useState(null)
 
     useEffect(() => {
@@ -113,12 +132,12 @@ export function SaidEditDialog(props: { project: string, said: ISaid, update: (s
                 .then((patch) => setValue(patch))
 
             setValue(said.patch)
-            if (said.examples) {
-                const exmp = said.examples.map((e) => ({text: e}))
-                exmp.push({text: ''})
-                setExamples(exmp)
+            if (said.tests) {
+                const tsts : SaidTest[] = said.tests.map((t) => ({said: t.said, positive: t.positive}))
+                tsts.push({said: '', positive: true})
+                setTests(tsts)
             } else {
-                setExamples([{text: ''}])
+                setTests([{said: '', positive: true}])
             }
             setValidation(said.validation)
             setLoading(false)
@@ -126,16 +145,19 @@ export function SaidEditDialog(props: { project: string, said: ISaid, update: (s
     }, [said])
 
     useEffect(() => {
-        if (validation && validation.examples) {
-            for (let i = 0; i < validation.examples.length; i++) {
-                examples[i].validation = validation.examples[i]
+        if (validation && validation.tests) {
+            for (let i = 0; i < validation.tests.length; i++) {
+                tests[i].validation = validation.tests[i]
             }
-            setExamples([...examples])
+            setTests([...tests])
         }
     }, [validation])
 
     const validate = () => {
-        api.saids.validate(project, value, examples.map((e) => e.text.trim()).filter((s) => s.length > 0))
+        const tsts = tests
+            .map((t) => ({said: t.said.trim(), positive: t.positive}))
+            .filter((t) => t.said.length > 0)
+        api.saids.validate(project, value, tsts)
             .then((result) => {
                 setValidation(result)
             })
@@ -143,8 +165,9 @@ export function SaidEditDialog(props: { project: string, said: ISaid, update: (s
 
     const update = () => {
         setLoading(true)
-        const exmp = examples.map((e) => e.text.trim()).filter((s) => s.length > 0)
-        api.saids.update(project, said.script, said.index, value, exmp)
+        const tsts = tests.map((t) => ({said: t.said.trim(), positive: t.positive}))
+            .filter((t) => t.said.length > 0)
+        api.saids.update(project, said.script, said.index, value, tsts)
             .then((s) => props.update(s))
             .finally(() => setLoading(false))
     }
@@ -184,16 +207,17 @@ export function SaidEditDialog(props: { project: string, said: ISaid, update: (s
                     </td>
                 </tr>}
                 <tr>
-                    <td colSpan={3}>Examples:</td>
+                    <td colSpan={3}>Tests:</td>
                 </tr>
-                {examples.map((e: Example, i) =>
-                    <ExampleRow key={i}
-                                example={e}
-                                validation={validation && validation.examples && i < validation.examples.length ? validation.examples[i] : null}
-                                onChange={(v) => {
-                                    e.text = v
-                                    if (v.length > 0 && i === examples.length - 1) {
-                                        setExamples([...examples, {text: ''}])
+                {tests.map((t: SaidTest, i) =>
+                    <SaidTestRow key={i}
+                                test={t}
+                                validation={validation && validation.tests && i < validation.tests.length ? validation.tests[i] : null}
+                                onChange={(nt: ISaidTest) => {
+                                    t.said = nt.said
+                                    t.positive = nt.positive
+                                    if (nt.said.length > 0 && i === tests.length - 1) {
+                                        setTests([...tests, {said: '', positive: true}])
                                     }
                                 }}
                     />)}

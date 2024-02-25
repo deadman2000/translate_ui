@@ -4,9 +4,10 @@ export type IValidateWord = {
     ids: string[]
 }
 
-export type IValidateExample = {
+export type ISaidTestResult = {
     words: IValidateWord[],
     match: boolean,
+    success: boolean,
     tree: string,
     error: string,
     errWords: string[]
@@ -17,6 +18,6 @@ export type ISaidValidateResult = {
     errWord: string,
     said: string[],
     saidTree: string,
-    examples: IValidateExample[],
+    tests: ISaidTestResult[],
     valid: boolean
 }

@@ -33,7 +33,7 @@ export default class SaidScriptsPage extends LoaderComponent<{ global?: GlobalSt
                     <td className="align-middle">
                         {s.approved > 0 &&
                             <div className="progress">
-                                <div className="progress-bar bg-success" role="progressbar"
+                                <div className={`progress-bar ${s.valid ? 'bg-success' : 'bg-danger'}`} role="progressbar"
                                      style={{width: (s.approved * 100 / s.count) + "%"}}/>
                             </div>}
                     </td>
