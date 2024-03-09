@@ -10,6 +10,11 @@ import {UserMenu} from "@/components/UserMenu";
 import {GlobalStore} from "@/stores/GlobalStore";
 import user from "@/stores/UserInfo";
 import type {RouteProps} from "@/types/RouteProps";
+import {HintSwitch} from "@/components/HintSwitch";
+import {ShowUntrSwitch} from "@/components/ShowUntrSwitch";
+import {ShowTrSwitch} from "@/components/ShowTrSwitch";
+import {ShowApprSwitch} from "@/components/ShowApprSwitch";
+import {NonprintSwitch} from "@/components/NonprintSwitch";
 
 
 function breadcrumbRenderer({text, href, icon}: BreadcrumbProps) {
@@ -36,6 +41,16 @@ export default class AppNavbar extends Component<{ global?: GlobalStore } & Rout
                 <Navbar.Divider/>
                 <Search/>
             </Navbar.Group>
+            {this.props.global.volume.id && (
+                <Navbar.Group align={Alignment.LEFT}>
+                    <Navbar.Divider/>
+                    <HintSwitch/>
+                    <ShowUntrSwitch/>
+                    <ShowTrSwitch/>
+                    <ShowApprSwitch/>
+                    <NonprintSwitch/>
+                </Navbar.Group>
+            )}
             <Navbar.Group align={Alignment.RIGHT}>
                 {user.isAdmin && (
                     <Button icon={IconNames.ADD}

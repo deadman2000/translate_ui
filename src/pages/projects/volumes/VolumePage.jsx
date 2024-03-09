@@ -114,7 +114,7 @@ export default class VolumePage extends LoaderComponent<Props, States> {
                 ? <DescriptionEditor volume={volume} />
                 : (!!volume.description && <div className="pl-3 pr-3 pt-1 pb-1">{volume.description}</div>)
             }
-            <div className="pl-3 pb-1">
+            <div className="pl-3 pb-1 d-none d-md-block d-lg-none">
                 <HintSwitch/>
                 <ShowUntrSwitch/>
                 <ShowTrSwitch/>

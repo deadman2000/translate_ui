@@ -14,6 +14,9 @@ module.exports = (env, argv) => {
             publicPath: PUBLIC_PATH // base path where referenced files will be looked for
         },
         devServer: {
+            host: '0.0.0.0',
+            useLocalIp: true,
+            port: 8082,
             contentBase: path.join(__dirname, './'), // where dev server will look for static files, not compiled
             publicPath: PUBLIC_PATH, //relative path to output path where devserver will look for compiled files
             historyApiFallback: true,
