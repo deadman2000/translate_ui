@@ -30,7 +30,7 @@ export default class AuthLoading extends Component<{}, States> {
                 })
             })
             .catch(e => {
-                if (e.response.status === 401) {
+                if (e.response.status === 401 || e.response.status === 403) {
                     this.setState({loggedIn: false})
                     return
                 }
