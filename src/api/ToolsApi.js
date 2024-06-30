@@ -15,7 +15,7 @@ export class ToolsApi {
         return this.api.post(`${baseUrl}/prints/${project}`)
     }
 
-    import(): Promise {
-        return this.api.post(`${baseUrl}/import`)
+    import(from: string, to: string): Promise {
+        return this.api.post(`${baseUrl}/import/${from}/${to}`)
     }
 }

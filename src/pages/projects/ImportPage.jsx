@@ -1,7 +1,7 @@
 import api from "@/api/Api"
 import {toast} from "@/components/AppToaster"
 import globalStore from "@/stores/GlobalStore"
-import {Button, FileInput, FormGroup, Intent, ProgressBar} from "@blueprintjs/core"
+import {Button, FileInput, FormGroup, InputGroup, Intent, ProgressBar} from "@blueprintjs/core"
 import React, {useEffect, useState} from 'react'
 import {Container} from "react-bootstrap"
 
@@ -78,6 +78,39 @@ function ImportJson() {
     </>
 }
 
+function ImportProject() {
+    const [project, setProject] = useState('')
+    const [loading, setLoading] = useState()
+
+    const importClick = () => {
+        setLoading(true)
+        api.tools.import(project, globalStore.project.code)
+            .then(() => setLoading(false))
+    }
+
+    const button = <Button
+        onClick={importClick}
+        disabled={!project}
+        loading={loading}
+    >IMPORT</Button>
+
+    return <>
+        <FormGroup
+            label="Import from porject"
+            labelFor="project-import"
+            className="pt-4"
+        >
+            <InputGroup
+                id="project-import"
+                placeholder="Project code"
+                rightElement={button}
+                value={project}
+                onChange={(e) => setProject(e.target.value)}
+            />
+        </FormGroup>
+    </>
+}
+
 export function ImportPage() {
     useEffect(() => {
         document.title = `Import ${globalStore.project.name}`;
@@ -86,5 +119,6 @@ export function ImportPage() {
     return <Container>
         <ImportPackage/>
         <ImportJson/>
+        <ImportProject/>
     </Container>
 }
