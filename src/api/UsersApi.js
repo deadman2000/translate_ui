@@ -46,4 +46,8 @@ export class UsersApi {
     chart(id: string): Promise {
         return this.api.get(`${baseUrl}/${id}/chart`)
     }
+
+    chart_by_proj(id: string, project: string): Promise {
+        return this.api.get(`${baseUrl}/${id}/chart/${project}`)
+    }
 }

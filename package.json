@@ -9,7 +9,7 @@
     "@blueprintjs/popover2": "1.14.1",
     "axios": "^0.20.0",
     "bootstrap": "^4.6.0",
-    "chart.js": "^3.8.0",
+    "chart.js": "3.9.1",
     "chartjs-adapter-moment": "^1.0.0",
     "mobx": "^6.0.1",
     "mobx-react": "^7.0.0",

@@ -21,6 +21,9 @@ export default class AdminPage extends Component<{} & RouteProps> {
                 <Route path={`${path}/users/:id/chart`} exact>
                     <ChartPage/>
                 </Route>
+                <Route path={`${path}/users/:id/chart/:project`} exact>
+                    <ChartPage/>
+                </Route>
                 <Route path={`${path}/videos`}>
                     <VideosPage/>
                 </Route>

@@ -26,16 +26,22 @@ ChartJS.register(
 );
 
 @withRouter
-export default class ChartPage extends Component<{} & RouteProps<{id: string}>> {
+export default class ChartPage extends Component<{} & RouteProps<{id: string, project: string}>> {
     state = {
         series: null
     }
 
     componentDidMount() {
-        api.users.chart(this.props.match.params.id)
-            .then((series) => {
-                this.setState({series})
-            })
+        if (this.props.match.params.project)
+            api.users.chart_by_proj(this.props.match.params.id, this.props.match.params.project)
+                .then((series) => {
+                    this.setState({series})
+                })
+        else
+            api.users.chart(this.props.match.params.id)
+                .then((series) => {
+                    this.setState({series})
+                })
     }
 
     render() {
