@@ -79,6 +79,9 @@ export default class ProjectLeftMenu extends Component<{ global?: GlobalStore } 
                             <LMenuItem icon={IconNames.SEARCH} tab="search">
                                 Search
                             </LMenuItem>
+                            <LMenuItem icon={IconNames.TICK} tab="validate">
+                                Validate
+                            </LMenuItem>
                             {user.isAdmin && <>
                                 <LMenuItem icon={IconNames.SEARCH_TEXT} tab="replace">
                                     Replace

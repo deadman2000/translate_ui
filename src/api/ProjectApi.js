@@ -4,6 +4,7 @@ import {VolumeApi} from "@/api/VolumeApi";
 import type {IProject} from "@/model/IProject";
 import type {IVolume} from "@/model/IVolume";
 import type {IPatch} from "@/model/IPatch";
+import {IValidate} from "@/model/IValidate";
 
 export class ProjectApi {
     constructor(api: Api, project: string) {
@@ -24,11 +25,11 @@ export class ProjectApi {
         return this.api.get(`${this.baseUrl}/volumes`)
     }
 
-    reindex() {
+    reindex(): Promise {
         return this.api.post(`${this.baseUrl}/reindex`)
     }
 
-    delete() {
+    delete(): Promise {
         return this.api.delete(this.baseUrl)
     }
 
@@ -36,11 +37,11 @@ export class ProjectApi {
         return this.api.get(`${this.baseUrl}/patches`)
     }
 
-    uploadPatch(file: File, onUploadProgress) {
+    uploadPatch(file: File, onUploadProgress): Promise {
         return this.api.upload(`${this.baseUrl}/patches`, file, onUploadProgress)
     }
 
-    uploadZipPatch(file: File, onUploadProgress) {
+    uploadZipPatch(file: File, onUploadProgress): Promise {
         return this.api.upload(`${this.baseUrl}/patches/zip`, file, onUploadProgress)
     }
 
@@ -52,15 +53,19 @@ export class ProjectApi {
         return this.api.get(`${this.baseUrl}/byuser/${user}`)
     }
 
-    import(file: File, onUploadProgress){
+    import(file: File, onUploadProgress): Promise {
         return this.api.upload(`${this.baseUrl}/import`, file, onUploadProgress)
     }
 
-    json(file: File, onUploadProgress){
+    json(file: File, onUploadProgress): Promise {
         return this.api.upload(`${this.baseUrl}/json`, file, onUploadProgress)
     }
 
-    setShared(share: boolean) {
+    setShared(share: boolean): Promise {
         return this.api.post(`${this.baseUrl}/share`, {share})
+    }
+
+    validate(): Promise<IValidate> {
+        return this.api.get(`${this.baseUrl}/validate`)
     }
 }

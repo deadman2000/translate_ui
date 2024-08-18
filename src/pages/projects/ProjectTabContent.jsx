@@ -12,6 +12,7 @@ import {ReplacePage} from "@/pages/projects/replace/ReplacePage"
 import {SettingsPage} from "@/pages/projects/SettingsPage"
 import SpellCheckPage from "@/pages/projects/spellcheck/SpellCheckPage"
 import SearchPage from "@/pages/SearchPage"
+import ValidatePage from "@/pages/projects/validate/ValidatePage";
 
 type R = {
     tabid: string,
@@ -42,6 +43,8 @@ function PageSwitch({tab}: { tab: string }) {
             return <SuffixesPage/>
         case 'saids':
             return <SaidsSwitchPage/>
+        case 'validate':
+            return <ValidatePage/>
     }
     return <div/>
 }
