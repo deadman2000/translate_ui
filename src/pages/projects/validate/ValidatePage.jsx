@@ -6,7 +6,7 @@ import api from "@/api/Api";
 import {Container, Table} from "react-bootstrap";
 import type {IValidate} from "@/model/IValidate";
 import {IconNames} from "@blueprintjs/icons";
-import {AnchorButton} from "@blueprintjs/core";
+import {AnchorButton, H3} from "@blueprintjs/core";
 import Diff from "react-stylable-diff";
 
 type State = {
@@ -26,6 +26,7 @@ export default class ValidatePage extends LoaderComponent<{ global?: GlobalStore
     }
 
     successRender() {
+        const res = this.state.result
         return <Container className="pt-2">
             <Table>
                 <thead>
@@ -37,7 +38,8 @@ export default class ValidatePage extends LoaderComponent<{ global?: GlobalStore
                 </tr>
                 </thead>
                 <tbody>
-                {this.state.result.symbols.map((s) => <tr>
+                {res.symbols.length > 0 && <tr><td colSpan={4}><H3>Wrong symbols</H3></td></tr>}
+                {res.symbols.map((s) => <tr>
                     <td>
                         <AnchorButton
                             href={`/projects/${this.project}/volumes/${s.volume}#t${s.number}`}
@@ -50,8 +52,27 @@ export default class ValidatePage extends LoaderComponent<{ global?: GlobalStore
                     <td>{s.number}</td>
                     <td>
                         <Diff
-                            inputA={s.text}
+                            inputA={s.tr}
                             inputB={s.converted}
+                            type="chars"
+                        /></td>
+                </tr>)}
+                {res.lines.length > 0 && <tr><td colSpan={4}><H3>Line count mismatch</H3></td></tr>}
+                {res.lines.map((s) => <tr>
+                    <td>
+                        <AnchorButton
+                            href={`/projects/${this.project}/volumes/${s.volume}#t${s.number}`}
+                            target="_blank"
+                            icon={IconNames.SHARE}
+                            minimal
+                        />
+                    </td>
+                    <td>{s.volume}</td>
+                    <td>{s.number}</td>
+                    <td>
+                        <Diff
+                            inputA={s.src}
+                            inputB={s.tr}
                             type="chars"
                         /></td>
                 </tr>)}

@@ -1,10 +1,12 @@
 export type ITranslateError = {
     volume: string,
     number: number,
-    text: string,
+    tr: string,
+    src: string,
     converted: string
 }
 
 export type IValidate = {
-    symbols: ITranslateError[]
+    symbols: ITranslateError[],
+    lines: ITranslateError[]
 }
