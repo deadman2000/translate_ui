@@ -1,4 +1,5 @@
 import {Api} from "@/api/Api";
+import {IEncoding} from "@/model/IEncoding";
 
 const baseUrl = '/tools'
 
@@ -17,5 +18,9 @@ export class ToolsApi {
 
     import(from: string, to: string): Promise {
         return this.api.post(`${baseUrl}/import/${from}/${to}`)
+    }
+
+    encodings(): Promise<IEncoding[]> {
+        return this.api.get(`${baseUrl}/encodings`)
     }
 }

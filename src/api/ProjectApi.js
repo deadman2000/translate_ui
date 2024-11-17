@@ -17,6 +17,11 @@ export class ProjectApi {
         return this.api.get(this.baseUrl)
     }
 
+    update(data: {name?: string, codePage?: string})
+    {
+        return this.api.post(`${this.baseUrl}/update`, data)
+    }
+
     volume(volume: string): VolumeApi {
         return new VolumeApi(this, volume)
     }
