@@ -45,6 +45,11 @@ export default class SuffixesPage extends LoaderComponent<{ global?: GlobalStore
                     <Button icon={IconNames.ADD} text="Create suffix"
                             onClick={() => this.setState({dialog: true, edit: null})}/>
                 </Col>
+                {/*<Col>
+                    <Button icon={IconNames.IMPORT} text="Import suffixes"
+                            onClick={() => api.suffixes.copy(this.project, 'police_quest_2')
+                                .then(() => this._load())}/>
+                </Col>*/}
                 <Col>
                     <InputGroup placeholder="word"
                                 value={this.state.testWord}

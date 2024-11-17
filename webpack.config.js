@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const PUBLIC_PATH = '/';
 
-module.exports = (env, argv) => {
+module.exports = (env) => {
     return {
         entry: {
             app: "./src/index.js"
@@ -15,20 +15,18 @@ module.exports = (env, argv) => {
         },
         devServer: {
             host: '0.0.0.0',
-            useLocalIp: true,
             port: 8082,
-            contentBase: path.join(__dirname, './'), // where dev server will look for static files, not compiled
-            publicPath: PUBLIC_PATH, //relative path to output path where devserver will look for compiled files
             historyApiFallback: true,
             hot: true,
             open: true,
-            proxy: {
-                '/api': {
-                    target: argv['proxy_api'],
+            proxy: [
+                {
+                    context: ['/api'],
+                    target: env['proxy_api'],
                     secure: false,
                     changeOrigin: true
                 }
-            },
+            ]
         },
         devtool: 'source-map',
         resolve: {

@@ -27,4 +27,8 @@ export class SuffixesApi {
     test(project: string, word: string): Promise<string[]> {
         return this.api.post(`${baseUrl}/${project}/test`, {word})
     }
+
+    copy(project: string, src: string): Promise {
+        return this.api.post(`${baseUrl}/${project}/copy/${src}`)
+    }
 }

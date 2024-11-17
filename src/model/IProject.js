@@ -12,4 +12,5 @@ export type IProject = {
     approvedTexts: number,
     shared: boolean,
     hasSaid: boolean,
+    codePage: string,
 }
