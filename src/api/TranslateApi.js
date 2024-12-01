@@ -20,6 +20,10 @@ export class TranslateApi {
         return this.api.post(baseUrl, request)
     }
 
+    submitById(project: string, id: string, text: string): Promise {
+        return this.api.post(`${baseUrl}/by_id`, {project, id, text})
+    }
+
     delete(id: string): Promise {
         return this.api.delete(`${baseUrl}/${id}`)
     }

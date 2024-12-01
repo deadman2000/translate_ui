@@ -89,6 +89,9 @@ export default class ProjectLeftMenu extends Component<{ global?: GlobalStore } 
                                 <LMenuItem icon={IconNames.IMPORT} tab="import">
                                     Import
                                 </LMenuItem>
+                                <LMenuItem icon={IconNames.FLOW_END} tab="translate_from">
+                                    Translate from
+                                </LMenuItem>
                                 <LMenuItem icon={IconNames.WRENCH} tab="settings">
                                     Settings
                                 </LMenuItem>

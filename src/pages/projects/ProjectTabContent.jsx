@@ -13,6 +13,7 @@ import {SettingsPage} from "@/pages/projects/SettingsPage"
 import SpellCheckPage from "@/pages/projects/spellcheck/SpellCheckPage"
 import SearchPage from "@/pages/SearchPage"
 import ValidatePage from "@/pages/projects/validate/ValidatePage";
+import {TranslateFromPage} from "@/pages/projects/TranslateFromPage";
 
 type R = {
     tabid: string,
@@ -45,6 +46,8 @@ function PageSwitch({tab}: { tab: string }) {
             return <SaidsSwitchPage/>
         case 'validate':
             return <ValidatePage/>
+        case 'translate_from':
+            return <TranslateFromPage/>
     }
     return <div/>
 }
