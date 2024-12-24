@@ -47,7 +47,6 @@ export class VideosTable extends React.Component<Props, State> {
             <tbody>
             {this.state.videos.map(v => <tr key={v.id}>
                 <td><a href={`https://youtu.be/${v.videoId}`} target="_blank">{v.videoId}</a></td>
-                <td>{v.project}</td>
                 <td>
                     {!!v.framesCount && moment.utc((v.framesCount / v.fps) * 1000).format('HH:mm:ss')}
                 </td>

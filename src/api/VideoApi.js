@@ -13,6 +13,10 @@ export class VideoApi {
         return this.api.get(baseUrl)
     }
 
+    byProject(project: string): Promise<IVideo[]> {
+        return this.api.get(`${baseUrl}/project/${project}`)
+    }
+
     create(video: IVideo): Promise<IVideo> {
         return this.api.post(baseUrl, video)
     }

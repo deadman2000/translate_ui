@@ -7,30 +7,31 @@ import {IconNames} from "@blueprintjs/icons";
 import type {IVideo} from "@/model/IVideo";
 import type {IRunner} from "@/model/IRunner";
 import {VideosTable} from "@/components/videos/VideosTable";
-import {RunnersTable} from "@/components/videos/RunnersTable";
+import {inject} from "mobx-react";
+import {GlobalStore} from "@/stores/GlobalStore";
 
 type States = {
     videos: IVideo[],
     runners: IRunner[],
     link: string,
     videoId: string,
-    project: string,
     filters: string,
 }
 
 const re = /(youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/
 
-export default class VideosPage extends LoaderComponent<{}, States> {
+@inject("global")
+export default class VideosPage extends LoaderComponent<{ global?: GlobalStore }, States> {
+    get project() {
+        return this.props.global.project.code
+    }
+
     load() {
-        const loadVideos = api.video.list().then((videos) => this.setState({videos}))
-        const loadRunners = api.video.runners().then((runners) => this.setState({runners}))
-        return Promise.all([loadVideos, loadRunners])
+        return api.video.byProject(this.project).then((videos) => this.setState({videos}))
     }
 
     prepare(): Promise {
-        const project = localStorage.getItem('video_last_project')
         this.setState({
-            project,
             filters: 'h_600:thresh:unsharp'
         })
         return this.load()
@@ -46,13 +47,6 @@ export default class VideosPage extends LoaderComponent<{}, States> {
                                 <InputGroup id="link"
                                             onChange={this.linkChange}
                                             value={this.state.link}/>
-                            </FormGroup>
-                        </Col>
-                        <Col>
-                            <FormGroup label="Project" labelFor="project">
-                                <InputGroup id="project"
-                                            onChange={e => this.setState({project: e.target.value})}
-                                            value={this.state.project}/>
                             </FormGroup>
                         </Col>
                         <Col>
@@ -81,7 +75,6 @@ export default class VideosPage extends LoaderComponent<{}, States> {
                 </Container>
             </div>
             <VideosTable videos={this.state.videos}/>
-            <RunnersTable runners={this.state.runners} onDelete={this.deleteRunner}/>
         </Container>
     }
 
@@ -93,12 +86,10 @@ export default class VideosPage extends LoaderComponent<{}, States> {
     }
 
     addVideo = () => {
-        const {videoId, project, filters} = this.state
-        if (!videoId || !project) return
+        const {videoId, filters} = this.state
+        if (!videoId) return
 
-        localStorage.setItem('video_last_project', project)
-
-        api.video.create({ videoId, project, filters })
+        api.video.create({ videoId, project: this.project, filters })
             .then((video) => {
                 this.state.videos.push(video)
                 this.setState({

@@ -3,7 +3,7 @@ import {Route, Switch, withRouter} from "react-router-dom";
 import type {RouteProps} from "@/types/RouteProps";
 import InvitesPage from "@/pages/admin/InvitesPage";
 import UsersPage from "@/pages/admin/UsersPage";
-import VideosPage from "@/pages/admin/VideosPage";
+import VideoRunnersPage from "@/pages/admin/VideoRunnersPage";
 import ChartPage from "@/pages/admin/ChartPage";
 
 @withRouter
@@ -25,7 +25,7 @@ export default class AdminPage extends Component<{} & RouteProps> {
                     <ChartPage/>
                 </Route>
                 <Route path={`${path}/videos`}>
-                    <VideosPage/>
+                    <VideoRunnersPage/>
                 </Route>
             </Switch>
         </div>
