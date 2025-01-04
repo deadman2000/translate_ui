@@ -2,7 +2,8 @@ import type {IRunner} from "@/model/IRunner";
 import {Table} from "react-bootstrap";
 import {formatDateTime, fromNow} from "@/Utils";
 import React from "react";
-import DeleteConfirmButton from "@/components/DeleteConfirmButton";
+import {IconNames} from "@blueprintjs/icons";
+import {Button, Intent} from "@blueprintjs/core";
 
 export function RunnersTable(props: { runners: IRunner[], onDelete: (runner: IRunner) => void }) {
     return <Table>
@@ -12,7 +13,9 @@ export function RunnersTable(props: { runners: IRunner[], onDelete: (runner: IRu
             <td>{r.ip}</td>
             <td>{formatDateTime(r.lastActivity)}</td>
             <td>{fromNow(r.lastActivity)}</td>
-            <td><DeleteConfirmButton onConfirm={() => props.onDelete(r)}/></td>
+            <td><Button icon={IconNames.TRASH} intent={Intent.DANGER}
+                        minimal onClick={() => props.onDelete(r)}/>
+            </td>
         </tr>)}
         </tbody>
     </Table>

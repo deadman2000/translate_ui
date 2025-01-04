@@ -3,11 +3,11 @@ import LoaderComponent from "@/components/LoaderComponent"
 import type {ISuffix} from "@/model/ISuffix"
 import {EditSuffixDialog} from "@/pages/projects/suffixes/EditSuffixDialog"
 import {classToStr, hex3} from "@/pages/projects/saids/utils"
-import {GlobalStore} from "@/stores/GlobalStore"
+import globalStore, {GlobalStore} from "@/stores/GlobalStore"
 import {Button, InputGroup, Intent} from "@blueprintjs/core"
 import {IconNames} from "@blueprintjs/icons"
 import {inject} from "mobx-react"
-import React from "react"
+import React, {useState} from "react"
 import {Col, Container, Row, Table} from "react-bootstrap"
 
 type State = {
@@ -17,6 +17,34 @@ type State = {
     testWord: string,
     timer: number,
     testRes: string[]
+}
+
+function CopySuffixes()
+{
+    const [project, setProject] = useState('')
+    const [loading, setLoading] = useState()
+
+    const buttonClick = () => {
+        setLoading(true)
+        api.suffixes.copy(globalStore.project.code, project)
+            .then(() => setLoading(false))
+    }
+
+    const button = <Button
+        onClick={buttonClick}
+        disabled={!project}
+        loading={loading}
+    >COPY FROM PROJECT</Button>
+
+    return <>
+        <InputGroup
+            id="project"
+            placeholder="Project code"
+            rightElement={button}
+            value={project}
+            onChange={(e) => setProject(e.target.value)}
+        />
+    </>
 }
 
 @inject("global")
@@ -106,6 +134,7 @@ export default class SuffixesPage extends LoaderComponent<{ global?: GlobalStore
                 </tr>)}
                 </tbody>
             </Table>
+            <CopySuffixes/>
         </Container>
     }
 

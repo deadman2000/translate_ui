@@ -103,13 +103,4 @@ export default class VideosPage extends LoaderComponent<{ global?: GlobalStore }
     refresh = () => {
         return this.load()
     }
-
-    deleteRunner = (runner: IRunner) => {
-        api.video.deleteRunner(runner)
-            .then(() => {
-                const i = this.state.runners.indexOf(runner)
-                this.state.runners.splice(i, 1)
-                this.setState({runners: this.state.runners})
-            })
-    }
 }
