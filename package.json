@@ -52,7 +52,6 @@
   "scripts": {
     "start_local": "webpack serve --mode development --env proxy_api=http://localhost:5000/",
     "start_inner": "webpack serve --mode development --env proxy_api=http://192.168.1.17/",
-    "start_outer": "webpack serve --mode development --env proxy_api=https://deadman.sknt.ru/",
     "build": "webpack --mode production"
   },
   "eslintConfig": {

@@ -3,5 +3,9 @@ export type IMatchResult = {
     src: string,
     dst: string,
     tr: string,
-    score: number
+    score: number,
+    volume: string,
+    number: number,
+    srcVolume: string,
+    srcNumber: number
 }

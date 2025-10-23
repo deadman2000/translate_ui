@@ -106,6 +106,12 @@ export function TranslateFromPage() {
                         <AnchorButton
                             href={`/projects/${globalStore.project.code}/volumes/${result.volume}#t${result.number}`}
                             target="_blank"
+                            icon={IconNames.DOCUMENT_OPEN}
+                            minimal
+                        />
+                        <AnchorButton
+                            href={`/projects/${project}/volumes/${result.srcVolume}#t${result.srcNumber}`}
+                            target="_blank"
                             icon={IconNames.SHARE}
                             minimal
                         />
