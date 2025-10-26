@@ -9,6 +9,7 @@ import {IconNames} from "@blueprintjs/icons";
 
 export function TranslateFromPage() {
     const [project, setProject] = useState('')
+    const [take, setTake] = useState(10)
     const [loading, setLoading] = useState(false)
     const [skip, setSkip] = useState([])
     const [results, setResults] = useState([])
@@ -37,7 +38,7 @@ export function TranslateFromPage() {
     const requestNew = () => {
         if (!project) return
         setLoading(true)
-        api.tools.matchText(globalStore.project.code, project, skip, 10)
+        api.tools.matchText(globalStore.project.code, project, skip, take)
             .then((response) => {
                 setAutoload(response.results.length > 0)
                 saveSkip([...skip, ...response.skip])
@@ -83,6 +84,25 @@ export function TranslateFromPage() {
                         rightElement={button}
                         value={project}
                         onChange={(e) => setProject(e.target.value)}
+                    />
+                </FormGroup>
+            </Col>
+            <Col>
+                <FormGroup
+                    label="Take"
+                    labelFor="take"
+                    inline
+                >
+                    <InputGroup
+                        id="take"
+                        placeholder="Take count"
+                        value={take}
+                        onChange={(e) => {
+                            const val = parseInt(e.target.value)
+                            if (!isNaN(val)) {
+                                setTake(val)
+                            }
+                        }}
                     />
                 </FormGroup>
             </Col>
