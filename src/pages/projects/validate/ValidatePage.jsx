@@ -38,6 +38,20 @@ export default class ValidatePage extends LoaderComponent<{ global?: GlobalStore
                 </tr>
                 </thead>
                 <tbody>
+                {res.multiples.length > 0 && <tr><td colSpan={4}><H3>Multiple translations</H3></td></tr>}
+                {res.multiples.map((s) => <tr>
+                    <td>
+                        <AnchorButton
+                            href={`/projects/${this.project}/volumes/${s.volume}#t${s.number}`}
+                            target="_blank"
+                            icon={IconNames.SHARE}
+                            minimal
+                        />
+                    </td>
+                    <td>{s.volume}</td>
+                    <td>{s.number}</td>
+                    <td/>
+                </tr>)}
                 {res.symbols.length > 0 && <tr><td colSpan={4}><H3>Wrong symbols</H3></td></tr>}
                 {res.symbols.map((s) => <tr>
                     <td>

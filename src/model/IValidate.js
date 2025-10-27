@@ -7,6 +7,7 @@ export type ITranslateError = {
 }
 
 export type IValidate = {
+    multiples: {volume: string, number: number}[],
     symbols: ITranslateError[],
     lines: ITranslateError[]
 }
