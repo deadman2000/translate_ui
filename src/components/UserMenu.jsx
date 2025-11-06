@@ -16,7 +16,6 @@ export class UserMenu extends Component<{global?: GlobalStore} & RouteProps> {
                 {user.isAdmin && (<>
                     <MenuItem text="Users" onClick={this.users}/>
                     <MenuItem text="Invites" onClick={this.invites}/>
-                    <MenuItem text="Videos" onClick={this.videos}/>
                 </>)}
                 <MenuItem text="Change password" onClick={this.changePassword} />
                 <MenuItem text="Logout" onClick={this.logout}/>
@@ -36,11 +35,6 @@ export class UserMenu extends Component<{global?: GlobalStore} & RouteProps> {
     users = () => {
         this.props.history.push('/admin/users')
     }
-
-    videos = () => {
-        this.props.history.push('/admin/videos')
-    }
-
 
     changePassword = () => {
         this.props.global.setChangePassword(true)
