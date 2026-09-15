@@ -98,7 +98,7 @@ function SaidValidation(props: { said: ISaid }) {
     if (said.validation.valid) {
         if (said.validation.tests.length === 0)
             return null
-        return <Tooltip2 content={said.tests.map((t, i) => <div key={i}>{t.said}</div>)}>
+        return <Tooltip2 content={said.tests.map((t, i) => <div key={i}>{t.positive ? <Icon icon={IconNames.TICK}/> : <Icon icon={IconNames.CROSS}/>} {t.said}</div>)}>
             <Icon icon={IconNames.THUMBS_UP}
                      className="color-gray"/>
         </Tooltip2>
