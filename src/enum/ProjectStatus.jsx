@@ -4,3 +4,4 @@ export const RES_EXTRACT = 2
 export const INDEXING = 3
 export const READY = 4
 export const ERROR = 5
+export const TEXT_REEXTRACT = 6

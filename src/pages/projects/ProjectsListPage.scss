@@ -21,3 +21,43 @@
     font-size: 10pt;
   }
 }
+
+.project-progress-hint {
+  border-collapse: collapse;
+  font-size: 12px;
+
+  th, td {
+    padding: 2px 10px 2px 0;
+    font-weight: normal;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  thead th {
+    font-size: 11px;
+    font-weight: 600;
+    opacity: 0.75;
+  }
+
+  .hint-count {
+    font-size: 11px;
+    opacity: 0.75;
+  }
+
+  .swatch {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-right: 6px;
+    border-radius: 2px;
+    vertical-align: baseline;
+  }
+
+  .swatch-translated {
+    background: #ffc107;
+  }
+
+  .swatch-approved {
+    background: #28a745;
+  }
+}
