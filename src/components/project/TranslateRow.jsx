@@ -1,6 +1,6 @@
 import React, {Component, memo} from "react";
 import {Link} from "react-router-dom";
-import {Button, Icon, Intent} from "@blueprintjs/core";
+import {Button, EditableText, Icon, Intent} from "@blueprintjs/core";
 import {IconNames} from "@blueprintjs/icons";
 import {inject, observer} from "mobx-react";
 
@@ -16,7 +16,8 @@ import './TranslateRow.scss'
 
 type Props = {
     text: ITextsResponse,
-    global?: GlobalStore
+    global?: GlobalStore,
+    editSource?: boolean,
 }
 
 type States = {
@@ -54,7 +55,17 @@ class TranslateColumns extends Component<Props, States> {
         return <>
             <td className="col-num"><Link to={`${t.source.volume}#t${t.source.number}`}>{t.source.number}</Link></td>
             <td className="col-source-text">
-                <MonoText text={t.source.text}/>
+                {user.isAdmin
+                    ? <EditableText className="source-edit"
+                                    multiline
+                                    minLines={1}
+                                    defaultValue={t.source.text}
+                                    placeholder="Text"
+                                    isEditing={this.props.editSource ? true : undefined}
+                                    onConfirm={this.saveSource}
+                    />
+                    : <MonoText text={t.source.text}/>
+                }
                 {this.props.global.hints && <>
                     {t.source.description && <div className="text-description">
                         {t.source.description.split('\n').map((v, i) => <p key={i}>
@@ -126,6 +137,15 @@ class TranslateColumns extends Component<Props, States> {
         </>
     }
 
+    saveSource = (value: string) => {
+        const s = this.props.text.source
+        if (value === s.text) return
+        api.project(s.project).volume(s.volume).updateText(s.number, value)
+            .then(() => {
+                s.text = value
+            })
+    }
+
     newSubmitted = (info: ITranslateInfo) => {
         const {translates} = this.state
 
@@ -171,13 +191,14 @@ class TranslateColumns extends Component<Props, States> {
     }
 }
 
-const TranslateRow = observer((props: {text: ITextsResponse}) => {
+const TranslateRow = observer((props: {text: ITextsResponse, editSource?: boolean}) => {
     const t = props.text
-    const hidden = (!globalStore.showTr && t.translates) ||
+    const hidden = !props.editSource && (
+        (!globalStore.showTr && t.translates) ||
         (!globalStore.showUntr && !t.translates) ||
-        (!globalStore.showAppr && t.source.translateApproved)
+        (!globalStore.showAppr && t.source.translateApproved))
     return <tr id={"t"+t.source.number} className={hidden ? "d-none" : ""}>
-        <TranslateColumns text={t}/>
+        <TranslateColumns text={t} editSource={props.editSource}/>
     </tr>
 })
 

@@ -12,7 +12,8 @@ import LoaderComponent from "@/components/LoaderComponent";
 import TranslateRow from "@/components/project/TranslateRow";
 import TranslateHistory from "@/components/project/TranslateHistory";
 import user from "@/stores/UserInfo";
-import {EditableText} from "@blueprintjs/core";
+import {Button, EditableText} from "@blueprintjs/core";
+import {IconNames} from "@blueprintjs/icons";
 import {HintSwitch} from "@/components/HintSwitch";
 import {ShowUntrSwitch} from "@/components/ShowUntrSwitch";
 import {ShowTrSwitch} from "@/components/ShowTrSwitch";
@@ -29,7 +30,9 @@ type Props = {global?: GlobalStore} & RouteProps<R>
 
 type States = {
     volume: IVolume,
-    texts: ITextsResponse[]
+    texts: ITextsResponse[],
+    adding: boolean,
+    editNumber: ?number,
 }
 
 class DescriptionEditor extends React.Component<{volume: IVolume}> {
@@ -98,12 +101,28 @@ export default class VolumePage extends LoaderComponent<Props, States> {
     }
 
     componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<States>, snapshot) {
-        if (prevProps.match.params.volume !== this.props.match.params.volume)
+        if (prevProps.match.params.volume !== this.props.match.params.volume) {
+            this.setState({editNumber: null, adding: false})
             this._load()
+        }
     }
 
     componentWillUnmount() {
         this.props.global.setVolume({})
+    }
+
+    addText = () => {
+        if (this.state.adding) return
+        const {project, volume} = this.props.match.params
+        this.setState({adding: true})
+        api.project(project).volume(volume).createText("")
+            .then(item => {
+                this.setState(state => ({
+                    texts: [...state.texts, item],
+                    editNumber: item.source.number
+                }))
+            })
+            .finally(() => this.setState({adding: false}))
     }
 
     successRender() {
@@ -123,7 +142,22 @@ export default class VolumePage extends LoaderComponent<Props, States> {
             </div>
             <Table striped bordered className={"text-table " + (this.props.global.nonPrintShow ? "" : "hide-non-print")}>
                 <tbody>
-                    {this.state.texts.map(t => <TranslateRow key={t.source.number} text={t} />)}
+                    {this.state.texts.map(t => <TranslateRow key={t.source.number}
+                                                             text={t}
+                                                             editSource={this.state.editNumber === t.source.number} />)}
+                    {user.isAdmin &&
+                        <tr>
+                            <td colSpan={5} className="volume-add-text">
+                                <Button icon={IconNames.PLUS}
+                                        minimal
+                                        small
+                                        title="Add text"
+                                        loading={this.state.adding}
+                                        onClick={this.addText}
+                                />
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </Table>
         </>

@@ -5,6 +5,23 @@
 
   .col-source-text {
     padding: 8px 4px !important;
+
+    .source-edit {
+      display: block;
+      width: 100%;
+    }
+
+    .bp4-editable-text-content,
+    .bp4-editable-text-input {
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-size: 10pt;
+      font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+  }
+
+  .volume-add-text {
+    padding: 2px 4px !important;
   }
 
   .col-splitter {

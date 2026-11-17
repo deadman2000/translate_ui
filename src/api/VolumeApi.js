@@ -24,4 +24,12 @@ export class VolumeApi {
     texts(): Promise<ITextsResponse[]> {
         return this.api.get(`${this.baseUrl}/texts`)
     }
+
+    createText(text: string): Promise<ITextsResponse> {
+        return this.api.post(`${this.baseUrl}/texts`, {text})
+    }
+
+    updateText(number: number, text: string): Promise {
+        return this.api.post(`${this.baseUrl}/texts/${number}`, {text})
+    }
 }
