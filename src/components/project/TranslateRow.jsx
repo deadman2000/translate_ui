@@ -11,6 +11,7 @@ import type {ITextsResponse} from "@/model/ITextsResponse";
 import type {ITranslateInfo} from "@/model/ITranslateInfo";
 import {TranslateEditor} from "@/components/project/TranslateEditor";
 import {MonoText} from "@/components/project/MonoText";
+import DeleteConfirmButton from "@/components/DeleteConfirmButton";
 
 import './TranslateRow.scss'
 
@@ -18,6 +19,7 @@ type Props = {
     text: ITextsResponse,
     global?: GlobalStore,
     editSource?: boolean,
+    onDeleted?: () => void,
 }
 
 type States = {
@@ -55,17 +57,24 @@ class TranslateColumns extends Component<Props, States> {
         return <>
             <td className="col-num"><Link to={`${t.source.volume}#t${t.source.number}`}>{t.source.number}</Link></td>
             <td className="col-source-text">
-                {user.isAdmin
-                    ? <EditableText className="source-edit"
-                                    multiline
-                                    minLines={1}
-                                    defaultValue={t.source.text}
-                                    placeholder="Text"
-                                    isEditing={this.props.editSource ? true : undefined}
-                                    onConfirm={this.saveSource}
-                    />
-                    : <MonoText text={t.source.text}/>
-                }
+                <div className="source-line">
+                    <div className="source-body">
+                        {user.isAdmin && t.source.userText
+                            ? <EditableText className="source-edit"
+                                            multiline
+                                            minLines={1}
+                                            defaultValue={t.source.text}
+                                            placeholder="Text"
+                                            isEditing={this.props.editSource ? true : undefined}
+                                            onConfirm={this.saveSource}
+                            />
+                            : <MonoText text={t.source.text}/>
+                        }
+                    </div>
+                    {user.isAdmin && t.source.userText &&
+                        <DeleteConfirmButton onConfirm={this.deleteSource}/>
+                    }
+                </div>
                 {this.props.global.hints && <>
                     {t.source.description && <div className="text-description">
                         {t.source.description.split('\n').map((v, i) => <p key={i}>
@@ -139,11 +148,18 @@ class TranslateColumns extends Component<Props, States> {
 
     saveSource = (value: string) => {
         const s = this.props.text.source
-        if (value === s.text) return
+        if (!s.userText || value === s.text) return
         api.project(s.project).volume(s.volume).updateText(s.number, value)
             .then(() => {
                 s.text = value
             })
+    }
+
+    deleteSource = () => {
+        const s = this.props.text.source
+        if (!s.userText) return
+        api.project(s.project).volume(s.volume).deleteText(s.number)
+            .then(() => this.props.onDeleted && this.props.onDeleted())
     }
 
     newSubmitted = (info: ITranslateInfo) => {
@@ -191,14 +207,14 @@ class TranslateColumns extends Component<Props, States> {
     }
 }
 
-const TranslateRow = observer((props: {text: ITextsResponse, editSource?: boolean}) => {
+const TranslateRow = observer((props: {text: ITextsResponse, editSource?: boolean, onDeleted?: () => void}) => {
     const t = props.text
     const hidden = !props.editSource && (
         (!globalStore.showTr && t.translates) ||
         (!globalStore.showUntr && !t.translates) ||
         (!globalStore.showAppr && t.source.translateApproved))
     return <tr id={"t"+t.source.number} className={hidden ? "d-none" : ""}>
-        <TranslateColumns text={t} editSource={props.editSource}/>
+        <TranslateColumns text={t} editSource={props.editSource} onDeleted={props.onDeleted}/>
     </tr>
 })
 

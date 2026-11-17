@@ -32,4 +32,8 @@ export class VolumeApi {
     updateText(number: number, text: string): Promise {
         return this.api.post(`${this.baseUrl}/texts/${number}`, {text})
     }
+
+    deleteText(number: number): Promise {
+        return this.api.delete(`${this.baseUrl}/texts/${number}`)
+    }
 }

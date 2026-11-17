@@ -125,6 +125,13 @@ export default class VolumePage extends LoaderComponent<Props, States> {
             .finally(() => this.setState({adding: false}))
     }
 
+    removeText = (number) => {
+        this.setState(state => ({
+            texts: state.texts.filter(item => item.source.number !== number),
+            editNumber: state.editNumber === number ? null : state.editNumber
+        }))
+    }
+
     successRender() {
         const {volume} = this.state
         return <>
@@ -144,7 +151,8 @@ export default class VolumePage extends LoaderComponent<Props, States> {
                 <tbody>
                     {this.state.texts.map(t => <TranslateRow key={t.source.number}
                                                              text={t}
-                                                             editSource={this.state.editNumber === t.source.number} />)}
+                                                             editSource={t.source.userText && this.state.editNumber === t.source.number}
+                                                             onDeleted={() => this.removeText(t.source.number)} />)}
                     {user.isAdmin &&
                         <tr>
                             <td colSpan={5} className="volume-add-text">

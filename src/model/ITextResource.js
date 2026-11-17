@@ -6,5 +6,6 @@ export type ITextResource = {
     text: string,
     letters: number,
     translateApproved: boolean,
+    userText?: boolean,
     description?: string
 }

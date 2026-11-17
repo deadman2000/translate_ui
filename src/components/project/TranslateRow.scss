@@ -6,6 +6,16 @@
   .col-source-text {
     padding: 8px 4px !important;
 
+    .source-line {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .source-body {
+      flex: 1;
+      min-width: 0;
+    }
+
     .source-edit {
       display: block;
       width: 100%;
